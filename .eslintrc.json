@@ -21,7 +21,8 @@
     "plugins": [
         "react",
         "prettier",
-        "@typescript-eslint"
+        "@typescript-eslint",
+        "react-hooks"
     ],
     "rules": {
         "react/jsx-no-bind": [
