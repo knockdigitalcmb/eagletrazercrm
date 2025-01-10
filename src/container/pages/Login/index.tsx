@@ -14,7 +14,7 @@ const Login = () => {
     let res = await CRMServiceAPI.getUserList();
     dispatch(setData(res))
   }
-  return <p>Welcome to CRM</p>
+  return <p>Welcome to Knock Digital CRM</p>
 }
 
 export default Login
