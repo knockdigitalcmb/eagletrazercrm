@@ -1,7 +1,4 @@
-$sm: 576px;
-$md: 768px;
-$lg: 992px;
-$xl: 1200px;
+@import './variable';
 
 @mixin respond-to($size) {
   @media (min-width: $size) {
