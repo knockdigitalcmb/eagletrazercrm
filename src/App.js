@@ -4,11 +4,9 @@ import Routes from "./container/routes"
 
 const App = () => {
   return (
-    <Container>
-      <Box className="page-container">
-        <Routes />
-      </Box>
-    </Container>
+    <Box className="page-container">
+      <Routes />
+    </Box>
   )
 }
 
