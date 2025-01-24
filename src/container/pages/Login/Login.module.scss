@@ -1,7 +1,78 @@
-.pageContainer {
-    padding: 0px;
+@import "../../../assets/scss//global";
+@import "../../../assets/scss//variable";
+@import "../../../assets/scss/mixin";
 
-    .test {
-        border: 1px solid red;
+.pageContainer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  width: 100%;
+  @include respond-to($md) {
+    flex-direction: column;
+  }
+
+  // .gridContainer {
+  //   display: flex;
+  //   align-items: center;
+  //   justify-content: center;
+  //   // @include respond-to($md) {
+  //   //   flex-direction: column;
+  //   //   justify-content: none;
+  //   // }
+
+    .leftSection {
+      // @include respond-to($md) {
+  
+      // }
+      img {
+        width: 450px;
+        height: 450px;
+
+        @include respond-to($md) {
+          height: auto;
+        }
+      }
+      @include respond-to($sm) {
+        display: none;
+      }
     }
-}
+
+    .rightSection {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      gap: 20px;
+
+      .logoSection {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        img {
+          width: 30%;
+          height: auto;
+          // @include respond-to($md) {
+          //   width: 200px;
+          //   height: auto;
+          // }
+        }
+      }
+      .loginHeading {
+        font-weight: bolder;
+        font-size: 30px;
+        color: #1976d2;
+        margin-bottom: 10px;
+      }
+      .employeeIdInput,
+      .passwordInput {
+        width: 350px;
+      }
+      .LoginButton{
+        width:150px;
+        height: auto;
+      }
+    }
+  }
+
