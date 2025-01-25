@@ -1,0 +1,140 @@
+@import "../../../assets/scss/global";
+@import "../../../assets/scss/variable";
+@import "../../../assets/scss/mixin"; // Adjust the path to the mixins file
+
+.pageContainer {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    padding: 20px;
+
+    @include respond-to($md) {
+        flex-direction: row;
+        /* Switch to row direction on medium screens and larger */
+    }
+}
+
+.centerGridContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    height: 100%;
+    width: 100%;
+    padding: 30px;
+    text-align: center;
+
+    @include respond-to($md) {
+        flex-direction: row;
+        /* Switch to row direction on medium screens and larger */
+        justify-content: space-between;
+        /* Add space between image and OTP container */
+    }
+}
+
+.imageContainer {
+    display: flex;
+    margin-top: 30px;
+    justify-content: center;
+    /* Center the image horizontally */
+    align-items: center;
+    /* Center the image vertically */
+    flex: 1;
+    padding-left: 20px;
+
+    .image {
+
+        max-width: 100%;
+        height: auto;
+    }
+
+    @include respond-to($sm) {
+        display: none;
+        /* Hide the image on small screens */
+    }
+}
+
+.otpContainer {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    flex: 1;
+    padding: 20px;
+
+    @include respond-to($md) {
+        padding: 40px;
+        /* Add more padding on medium screens and larger */
+    }
+
+    @include respond-to($sm) {
+        height: 100vh;
+        /* Ensure it takes the full height on mobile screens */
+        padding: 20px;
+        /* Adjust padding for mobile */
+    }
+}
+
+.otpFieldWrapper {
+    margin-bottom: 20px;
+    text-align: center;
+
+    h2 {
+        margin-bottom: 10px;
+        color: rgb(44, 44, 104);
+        font-size: 1.5rem;
+
+        @include respond-to($md) {
+            font-size: 2rem;
+            /* Increase font size on medium screens and larger */
+        }
+    }
+}
+
+.verifyButton {
+    width: 100%;
+    max-width: 300px;
+    margin-top: 20px;
+    font-size: 16px;
+    padding: 10px;
+    text-align: center;
+
+    @include respond-to($md) {
+        font-size: 18px;
+        /* Increase font size on medium screens and larger */
+    }
+}
+
+/* Mobile-specific styles */
+@include respond-to($sm) {
+    .pageContainer {
+        padding: 10px;
+        /* Adjust padding for smaller screens */
+    }
+
+    .centerGridContainer {
+        flex-direction: column;
+        /* Ensure it stays in column direction on small screens */
+        text-align: center;
+    }
+
+    .otpContainer {
+        height: 100vh;
+        /* Ensure full height for mobile */
+        padding: 20px;
+        /* Adjust padding for mobile */
+    }
+
+    .otpFieldWrapper {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .verifyButton {
+        max-width: 100%;
+        /* Ensure the button is full width on mobile */
+    }
+}
