@@ -1,5 +1,5 @@
 import React from "react";
-import { Button as MUIButton } from "@mui/material";
+import { Button  } from "@mui/material";
 
 interface CustomButton {
   label: string;
@@ -14,13 +14,13 @@ const CRMButton = ({
   className,
 }: CustomButton) => {
   return (
-    <MUIButton 
+    <Button 
     variant={variant}
     disabled={disabled} 
     className={className}
     >
       {label}
-    </MUIButton>
+    </Button>
   );
 };
 

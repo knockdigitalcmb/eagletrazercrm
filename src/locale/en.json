@@ -1,3 +1,6 @@
-{
+{ 
+    "Login Account":"Login Account",
+    "Employee ID":"Employee ID",
+    "Password":"Password",
     "login": "Login"
 }

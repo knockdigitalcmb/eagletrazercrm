@@ -7,10 +7,15 @@ interface Props {
     required: boolean;
     variant: 'filled' | 'outlined' | 'standard';
     type?: string;
-    className: any
+    className: any;
+    onTextChange:(e:any)=>void
 }
 
-const CRMTextField = ({ label, placeholder, required, variant, type, className }: Props) => {
+
+const CRMTextField = ({ label, placeholder, required, variant, type, className,onTextChange }: Props) => {
+    const onHandleChange=(e:any)=>{
+        onTextChange(e.target.value)
+       }
     return <TextField
         label={label}
         placeholder={placeholder}
@@ -18,6 +23,7 @@ const CRMTextField = ({ label, placeholder, required, variant, type, className }
         variant={variant}
         type={type}
         className={className}
+        onChange={(e)=>onHandleChange(e)}
     />
 }
 
