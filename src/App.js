@@ -1,6 +1,7 @@
 import React from "react";
-import { Container, Box } from "@mui/material";
-import Routes from "./container/routes"
+import { Box } from "@mui/material";
+import Routes from "./container/routes";
+import "./assets/scss/_global.scss"
 
 const App = () => {
   return (

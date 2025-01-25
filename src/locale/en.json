@@ -1,3 +1,6 @@
 {
+    "loginAccount": "Login Account",
+    "employeeID": "Employee ID",
+    "password": "Password",
     "login": "Login"
 }

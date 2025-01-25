@@ -1,11 +1,12 @@
 import { commonServiceAPI } from "./API";
 
 export class CRMServiceAPI {
-    static getUserList = async () => {
+    static getUserList = async (payload: any) => {
         try {
             const response = await commonServiceAPI.CRMAPICall({
                 url: 'https://dummyapi.online/api/movies',
-                method: 'GET'
+                method: 'POST',
+                data: payload
             })
             return response?.data
         } catch (error) {
