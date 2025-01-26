@@ -19,6 +19,11 @@
         "skipLibCheck": true,
         "strict": true,
         "target": "ES2022",
+        "paths": {
+            "scss/*": [
+                "src/assets/*"
+            ],
+        }
     },
     "extends": "./tsconfig.paths.json",
     "exclude": [

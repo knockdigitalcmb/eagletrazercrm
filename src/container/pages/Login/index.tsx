@@ -1,7 +1,8 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Box, Typography, TextField, Button } from "@mui/material";
 import Grid from '@mui/material/Grid2';
 import { useTranslation } from "react-i18next";
+import { useNavigate } from "react-router-dom";
 import { CRMServiceAPI } from "../../../services/CRMService";
 import { LoginForm } from "../../../models/type"
 import { defaultLoginProps } from "../../../constant/payload.const"
@@ -12,7 +13,17 @@ import EagleTrazer from '../../../assets/images/eagle-trazer.png';
 
 const Login = () => {
   const { t } = useTranslation();
+  const navigate = useNavigate();
   const [login, setLogin] = useState<LoginForm>(defaultLoginProps)
+  const [isButtonDisabled, setIsButtonDisabled] = useState(false);
+
+  //Login form validation
+  useEffect(() => {
+    if (login && login?.employeeID?.length > 0 && login?.password?.length > 0) {
+      setIsButtonDisabled(false)
+    }
+    else setIsButtonDisabled(true)
+  }, [login])
 
   //onHandle text filed change
   const onHandleChange = (e: any, name: string) => {
@@ -20,18 +31,14 @@ const Login = () => {
     clonedState[name] = e.target.value;
     setLogin(clonedState)
   }
+
   //onHandle submit button
   const onHandleSubmit = async () => {
     try {
-      let response = await CRMServiceAPI.getUserList(login);
-      if (response?.statusCode === 200) {
-
-      }
-      else {
-
-      }
+      let response = await CRMServiceAPI.userLogin(login);
+      navigate("/otp");
     } catch (error) {
-
+      console.log('error while sending login details', error)
     }
   }
   return (
@@ -61,6 +68,7 @@ const Login = () => {
                 id="password"
                 name="password"
                 data-testid="password"
+                type="password"
                 onChange={(e: any) => onHandleChange(e, 'password')}
               />
               <Button
@@ -68,6 +76,9 @@ const Login = () => {
                 type="submit"
                 id="login-submit"
                 data-testid="login-submit"
+                fullWidth
+                className={styles.submitButton}
+                disabled={isButtonDisabled}
                 onClick={onHandleSubmit}>{t('login')}</Button>
             </div>
           </div>
