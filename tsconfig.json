@@ -1,6 +1,7 @@
 {
     "compilerOptions": {
         "allowJs": true,
+        "baseUrl": "src",
         "allowSyntheticDefaultImports": true,
         "esModuleInterop": true,
         "forceConsistentCasingInFileNames": true,
@@ -8,9 +9,7 @@
         "jsx": "react-jsx",
         "lib": [
             "DOM",
-            "DOM.Iterable",
-            "ESNext",
-            "ES2016"
+            "ES2022"
         ],
         "module": "ESNext",
         "moduleResolution": "node",
@@ -19,7 +18,12 @@
         "resolveJsonModule": true,
         "skipLibCheck": true,
         "strict": true,
-        "target": "ES2016",
+        "target": "ES2022",
+        "paths": {
+            "scss/*": [
+                "src/assets/*"
+            ],
+        }
     },
     "extends": "./tsconfig.paths.json",
     "exclude": [
@@ -28,6 +32,7 @@
     ],
     "include": [
         "src",
-        "eslintrc"
+        ".eslintrc.js",
+        "types/**/*"
     ]
 }

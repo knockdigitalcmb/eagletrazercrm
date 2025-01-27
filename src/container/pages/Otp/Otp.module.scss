@@ -1,6 +1,6 @@
-.loginpageContainer {
-    .loginImageWrapper {
-        width: 100%;
+.otppageContainer {
+    .OtpImageWrapper {
+        width: 92%;
         height: 100%;
     }
 
@@ -11,7 +11,7 @@
         align-items: center;
         min-height: 100vh;
 
-        .loginFormWrapper {
+        .otpFormWrapper {
             width: 60%;
             margin: 0 auto;
             text-align: center;
@@ -27,17 +27,9 @@
                 }
             }
 
-            .loginAccount {
+            .otpHeading {
                 font-size: 28px;
                 line-height: 28px;
-            }
-
-            .formWrapper {
-                margin-top: 25px;
-
-                div {
-                    margin-bottom: 15px;
-                }
             }
 
             .submitButton {
@@ -48,6 +40,7 @@
                 font-family: 'Montserrat';
                 padding: 16px;
                 line-height: 12px;
+                margin-top: 25px;
             }
         }
     }

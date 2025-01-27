@@ -1,0 +1,13 @@
+@import './font';
+
+//global text filed theme
+.MuiInputBase-root {
+    .MuiFilledInput-input {
+        padding: 10px !important;
+        font-family: 'Lato';
+    }
+
+    &::before {
+        border-bottom: none !important;
+    }
+}
