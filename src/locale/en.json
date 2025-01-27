@@ -4,5 +4,7 @@
     "password": "Password",
     "login": "Login",
     "authenticationCode": "Authentication Code",
-    "verify": "Verify"
+    "verify": "Verify",
+    "page404Description": "The page you were looking for could not be found",
+    "returnToHome": "Return to Home"
 }

@@ -12,13 +12,6 @@ const ThemeHandler = ({ children }: ThemeHandlerProps) => {
     const theme = useMemo(() => createTheme({
         palette,
         shape: { borderRadius: 0 },
-        // typography: {
-        //     "fontFamily": `"Lato", "Montserrat", "Arial", sans-serif`,
-        //     "fontSize": 14,
-        //     "fontWeightLight": 300,
-        //     "fontWeightRegular": 400,
-        //     "fontWeightMedium": 500
-        // },
         components: {
             MuiButton: button,
             MuiTextField: {

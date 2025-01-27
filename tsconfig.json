@@ -31,7 +31,8 @@
         "dist"
     ],
     "include": [
-        "src/components",
-        ".eslintrc.js"
+        "src",
+        ".eslintrc.js",
+        "types/**/*"
     ]
 }
