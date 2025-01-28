@@ -36,10 +36,6 @@
     "format": "prettier --write ."
   },
   "eslintConfig": {
-    "extends": [
-      "react-app",
-      "react-app/jest"
-    ],
     "env": {
       "browser": true,
       "node": true
