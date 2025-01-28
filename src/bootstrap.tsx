@@ -6,26 +6,27 @@ import ThemeHandler from './assets/scss/Theme/ThemeHandler';
 import { SnackbarProvider } from 'notistack';
 import './index.scss';
 import App from './App';
-import { store } from "./store"
-import './i18n'
+import { store } from './store';
+import './i18n';
 import reportWebVitals from './reportWebVitals';
 
-const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement);
+const root = ReactDOM.createRoot(
+  document.getElementById('root') as HTMLElement
+);
 root.render(
-    <React.StrictMode>
-        <Suspense fallback={<div>Loading Shell...</div>}>
-            <SnackbarProvider >
-                <BrowserRouter>
-                    <ThemeHandler>
-                        <Provider store={store}>
-                            <App />
-                        </Provider>
-                    </ThemeHandler>
-                </BrowserRouter>
-            </SnackbarProvider>
-        </Suspense>
-
-    </React.StrictMode>
+  <React.StrictMode>
+    <Suspense fallback={<div>Loading Shell...</div>}>
+      <SnackbarProvider>
+        <BrowserRouter>
+          <ThemeHandler>
+            <Provider store={store}>
+              <App />
+            </Provider>
+          </ThemeHandler>
+        </BrowserRouter>
+      </SnackbarProvider>
+    </Suspense>
+  </React.StrictMode>
 );
 
 // If you want to start measuring performance in your app, pass a function

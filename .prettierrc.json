@@ -1,0 +1,21 @@
+{
+  "arrowParens": "always",
+  "bracketSameLine": false,
+  "bracketSpacing": true,
+  "editorconfig": true,
+  "embeddedLanguageFormatting": "auto",
+  "enable": ["eslint", "prettier", "stylelint"],
+  "endOfLine": "auto",
+  "htmlWhitespaceSensitivity": "css",
+  "jsxSingleQuote": true,
+  "printWidth": 80,
+  "prosWrap": "preserve",
+  "quoteProps": "as-needed",
+  "resolveGlobalModules": true,
+  "semi": true,
+  "singleAttributePerLine": false,
+  "singleQuote": true,
+  "tabWidth": 2,
+  "trailingComma": "es5",
+  "useTabs": false
+}

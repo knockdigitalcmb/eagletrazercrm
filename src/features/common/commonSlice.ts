@@ -1,26 +1,30 @@
-import { CreateAsyncThunkFunction, PayloadAction, createSlice } from "@reduxjs/toolkit";
+import {
+  CreateAsyncThunkFunction,
+  PayloadAction,
+  createSlice,
+} from '@reduxjs/toolkit';
 import { RootState } from '../../store';
 
 interface commonDataState {
-    data: any
+  data: any;
 }
 
 const initialState: commonDataState = {
-    data: []
-}
+  data: [],
+};
 
 export const commonDataSlice = createSlice({
-    name: 'commonData',
-    initialState,
-    reducers: {
-        setData: (state, action: PayloadAction<commonDataState>) => {
-            state.data = action.payload
-        }
-    }
-})
+  name: 'commonData',
+  initialState,
+  reducers: {
+    setData: (state, action: PayloadAction<commonDataState>) => {
+      state.data = action.payload;
+    },
+  },
+});
 
 export const commonData = (state: RootState) => state.commonData;
 
 export const { setData } = commonDataSlice.actions;
 
-export default commonDataSlice.reducer
+export default commonDataSlice.reducer;
