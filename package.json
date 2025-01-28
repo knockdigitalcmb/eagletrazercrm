@@ -29,7 +29,11 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "lint": "eslint .",
+    "lint-staged": "lint-staged",
+    "lint:fix": "eslint . --fix",
+    "format": "prettier --write ."
   },
   "eslintConfig": {
     "extends": [
@@ -84,7 +88,7 @@
     "web-vitals": "^4.2.4"
   },
   "lint-staged": {
-    "*.@(jsx)": [
+    "*.@(ts|tsx)": [
       "npm run lint:fix",
       "npm run format"
     ]

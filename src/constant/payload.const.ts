@@ -1,4 +1,4 @@
 export const defaultLoginProps = {
-    employeeID: '',
-    password: ''
-}
+  employeeID: '',
+  password: '',
+};
