@@ -1,0 +1,22 @@
+.notificationIcon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  gap:2px;
+ 
+
+  // Specific targeting for Material-UI Badge
+  .MuiBadge-root {
+    .MuiBadge-badge {
+      font-size: 12px !important; /* Adjust badge text size */
+      min-width: 20px !important; /* Ensure consistent size */
+      height: 20px !important; /* Ensure consistent size */
+      border-radius: 50% !important; /* Rounded badge */
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15) !important; /* Optional: Adds shadow to the badge */
+      background-color: #ff0000 !important; /* Example: Badge background color */
+      color: #fff !important; /* Example: Badge text color */
+    }
+  }
+
+}

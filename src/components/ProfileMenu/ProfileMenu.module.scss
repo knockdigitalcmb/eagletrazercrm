@@ -1,0 +1,71 @@
+.profileMenu {
+  padding: 8px;
+  font-size: 30px;
+  cursor: pointer;
+  /* Ensures the menu is clickable */
+}
+
+.menu {
+  min-width: 200px;
+}
+
+.profileSection {
+  display: flex;
+  align-items: center;
+  padding: 10px;
+}
+
+.avatar {
+  width: 40px;
+  /* Width of the avatar */
+  height: 40px;
+  /* Height of the avatar */
+  margin-right: 10px;
+  /* Space between avatar and text */
+  background-color: #000000;
+  /* Background color of the avatar */
+  color: white;
+  /* Color of the text inside the avatar */
+  display: flex;
+  justify-content: center;
+  /* Centers the text horizontally */
+  align-items: center;
+  /* Centers the text vertically */
+  font-weight: bold;
+  /* Bold font for initials */
+  font-size: 16px;
+  /* Font size for initials */
+  text-transform: uppercase;
+  /* Makes the initials uppercase */
+}
+
+.profileDetails {
+  display: flex;
+  flex-direction: column;
+}
+
+.profileName {
+  font-weight: bold;
+  margin-bottom: 4px;
+  font-size: 14px;
+  /* Consistent size for the name */
+}
+
+.profileEmail {
+  font-size: 12px;
+  color: #757575;
+  /* Light grey color for the email */
+}
+
+.menuItem {
+  font-size: 14px;
+  padding: 10px 16px;
+  /* Add padding for better click area */
+  color: #333;
+
+  /* Darker text color for visibility */
+  &:hover {
+    background-color: #f0f0f0;
+    /* Highlight menu item on hover */
+  }
+}
