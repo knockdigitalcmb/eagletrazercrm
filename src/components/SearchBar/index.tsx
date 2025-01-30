@@ -18,18 +18,18 @@ const SearchBar: React.FC = () => {
     <TextField
       value={searchQuery}
       onChange={handleChange}
-      placeholder="Search..."
-      variant="outlined"
+      placeholder='Search...'
+      variant='outlined'
       sx={{
-        width: '80%',  // Set the width to 60px
-        borderRadius: '25px',  // Set the desired border radius for rounded corners
+        width: '80%', // Set the width to 60px
+        borderRadius: '25px', // Set the desired border radius for rounded corners
         '& .MuiOutlinedInput-root': {
-          borderRadius: '20px',  // Apply border radius to the input field itself
+          borderRadius: '20px', // Apply border radius to the input field itself
         },
       }}
       InputProps={{
         startAdornment: (
-          <InputAdornment position="start">
+          <InputAdornment position='start'>
             <IconButton onClick={handleSearch}>
               <SearchIcon />
             </IconButton>

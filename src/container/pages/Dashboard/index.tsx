@@ -19,8 +19,8 @@ import MailIcon from '@mui/icons-material/Mail';
 import MenuIcon from '@mui/icons-material/Menu';
 import HomeOutlinedIcon from '@mui/icons-material/HomeOutlined';
 import SearchBar from '../../../components/SearchBar/index';
-import NotificationIcon from '../../../components/NotificationIcon';
-import ProfileMenu from '../../../components/ProfileMenu';
+import UserNotification from '../../../components/UserNotification';
+import UserProfile from '../../../components/UserProfile';
 import styles from './Dashboard.module.scss';
 
 const drawerWidth = 260;
@@ -141,8 +141,8 @@ const Dashboard = () => {
             <MenuIcon />
           </IconButton>
           <SearchBar />
-          <NotificationIcon />
-          <ProfileMenu/>
+          <UserNotification />
+          <UserProfile />
         </Toolbar>
       </AppBar>
       <Drawer variant='permanent' open={open} anchor='left'>
