@@ -18,7 +18,9 @@ import MuiAppBar, { AppBarProps as MuiAppBarProps } from '@mui/material/AppBar';
 import MailIcon from '@mui/icons-material/Mail';
 import MenuIcon from '@mui/icons-material/Menu';
 import HomeOutlinedIcon from '@mui/icons-material/HomeOutlined';
-
+import SearchBar from '../../../components/SearchBar/index';
+import NotificationIcon from '../../../components/NotificationIcon';
+import ProfileMenu from '../../../components/ProfileMenu';
 import styles from './Dashboard.module.scss';
 
 const drawerWidth = 260;
@@ -138,9 +140,9 @@ const Dashboard = () => {
           >
             <MenuIcon />
           </IconButton>
-          <Typography variant='h6' noWrap component='div'>
-            Mini variant drawer
-          </Typography>
+          <SearchBar />
+          <NotificationIcon />
+          <ProfileMenu/>
         </Toolbar>
       </AppBar>
       <Drawer variant='permanent' open={open} anchor='left'>

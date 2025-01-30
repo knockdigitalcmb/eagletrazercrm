@@ -1,0 +1,67 @@
+/* Container for the entire profile form */
+.profile-form-container {
+  padding: 2rem;
+  position: relative; /* To allow the profile image to be positioned inside the container */
+}
+
+/* Profile Image */
+.profile-image-container {
+  position: absolute; /* Absolutely position the image within the parent container */
+  top: 10px; /* Distance from the top */
+  right: 10px; /* Distance from the right */
+  cursor: pointer;
+}
+
+.profile-image {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%; /* Circular image */
+  border: 2px solid #ddd; /* Optional: Border around the image */
+}
+
+/* Form Section */
+.form-section {
+  margin-top: 2rem;
+}
+
+/* TextField styling */
+.text-field {
+  width: 100%;
+}
+
+/* Submit Button styling */
+.save-button {
+  margin-top: 2rem;
+  display: flex;
+  justify-content: flex-start;
+}
+
+.save-button button {
+  padding: 0.7rem 1.5rem;
+}
+
+/* Styling for Typography in the form */
+h5, h6 {
+  margin-bottom: 1rem;
+  font-weight: bold;
+}
+
+h6 {
+  font-size: 1.1rem;
+}
+
+/* Responsive adjustments */
+@media (max-width: 600px) {
+  .profile-image-container {
+    top: 20px;
+    right: 20px;
+  }
+
+  .form-section {
+    flex-direction: column;
+  }
+
+  .text-field {
+    margin-bottom: 1rem;
+  }
+}
