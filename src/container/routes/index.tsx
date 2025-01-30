@@ -5,7 +5,6 @@ import Page404 from '../pages/Page404';
 import OTPPage from '../pages/Otp';
 import Dashboard from '../pages/Dashboard';
 
-
 const _Routes = () => {
   return (
     <Routes>
@@ -13,7 +12,6 @@ const _Routes = () => {
       <Route key='page404' path='*' element={<Page404 />} />
       <Route key='otp' path='/otp' element={<OTPPage />} />
       <Route key='dashboard' path='/dashboard' element={<Dashboard />} />
-     
     </Routes>
   );
 };

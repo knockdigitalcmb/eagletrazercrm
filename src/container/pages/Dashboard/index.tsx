@@ -49,6 +49,7 @@ const closedMixin = (theme: Theme): CSSObject => ({
   boxShadow:
     '0 2px 6px 0 rgba(0, 0, 0, 0.044), 0 2px 6px 0 rgba(0, 0, 0, 0.049)',
   width: `calc(${theme.spacing(7)} + 1px)`,
+  cursor: 'pointer',
   [theme.breakpoints.up('sm')]: {
     width: `calc(${theme.spacing(8)} + 1px)`,
   },
@@ -101,40 +102,9 @@ const Drawer = styled(MuiDrawer, {
   flexShrink: 0,
   whiteSpace: 'nowrap',
   boxSizing: 'border-box',
-  //hover slideBar
-  transition: theme.transitions.create('width', {
-    easing: theme.transitions.easing.sharp,
-    duration: theme.transitions.duration.standard,
-  }),
-  position: 'relative',
-
   '&:hover': {
-    ...openedMixin(theme),
-    position: 'absolute',
-    left: 0,
-    top: 0,
-    bottom: 0,
-    zIndex: theme.zIndex.drawer + 1,
-    '& .MuiDrawer-paper': {
-      ...openedMixin(theme),
-      position: 'absolute',
-      left: 0,
-      top: 0,
-      bottom: 0,
-      zIndex: theme.zIndex.drawer + 1,
-    },
-    '& .MuiListItemText-root': {
-      opacity: 1,
-      visibility: 'visible !important',
-    },
-    '& .menu-icon': {
-      opacity: 1,
-      visibility: 'visible',
-      zIndex: theme.zIndex.drawer + 2,
-    },
     '& .close-icon': {
-      opacity: 1,
-      visibility: 'visible',
+      cursor: 'pointer',
     },
   },
 
@@ -150,7 +120,13 @@ const Drawer = styled(MuiDrawer, {
       props: ({ open }) => !open,
       style: {
         ...closedMixin(theme),
-        '& .MuiDrawer-paper': closedMixin(theme),
+        '& .MuiDrawer-paper': {
+          ...closedMixin(theme),
+          '&:hover': {
+            width: drawerWidth,
+            zIndex: '1202',
+          },
+        },
       },
     },
   ],
@@ -159,12 +135,11 @@ const Drawer = styled(MuiDrawer, {
 const Dashboard = () => {
   const [open, setOpen] = React.useState(true);
   const [activeItem, setActiveItem] = React.useState<string>('');
- 
 
   const handleDrawerOpen = () => {
     setOpen(!open);
   };
-  //  handleItemClick
+  //handleItemClick
   const handleItemClick = (item: string) => {
     setActiveItem(item);
   };
@@ -195,7 +170,6 @@ const Dashboard = () => {
       </AppBar>
       <Drawer variant='permanent' open={open} anchor='left'>
         <Divider />
-        {/* company logo */}
         <Box
           sx={{
             display: 'flex',
@@ -218,24 +192,10 @@ const Dashboard = () => {
             Eagle Trazer
           </Typography>
           {!open && (
-          <IconButton
-            className='close-icon'
-            sx={{
-              position: 'absolute',
-              right: 10,
-              opacity: 0,
-              visibility: 'hidden',
-              transition: (theme) =>
-                theme.transitions.create(['opacity', 'visibility'], {
-                  easing: theme.transitions.easing.sharp,
-                  duration: theme.transitions.duration.standard,
-                }),
-            }}
-            onClick={handleDrawerClose}
-          >
-            <CloseIcon />
-          </IconButton>
-           )}
+            <IconButton className='close-icon' onClick={handleDrawerClose}>
+              <CloseIcon />
+            </IconButton>
+          )}
         </Box>
         <List>
           {['Dashboard'].map((text, index) => (
@@ -256,10 +216,7 @@ const Dashboard = () => {
             >
               <ListItemButton
                 sx={[
-                  {
-                    minHeight: 48,
-                    px: 2.5,
-                  },
+                  { minHeight: 48, px: 2.5 },
                   open
                     ? { justifyContent: 'initial' }
                     : { justifyContent: 'center' },
@@ -274,17 +231,13 @@ const Dashboard = () => {
                 >
                   {index % 2 === 0 ? <HomeOutlinedIcon /> : <MailIcon />}
                 </ListItemIcon>
-                <ListItemText
-                  primary={text}
-                  sx={[open ? { opacity: 1 } : { opacity: 0 }]}
-                />
+                <ListItemText primary={text} />
               </ListItemButton>
             </ListItem>
           ))}
         </List>
       </Drawer>
-      <Box component='main' sx={{ flexGrow: 1, p: 3, marginTop: '70px',  
-      }}>
+      <Box component='main' sx={{ flexGrow: 1, p: 3, marginTop: '70px' }}>
         <Typography sx={{ marginBottom: 2 }}>
           welcome to the dashboard.
         </Typography>
