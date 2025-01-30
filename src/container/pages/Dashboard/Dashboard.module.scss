@@ -1,3 +1,9 @@
 .dashboardContainer {
   display: flex;
+  
+}
+.dashboardCompanyLogo{
+  width:60px;
+  height: 60px;
+  object-fit: contain;
 }
