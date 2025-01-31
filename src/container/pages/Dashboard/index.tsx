@@ -19,12 +19,12 @@ import MailIcon from '@mui/icons-material/Mail';
 import MenuIcon from '@mui/icons-material/Menu';
 import HomeOutlinedIcon from '@mui/icons-material/HomeOutlined';
 import CloseIcon from '@mui/icons-material/Close';
-import EagleTrazer from '../../../assets/images/eagle-trazer.png';
-
 import SearchBar from '../../../components/SearchBar/index';
 import UserNotification from '../../../components/UserNotification';
 import UserProfile from '../../../components/UserProfile';
+
 import styles from './Dashboard.module.scss';
+import EagleTrazer from '../../../assets/images/eagle-trazer.png';
 
 const drawerWidth = 260;
 
@@ -156,18 +156,24 @@ const Dashboard = () => {
       <CssBaseline />
       <AppBar position='fixed' open={open} className={styles.appHeader}>
         <Toolbar className={styles.toolbar}>
-          <IconButton
-            color='inherit'
-            aria-label='open drawer'
-            onClick={handleDrawerOpen}
-            edge='start'
-            sx={{ fontSize: '60px' }}
-          >
-            <MenuIcon />
-          </IconButton>
-          <SearchBar />
-          <UserNotification />
-          <UserProfile />
+          <Box className={styles.headerIcon}>
+            <IconButton
+              color='inherit'
+              aria-label='open drawer'
+              onClick={handleDrawerOpen}
+              edge='start'
+              sx={{ fontSize: '60px' }}
+            >
+              <MenuIcon />
+            </IconButton>
+          </Box>
+          <Box className={styles.headerSearchBar}>
+            <SearchBar />
+          </Box>
+          <Box className={styles.headerRightSection}>
+            <UserNotification />
+            <UserProfile />
+          </Box>
         </Toolbar>
       </AppBar>
       <Drawer variant='permanent' open={open} anchor='left'>
