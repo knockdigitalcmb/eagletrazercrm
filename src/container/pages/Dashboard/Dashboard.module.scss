@@ -7,7 +7,17 @@
   object-fit: contain;
 }
 .toolbar {
+  width: 100%;
   display: flex;
+  justify-content: flex-start;
   align-items: center;
-  justify-content: space-around;
+  .headerSearchBar {
+    flex-grow: 1;
+    margin: 0 15px;
+  }
+  .headerRightSection {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+  }
 }

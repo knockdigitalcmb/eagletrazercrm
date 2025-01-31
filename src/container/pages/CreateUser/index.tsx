@@ -1,8 +1,17 @@
 import React, { useState } from 'react';
-import { TextField, Button, Grid, Avatar, Typography, Box, InputAdornment } from '@mui/material';
-import './UserProfileForm.module.scss'; // Import the SCSS file
+import {
+  TextField,
+  Button,
+  Grid,
+  Avatar,
+  Typography,
+  Box,
+  InputAdornment,
+} from '@mui/material';
 
-const UserProfileForm = () => {
+import './CreateUser.module.scss';
+
+const CreateUser = () => {
   const [formData, setFormData] = useState({
     userName: '',
     phoneNumber: '',
@@ -41,39 +50,39 @@ const UserProfileForm = () => {
   };
 
   return (
-    <Box className="profile-form-container">
+    <Box className='profile-form-container'>
       {/* Profile Image positioned at the top right */}
-      <Box className="profile-image-container">
+      <Box className='profile-image-container'>
         <input
-          type="file"
-          accept="image/*"
-          id="profile-image-input"
+          type='file'
+          accept='image/*'
+          id='profile-image-input'
           style={{ display: 'none' }}
           onChange={handleFileChange}
         />
-        <label htmlFor="profile-image-input">
+        <label htmlFor='profile-image-input'>
           <Avatar
-            alt="Profile Image"
+            alt='Profile Image'
             src={formData.profileImage || '/path/to/default/image.jpg'}
-            className="profile-image"
+            className='profile-image'
           />
         </label>
       </Box>
 
-      <Typography variant="h5" gutterBottom>
+      <Typography variant='h5' gutterBottom>
         User Profile Form
       </Typography>
       <form onSubmit={handleSubmit}>
         {/* Profile Section */}
-        <Typography variant="h6" gutterBottom>
+        <Typography variant='h6' gutterBottom>
           Profile Information
         </Typography>
-        <Grid container className="form-section">
+        <Grid container className='form-section'>
           <Grid item xs={12} md={6}>
             <TextField
-              className="text-field"
-              label="User Name"
-              name="userName"
+              className='text-field'
+              label='User Name'
+              name='userName'
               value={formData.userName}
               onChange={handleInputChange}
               required
@@ -81,27 +90,27 @@ const UserProfileForm = () => {
           </Grid>
           <Grid item xs={12} md={6}>
             <TextField
-              className="text-field"
-              label="Phone Number"
-              name="phoneNumber"
+              className='text-field'
+              label='Phone Number'
+              name='phoneNumber'
               value={formData.phoneNumber}
               onChange={handleInputChange}
             />
           </Grid>
           <Grid item xs={12} md={6}>
             <TextField
-              className="text-field"
-              label="Email ID"
-              name="email"
+              className='text-field'
+              label='Email ID'
+              name='email'
               value={formData.email}
               onChange={handleInputChange}
             />
           </Grid>
           <Grid item xs={12} md={6}>
             <TextField
-              className="text-field"
-              label="Location"
-              name="location"
+              className='text-field'
+              label='Location'
+              name='location'
               value={formData.location}
               onChange={handleInputChange}
               required
@@ -109,19 +118,19 @@ const UserProfileForm = () => {
           </Grid>
           <Grid item xs={12} md={6}>
             <TextField
-              className="text-field"
-              label="Address"
-              name="address"
+              className='text-field'
+              label='Address'
+              name='address'
               value={formData.address}
               onChange={handleInputChange}
             />
           </Grid>
           <Grid item xs={12} md={6}>
             <TextField
-              className="text-field"
-              label="Password"
-              name="password"
-              type="password"
+              className='text-field'
+              label='Password'
+              name='password'
+              type='password'
               value={formData.password}
               onChange={handleInputChange}
               required
@@ -130,16 +139,16 @@ const UserProfileForm = () => {
         </Grid>
 
         {/* Experience Section */}
-        <Typography variant="h6" gutterBottom sx={{ marginTop: 4 }}>
+        <Typography variant='h6' gutterBottom sx={{ marginTop: 4 }}>
           Experience Information
         </Typography>
-        <Grid container className="form-section">
+        <Grid container className='form-section'>
           <Grid item xs={12} md={6}>
             <TextField
-              className="text-field"
-              label="Joining Date"
-              name="joiningDate"
-              type="date"
+              className='text-field'
+              label='Joining Date'
+              name='joiningDate'
+              type='date'
               value={formData.joiningDate}
               onChange={handleInputChange}
               required
@@ -150,42 +159,46 @@ const UserProfileForm = () => {
           </Grid>
           <Grid item xs={12} md={6}>
             <TextField
-              className="text-field"
-              label="Previous Company"
-              name="prevCompany"
+              className='text-field'
+              label='Previous Company'
+              name='prevCompany'
               value={formData.prevCompany}
               onChange={handleInputChange}
             />
           </Grid>
           <Grid item xs={12} md={6}>
             <TextField
-              className="text-field"
-              label="Years of Experience"
-              name="experienceYears"
+              className='text-field'
+              label='Years of Experience'
+              name='experienceYears'
               value={formData.experienceYears}
               onChange={handleInputChange}
               InputProps={{
-                startAdornment: <InputAdornment position="start">Years</InputAdornment>,
+                startAdornment: (
+                  <InputAdornment position='start'>Years</InputAdornment>
+                ),
               }}
             />
           </Grid>
           <Grid item xs={12} md={6}>
             <TextField
-              className="text-field"
-              label="Months of Experience"
-              name="experienceMonths"
+              className='text-field'
+              label='Months of Experience'
+              name='experienceMonths'
               value={formData.experienceMonths}
               onChange={handleInputChange}
               InputProps={{
-                startAdornment: <InputAdornment position="start">Months</InputAdornment>,
+                startAdornment: (
+                  <InputAdornment position='start'>Months</InputAdornment>
+                ),
               }}
             />
           </Grid>
         </Grid>
 
         {/* Submit Button */}
-        <Box className="save-button">
-          <Button type="submit" variant="contained" color="primary">
+        <Box className='save-button'>
+          <Button type='submit' variant='contained' color='primary'>
             Save Profile
           </Button>
         </Box>
@@ -194,4 +207,4 @@ const UserProfileForm = () => {
   );
 };
 
-export default UserProfileForm;
+export default CreateUser;
