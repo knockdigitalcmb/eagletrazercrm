@@ -1,0 +1,103 @@
+
+:root {
+  --primary-color: #fec601; /* Primary color set */
+}
+
+.userprofileSection {
+  display: flex;
+  align-items: center;
+  padding: 10px;
+}
+
+.profileImage {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+.profileImageLarge {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+}
+
+.initialsContainer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-left: 10px;
+}
+
+.initialsCircle {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background-color: #ccc; 
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.initialsText {
+  color: white;
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.userprofileDetails {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin-left: 10px;
+}
+
+.userprofileName {
+  font-weight: bold;
+  font-size: 16px;
+  color: #333;
+}
+
+.profileMenu {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+}
+
+.menu {
+  width:600px ;
+  border-radius: 8px;
+}
+
+.menuItem {
+  font-size: 16px; 
+  padding: 15px; 
+  color: #555;
+  &:hover {
+    background-color: var(--primary-color);
+    
+  }
+}
+
+.menuItem + .menuItem {
+  margin-top: 8px; 
+}
+
+.menuItem:last-child {
+  margin-top: 12px; 
+}
+
+.userprofileMenu {
+  margin-top: 15px;
+  padding: 5px 0;
+   background-color: #f9f9f9;
+}
+
+/* Apply primary color */
+.profileImage:hover {
+  border: 2px solid var(--primary-color);
+}
+
+.menuItem {
+  color: #555;
+}

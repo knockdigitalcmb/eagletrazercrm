@@ -21,6 +21,9 @@ import HomeOutlinedIcon from '@mui/icons-material/HomeOutlined';
 import CloseIcon from '@mui/icons-material/Close';
 import EagleTrazer from '../../../assets/images/eagle-trazer.png';
 
+import SearchBar from '../../../components/SearchBar/index';
+import UserNotification from '../../../components/UserNotification';
+import UserProfile from '../../../components/UserProfile';
 import styles from './Dashboard.module.scss';
 
 const drawerWidth = 260;
@@ -152,20 +155,19 @@ const Dashboard = () => {
     <Box data-testid='dashboard-page' className={styles.dashboardContainer}>
       <CssBaseline />
       <AppBar position='fixed' open={open} className={styles.appHeader}>
-        <Toolbar>
+        <Toolbar className={styles.toolbar}>
           <IconButton
             color='inherit'
             aria-label='open drawer'
             onClick={handleDrawerOpen}
             edge='start'
-            sx={{ marginRight: 5 }}
+            sx={{ fontSize: '60px' }}
           >
             <MenuIcon />
           </IconButton>
-
-          <Typography variant='h6' noWrap component='div'>
-            Mini variant drawer
-          </Typography>
+          <SearchBar />
+          <UserNotification />
+          <UserProfile />
         </Toolbar>
       </AppBar>
       <Drawer variant='permanent' open={open} anchor='left'>
