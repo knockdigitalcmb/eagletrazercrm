@@ -7,12 +7,18 @@ import { button } from './button';
 interface ThemeHandlerProps {
   children: React.ReactNode;
 }
+
 const ThemeHandler = ({ children }: ThemeHandlerProps) => {
   const theme = useMemo(
     () =>
       createTheme({
         palette,
         shape: { borderRadius: 0 },
+        typography: {
+          fontFamily: 'Montserrat, sans-serif', // ✅ Set Montserrat globally
+          fontWeightRegular: 400,
+          fontWeightBold: 600,
+        },
         components: {
           MuiButton: button,
           MuiTextField: {
@@ -28,7 +34,7 @@ const ThemeHandler = ({ children }: ThemeHandlerProps) => {
           },
           MuiTypography: {
             defaultProps: {
-              fontFamily: 'Montserrat',
+              fontFamily: 'Montserrat, sans-serif', // ✅ Ensure Montserrat in Typography
               fontWeight: 400,
             },
           },
@@ -36,6 +42,7 @@ const ThemeHandler = ({ children }: ThemeHandlerProps) => {
       }),
     []
   );
+
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />

@@ -7,16 +7,18 @@
   border: 1px solid #ccc; // Light gray border
   background-color: #fff;
   justify-content: flex-start; // Aligns the content to the left
-   left: 3px;
 
   .MuiOutlinedInput-root {
     border-radius: 25px; // Ensures the input itself is rounded
     width: 100%;
-    
+
     input {
       padding: 10px 12px; // Adjust padding for a better look
       font-size: 16px;
       border-radius: 25px;
+    }
+    input:hover {
+      background-color: yellow; /* Yellow background on hover */
     }
   }
 

@@ -130,13 +130,13 @@ const Dashboard = () => {
     <Box data-testid='dashboard-page' className={styles.dashboardContainer}>
       <CssBaseline />
       <AppBar position='fixed' open={open} className={styles.appHeader}>
-        <Toolbar>
+        <Toolbar className={styles.toolbar}>
           <IconButton
             color='inherit'
             aria-label='open drawer'
             onClick={handleDrawerOpen}
             edge='start'
-            sx={{ marginRight: 5 }}
+           sx={{fontSize:'60px'}} 
           >
             <MenuIcon />
           </IconButton>

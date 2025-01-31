@@ -1,27 +1,35 @@
-import React, { useState } from 'react'; // Import useState here
-import { Box, Menu, MenuItem, Avatar, Typography } from '@mui/material';
-import { AccountCircle } from '@mui/icons-material';
+import React, { useState } from 'react';
+import { Box, Menu, MenuItem, Typography } from '@mui/material';
+import { useNavigate } from 'react-router-dom';
 import { getUsersInitials } from '../../helper';
-
-import styles from './ProfileMenu.module.scss';
+import styles from './UserProfile.module.scss';
+import userProfilePic from '../../../src/assets/images/userprofileimage.png';
 
 const UserProfile = () => {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+  const navigate = useNavigate();
+  const userName = 'Knock digital'; //username
+  const userInitials = userName.split(' ').map(word => word[0]).join('').toUpperCase(); // Get initials
 
   const handleProfileMenuOpen = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
   };
 
-  const onHandleUserMenu = () => {
-    setAnchorEl(null);
+  const onHandleUserMenu = () => setAnchorEl(null);
+  const onHandleLogOut = () => navigate('/login');
+  const navigateTo = (path: string) => {
+    navigate(path);
+    onHandleUserMenu();
   };
 
-  //on Handle Logout
-  const onHandleLogOut = () => {};
   return (
-    <Box data-testid='user-profile-component'>
+    <Box data-testid="user-profile-component">
       <div className={styles.profileMenu} onClick={handleProfileMenuOpen}>
-        <AccountCircle />
+        <img 
+          src={userProfilePic} 
+          alt="User Profile" 
+          className={styles.profileImage} 
+        />
       </div>
       <Menu
         anchorEl={anchorEl}
@@ -29,19 +37,28 @@ const UserProfile = () => {
         onClose={onHandleUserMenu}
         className={styles.menu}
       >
-        <div className={styles.profileSection}>
-          <Avatar className={styles.avatar}>
-            {getUsersInitials('Balaji Madhiyan')}
-          </Avatar>
-          <div className={styles.profileDetails}>
-            <Typography variant='body1' className={styles.profileName}>
-              Balaji Madhiyan
-            </Typography>
+        <div className={styles.userprofileSection}>
+
+          <div className={styles.initialsContainer}>
+            <div className={styles.initialsCircle}>
+              <Typography variant="body1" className={styles.initialsText}>
+                {userInitials}
+              </Typography>
+            </div>
           </div>
+          <Typography variant="body1" className={styles.userprofileName}>
+            {userName}
+          </Typography>
         </div>
-        <MenuItem onClick={onHandleUserMenu}>Profile</MenuItem>
-        <MenuItem onClick={onHandleUserMenu}>Settings</MenuItem>
-        <MenuItem onClick={onHandleLogOut}>Logout</MenuItem>
+        <MenuItem className={styles.menuItem} onClick={() => navigateTo('/profile')}>
+          Profile
+        </MenuItem>
+        <MenuItem className={styles.menuItem} onClick={() => navigateTo('/settings')}>
+          Settings
+        </MenuItem>
+        <MenuItem className={styles.menuItem} onClick={onHandleLogOut}>
+          Logout
+        </MenuItem>
       </Menu>
     </Box>
   );
