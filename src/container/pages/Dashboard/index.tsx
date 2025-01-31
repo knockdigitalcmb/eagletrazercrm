@@ -18,6 +18,9 @@ import MuiAppBar, { AppBarProps as MuiAppBarProps } from '@mui/material/AppBar';
 import MailIcon from '@mui/icons-material/Mail';
 import MenuIcon from '@mui/icons-material/Menu';
 import HomeOutlinedIcon from '@mui/icons-material/HomeOutlined';
+import CloseIcon from '@mui/icons-material/Close';
+import EagleTrazer from '../../../assets/images/eagle-trazer.png';
+
 import SearchBar from '../../../components/SearchBar/index';
 import UserNotification from '../../../components/UserNotification';
 import UserProfile from '../../../components/UserProfile';
@@ -49,6 +52,7 @@ const closedMixin = (theme: Theme): CSSObject => ({
   boxShadow:
     '0 2px 6px 0 rgba(0, 0, 0, 0.044), 0 2px 6px 0 rgba(0, 0, 0, 0.049)',
   width: `calc(${theme.spacing(7)} + 1px)`,
+  cursor: 'pointer',
   [theme.breakpoints.up('sm')]: {
     width: `calc(${theme.spacing(8)} + 1px)`,
   },
@@ -101,6 +105,12 @@ const Drawer = styled(MuiDrawer, {
   flexShrink: 0,
   whiteSpace: 'nowrap',
   boxSizing: 'border-box',
+  '&:hover': {
+    '& .close-icon': {
+      cursor: 'pointer',
+    },
+  },
+
   variants: [
     {
       props: ({ open }) => open,
@@ -113,7 +123,13 @@ const Drawer = styled(MuiDrawer, {
       props: ({ open }) => !open,
       style: {
         ...closedMixin(theme),
-        '& .MuiDrawer-paper': closedMixin(theme),
+        '& .MuiDrawer-paper': {
+          ...closedMixin(theme),
+          '&:hover': {
+            width: drawerWidth,
+            zIndex: '1202',
+          },
+        },
       },
     },
   ],
@@ -121,9 +137,18 @@ const Drawer = styled(MuiDrawer, {
 
 const Dashboard = () => {
   const [open, setOpen] = React.useState(true);
+  const [activeItem, setActiveItem] = React.useState<string>('');
 
   const handleDrawerOpen = () => {
     setOpen(!open);
+  };
+  //handleItemClick
+  const handleItemClick = (item: string) => {
+    setActiveItem(item);
+  };
+  //handleDrawerClose
+  const handleDrawerClose = () => {
+    setOpen(true);
   };
 
   return (
@@ -136,7 +161,7 @@ const Dashboard = () => {
             aria-label='open drawer'
             onClick={handleDrawerOpen}
             edge='start'
-           sx={{fontSize:'60px'}} 
+            sx={{ fontSize: '60px' }}
           >
             <MenuIcon />
           </IconButton>
@@ -147,9 +172,50 @@ const Dashboard = () => {
       </AppBar>
       <Drawer variant='permanent' open={open} anchor='left'>
         <Divider />
+        <Box
+          sx={{
+            display: 'flex',
+            alignItems: 'center',
+            gap: 1,
+            marginTop: '10px',
+          }}
+        >
+          <img
+            src={EagleTrazer}
+            alt='eagle-logo'
+            title='Eagle Trazer'
+            className={styles.dashboardCompanyLogo}
+          />
+          <Typography
+            variant='h6'
+            component='div'
+            sx={{ fontWeight: 500, color: 'rgb(71, 71, 71)' }}
+          >
+            Eagle Trazer
+          </Typography>
+          {!open && (
+            <IconButton className='close-icon' onClick={handleDrawerClose}>
+              <CloseIcon />
+            </IconButton>
+          )}
+        </Box>
         <List>
           {['Dashboard'].map((text, index) => (
-            <ListItem key={text} disablePadding sx={{ display: 'block' }}>
+            <ListItem
+              key={text}
+              disablePadding
+              sx={{
+                display: 'block',
+                '&:hover': {
+                  color: 'rgb(0, 140, 255)',
+                },
+                backgroundColor:
+                  activeItem === text
+                    ? 'rgba(0, 140, 255, 0.1)'
+                    : 'transparent',
+                color: activeItem === text ? 'rgb(0, 140, 255)' : 'inherit',
+              }}
+            >
               <ListItemButton
                 sx={[
                   { minHeight: 48, px: 2.5 },
@@ -157,6 +223,7 @@ const Dashboard = () => {
                     ? { justifyContent: 'initial' }
                     : { justifyContent: 'center' },
                 ]}
+                onClick={() => handleItemClick(text)}
               >
                 <ListItemIcon
                   sx={[
@@ -166,10 +233,7 @@ const Dashboard = () => {
                 >
                   {index % 2 === 0 ? <HomeOutlinedIcon /> : <MailIcon />}
                 </ListItemIcon>
-                <ListItemText
-                  primary={text}
-                  sx={[open ? { opacity: 1 } : { opacity: 0 }]}
-                />
+                <ListItemText primary={text} />
               </ListItemButton>
             </ListItem>
           ))}
