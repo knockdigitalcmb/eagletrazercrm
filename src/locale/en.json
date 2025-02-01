@@ -3,8 +3,13 @@
   "employeeID": "Employee ID",
   "password": "Password",
   "login": "Login",
-  "authenticationCode": "Authentication Code",
+  "authenticationCode": "Authentication Code", 
+  "companyName":"Eagle Trazer",
   "verify": "Verify",
   "page404Description": "The page you were looking for could not be found",
-  "returnToHome": "Return to Home"
+  "returnToHome": "Return to Home",
+  "search":"Search",
+  "profile":"Profile",
+  "settings":"Settings",
+  "logout":"Logout"
 }
