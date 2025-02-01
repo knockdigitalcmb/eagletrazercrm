@@ -22,9 +22,11 @@ import CloseIcon from '@mui/icons-material/Close';
 import SearchBar from '../../../components/SearchBar/index';
 import UserNotification from '../../../components/UserNotification';
 import UserProfile from '../../../components/UserProfile';
+import { useTranslation } from 'react-i18next';
 
 import styles from './Dashboard.module.scss';
 import EagleTrazer from '../../../assets/images/eagle-trazer.png';
+
 
 const drawerWidth = 260;
 
@@ -134,10 +136,10 @@ const Drawer = styled(MuiDrawer, {
     },
   ],
 }));
-
-const Dashboard = () => {
+ const Dashboard = () => {
+   const { t } = useTranslation();
   const [open, setOpen] = React.useState(true);
-  const [activeItem, setActiveItem] = React.useState<string>('');
+  const [activeItem, setActiveItem] = React.useState<string>('Dashboard');
 
   const handleDrawerOpen = () => {
     setOpen(!open);
@@ -197,7 +199,7 @@ const Dashboard = () => {
             component='div'
             sx={{ fontWeight: 500, color: 'rgb(71, 71, 71)' }}
           >
-            Eagle Trazer
+            {t('companyName')}
           </Typography>
           {!open && (
             <IconButton className='close-icon' onClick={handleDrawerClose}>
@@ -210,17 +212,7 @@ const Dashboard = () => {
             <ListItem
               key={text}
               disablePadding
-              sx={{
-                display: 'block',
-                '&:hover': {
-                  color: 'rgb(0, 140, 255)',
-                },
-                backgroundColor:
-                  activeItem === text
-                    ? 'rgba(0, 140, 255, 0.1)'
-                    : 'transparent',
-                color: activeItem === text ? 'rgb(0, 140, 255)' : 'inherit',
-              }}
+              className={`${styles.listItem} ${activeItem === text ? styles.active : ''}`}
             >
               <ListItemButton
                 sx={[
@@ -239,7 +231,14 @@ const Dashboard = () => {
                 >
                   {index % 2 === 0 ? <HomeOutlinedIcon /> : <MailIcon />}
                 </ListItemIcon>
-                <ListItemText primary={text} />
+                <ListItemText
+                  primary={text}
+                  className='listItemText'
+                  sx={{
+                    display: open ? 'block' : 'none',
+                    '.MuiDrawer-root:hover &': { display: 'block' },
+                  }}
+                />
               </ListItemButton>
             </ListItem>
           ))}

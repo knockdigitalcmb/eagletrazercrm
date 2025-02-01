@@ -2,10 +2,11 @@ import React, { useState } from 'react';
 import { styled } from '@mui/material/styles';
 import InputBase from '@mui/material/InputBase';
 import SearchIcon from '@mui/icons-material/Search';
-
+import { useTranslation } from 'react-i18next';
 const Search = styled('div')(({ theme }) => ({
   position: 'relative',
   border: '1px solid #ccc',
+  borderRadius:"20px",
   [theme.breakpoints.up('sm')]: {
     width: 'auto',
   },
@@ -31,23 +32,26 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
     [theme.breakpoints.up('md')]: {
       width: '700px',
     },
+   
   },
 }));
 
 const SearchBar = () => {
+
+ const { t } = useTranslation();
   const [searchQuery, setSearchQuery] = useState<string>('');
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setSearchQuery(event.target.value);
   };
   return (
-    <Search>
+    <Search >
       <SearchIconWrapper>
         <SearchIcon />
       </SearchIconWrapper>
       <StyledInputBase
         value={searchQuery}
         onChange={handleChange}
-        placeholder='Search'
+        placeholder={t('search')}
         inputProps={{ 'aria-label': 'search' }}
       />
     </Search>

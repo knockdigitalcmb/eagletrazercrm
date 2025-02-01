@@ -1,21 +1,24 @@
+@import '../../../src//assets//scss/variable';
 .profileMenu {
   width: 45px;
   height: 45px;
   border-radius: 50%;
+  border: 2px solid $primary-color;
   cursor: pointer;
   img {
     width: 100%;
     height: 100%;
+    object-fit: cover;
+    border-radius: 50%;
   }
 }
-
 .menu {
   .menuItem {
     font-size: 15px;
     line-height: 30px;
     width: 140px;
     &:hover {
-      background-color: #fec601;
+      background-color: $primary-lightColor;
     }
   }
 }
