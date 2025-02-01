@@ -246,7 +246,7 @@ const Drawer = styled(MuiDrawer, {
       </Drawer>
       <Box component='main' sx={{ flexGrow: 1, p: 3, marginTop: '70px' }}>
         <Typography sx={{ marginBottom: 2 }}>
-          welcome to the dashboard.
+          welcome to the eagle trazer dashboard.
         </Typography>
       </Box>
     </Box>

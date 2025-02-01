@@ -140,7 +140,7 @@ const CreateUser = () => {
 
         {/* Experience Section */}
         <Typography variant='h6' gutterBottom sx={{ marginTop: 4 }}>
-          Experience Information
+          Experience Informations
         </Typography>
         <Grid container className='form-section'>
           <Grid item xs={12} md={6}>
