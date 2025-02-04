@@ -1,67 +1,85 @@
-/* Container for the entire profile form */
-.profile-form-container {
-  padding: 2rem;
-  position: relative; /* To allow the profile image to be positioned inside the container */
+@import '../../../assets/scss/variable';
+
+.CreateUserContainer {
+  display: flex;
+  flex-direction: column;
+  padding: 50px;
+
+  .CreateUserLeftContainer {
+    display: flex;
+    flex-direction: column;
+    gap: 50px;
+
+    .basicInfoWrapper,
+    .experienceWrapper {
+      padding: 30px 40px;
+      border-radius: 20px;
+      box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
+    }
+
+    .basicInfoWrapper div,
+    .experienceWrapper div {
+      height: 60px;
+      border-radius: 10px;
+      margin-bottom: 10px;
+    }
+
+    .chooseFileButton:hover {
+      background-color: $primary-lightColor;
+    }
+
+    .experienceSection {
+      display: flex;
+      gap: 35px;
+    }
+  }
+
+  .createUserHeading {
+    font-weight: 600;
+    margin-bottom: 10px;
+    color: #333;
+  }
 }
 
-/* Profile Image */
-.profile-image-container {
-  position: absolute; /* Absolutely position the image within the parent container */
-  top: 10px; /* Distance from the top */
-  right: 10px; /* Distance from the right */
-  cursor: pointer;
+.CreateUserRightContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 50px;
 }
 
-.profile-image {
-  width: 60px;
-  height: 60px;
-  border-radius: 50%; /* Circular image */
-  border: 2px solid #ddd; /* Optional: Border around the image */
+.userRoleContainer,
+.usersPermissionContainer {
+  background: #fff;
+  padding: 20px;
+  border-radius: 20px;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
 }
 
-/* Form Section */
-.form-section {
-  margin-top: 2rem;
-}
-
-/* TextField styling */
-.text-field {
+.MuiFormControl-root {
   width: 100%;
 }
 
-/* Submit Button styling */
-.save-button {
-  margin-top: 2rem;
-  display: flex;
-  justify-content: flex-start;
+.MuiTypography-root {
+  font-size: 14px;
+  margin-top: 5px;
 }
 
-.save-button button {
-  padding: 0.7rem 1.5rem;
-}
+.usersPermissionContainer {
+  .permissionSection {
+    background: #f9f9f9;
+    padding: 15px;
+    margin-bottom: 50px;
+    border-radius: 20px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
 
-/* Styling for Typography in the form */
-h5, h6 {
-  margin-bottom: 1rem;
-  font-weight: bold;
-}
+    .MuiTypography-h6 {
+      font-size: 16px;
+      font-weight: 500;
+      margin-bottom: 5px;
+    }
 
-h6 {
-  font-size: 1.1rem;
-}
-
-/* Responsive adjustments */
-@media (max-width: 600px) {
-  .profile-image-container {
-    top: 20px;
-    right: 20px;
-  }
-
-  .form-section {
-    flex-direction: column;
-  }
-
-  .text-field {
-    margin-bottom: 1rem;
+    .MuiFormControlLabel-root {
+      margin-left: 10px;
+    }
   }
 }

@@ -11,5 +11,18 @@
   "search":"Search",
   "profile":"Profile",
   "settings":"Settings",
-  "logout":"Logout"
+  "logout":"Logout",
+  "userrole":"userrole",
+  "userspermission":"userspermission",
+  "please select the role":"please select the role",
+  "select the role":"select the role",
+  "admin":"admin",
+  "employee":"employee",
+  "lead":"lead",
+  "developer":"developer",
+  "otppage":"otppage",
+  "view":"view",
+  "edit":"edit",
+  "delete":"delete",
+  "add":"add"
 }
