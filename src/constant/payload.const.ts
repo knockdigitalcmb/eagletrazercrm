@@ -4,8 +4,8 @@ export const defaultLoginProps = {
 };
 
 export const defaultCreateUserProps = {
-  employeeId:'',
-  userId: '',
+  employeeID: '',
+  userID: '',
   userName: '',
   phoneNumber: '',
   email: '',
@@ -15,21 +15,28 @@ export const defaultCreateUserProps = {
   profileImage: '',
   joiningDate: '',
   previousCompany: '',
-  experienceYears: null, 
-  experienceMonths: null,
-  role:'',
-  otpPageView: false,
-  employeeView: false,
-  employeeAdd: false,
-  employeeEdit: false,
-  employeeDelete: false,
-  leadsView: false,
-  leadsAdd: false,
-  leadsEdit: false,
-  leadsDelete: false,
-  developerView: false,
-  developerAdd: false,
-  developerEdit: false,
-  developerDelete: false,
-
+  experienceInYears: null,
+  experienceInMonths: null,
+  role: '',
+  userPermissions: {
+    otpPage: false,
+    leads: {
+      view: false,
+      add: false,
+      edit: false,
+      delete: false,
+    },
+    employee: {
+      view: false,
+      add: false,
+      edit: false,
+      delete: false,
+    },
+    developer: {
+      view: false,
+      add: false,
+      edit: false,
+      delete: false,
+    },
+  },
 };
