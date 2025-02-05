@@ -35,13 +35,16 @@ import UserProfile from '../../../components/UserProfile';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import { CreateUserType } from '../../../models/type';
-import { defaultCreateUserProps } from '../../../constant/payload.const';
 import InputAdornment from '@mui/material/InputAdornment';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import { useForm } from 'react-hook-form';
 import { getInputFieldErrorMessage } from '../../../helper/formValidators';
+import {
+  userPermissionOptions,
+  userRoleOptions,
+} from '../../../constant/common.constant';
 
 import styles from './CreateUser.module.scss';
 import EagleTrazer from '../../../assets/images/eagle-trazer.png';
@@ -167,39 +170,17 @@ const VisuallyHiddenInput = styled('input')({
   width: 1,
 });
 
-const permissionsList = [
-  { key: 'otpPage', label: 'OTP Page', actions: ['View'] },
-  {
-    key: 'leads',
-    label: 'Leads',
-    actions: ['View', 'Add', 'Edit', 'Delete'],
-  },
-  {
-    key: 'employee',
-    label: 'Employee',
-    actions: ['View', 'Add', 'Edit', 'Delete'],
-  },
-  {
-    key: 'developer',
-    label: 'Developer',
-    actions: ['View', 'Add', 'Edit', 'Delete'],
-  },
-];
-
 const CreateUser = () => {
   const { t } = useTranslation();
   const navigate = useNavigate();
   const [open, setOpen] = React.useState(true);
   const [activeItem, setActiveItem] = React.useState<string>('User');
-  const [user, setUser] = useState<CreateUserType>(defaultCreateUserProps);
   const [isShowPassword, setIsShowPassword] = useState(false);
 
   const {
     formState: { errors },
     register,
-    clearErrors,
     getValues,
-    control,
   } = useForm<CreateUserType>({
     mode: 'onChange',
   });
@@ -217,15 +198,6 @@ const CreateUser = () => {
     setOpen(true);
   };
 
-  //on Handle change
-  const onHandleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  ) => {
-    let formData: any = { ...user };
-    formData[e.target.name] = e.target.value;
-    setUser(formData);
-  };
-
   //on Handle Show Password
   const OnHandleShowPassword = () => {
     setIsShowPassword(!isShowPassword);
@@ -239,7 +211,6 @@ const CreateUser = () => {
   const onHandleUserSubmit = () => {
     console.log(getValues());
   };
-  console.log(user, 'errors');
   return (
     <Box data-testid='create-user-page' className={styles.dashboardContainer}>
       <CssBaseline />
@@ -339,109 +310,137 @@ const CreateUser = () => {
                 {t('basicInformation')}
               </Typography>
               <Box>
-                <TextField
-                  {...register('employeeID', {
-                    required: 'This input is required.',
-                  })}
-                  placeholder={t('employeeIDPlaceholder')}
-                  id='employee-id'
-                  data-testid='employee-id'
-                  error={Boolean(errors.employeeID)}
-                  required
-                  helperText={getInputFieldErrorMessage(errors.employeeID)}
-                  className={styles.inputText}
-                />
-                <TextField
-                  {...register('userName', {
-                    required: 'This input is required.',
-                  })}
-                  id='user-name'
-                  data-testid='user-name'
-                  placeholder={t('userName')}
-                  error={Boolean(errors.userName)}
-                  helperText={getInputFieldErrorMessage(errors.userName)}
-                  className={styles.inputText}
-                />
-                <TextField
-                  {...register('phoneNumber', {
-                    required: 'This input is required.',
-                  })}
-                  id='phone-number'
-                  data-testid='phone-number'
-                  placeholder={t('phoneNumber')}
-                  error={Boolean(errors.phoneNumber)}
-                  helperText={getInputFieldErrorMessage(errors.phoneNumber)}
-                  className={styles.inputText}
-                />
-                <TextField
-                  {...register('email')}
-                  id='email'
-                  data-testid='email'
-                  placeholder={t('email')}
-                  error={Boolean(errors.email)}
-                  helperText={getInputFieldErrorMessage(errors.email)}
-                  className={styles.inputText}
-                />
-                <TextField
-                  {...register('location', {
-                    required: 'This input is required.',
-                  })}
-                  id='location'
-                  data-testid='location'
-                  placeholder={t('location')}
-                  error={Boolean(errors.location)}
-                  helperText={getInputFieldErrorMessage(errors.location)}
-                  className={styles.inputText}
-                />
-                <TextField
-                  {...register('address')}
-                  id='address'
-                  data-testid='address'
-                  placeholder={t('address')}
-                  error={Boolean(errors.address)}
-                  helperText={getInputFieldErrorMessage(errors.address)}
-                  className={styles.inputText}
-                />
-                <TextField
-                  {...register('password', {
-                    required: 'This input is required.',
-                  })}
-                  type={isShowPassword ? 'text' : 'password'}
-                  id='password'
-                  data-testid='password'
-                  placeholder={t('password')}
-                  error={Boolean(errors.password)}
-                  helperText={getInputFieldErrorMessage(errors.password)}
-                  className={styles.inputText}
-                  slotProps={{
-                    input: {
-                      endAdornment: (
-                        <InputAdornment position='end'>
-                          <IconButton onClick={OnHandleShowPassword} edge='end'>
-                            {isShowPassword ? (
-                              <VisibilityOff />
-                            ) : (
-                              <Visibility />
-                            )}
-                          </IconButton>
-                        </InputAdornment>
-                      ),
-                    },
-                  }}
-                />
-                <Button
-                  component='label'
-                  variant='contained'
-                  startIcon={<CloudUploadIcon />}
-                  className={styles.profileImageButton}
-                >
-                  Choose Profile Image
-                  <VisuallyHiddenInput
-                    {...register('profileImage')}
-                    type='file'
-                    onChange={handleFileChange}
-                  />
-                </Button>
+                <Grid2 container spacing={2}>
+                  <Grid2 size={6}>
+                    <TextField
+                      {...register('employeeID', {
+                        required: 'This input is required.',
+                      })}
+                      placeholder={t('employeeIDPlaceholder')}
+                      id='employee-id'
+                      data-testid='employee-id'
+                      error={Boolean(errors.employeeID)}
+                      required
+                      helperText={getInputFieldErrorMessage(errors.employeeID)}
+                      className={styles.inputText}
+                    />
+                  </Grid2>
+                  <Grid2 size={6}>
+                    <TextField
+                      {...register('userName', {
+                        required: 'This input is required.',
+                      })}
+                      id='user-name'
+                      data-testid='user-name'
+                      placeholder={t('userName')}
+                      error={Boolean(errors.userName)}
+                      helperText={getInputFieldErrorMessage(errors.userName)}
+                      className={styles.inputText}
+                    />
+                  </Grid2>
+                </Grid2>
+                <Grid2 container spacing={2}>
+                  <Grid2 size={6}>
+                    <TextField
+                      {...register('password', {
+                        required: 'This input is required.',
+                      })}
+                      type={isShowPassword ? 'text' : 'password'}
+                      id='password'
+                      data-testid='password'
+                      placeholder={t('password')}
+                      error={Boolean(errors.password)}
+                      helperText={getInputFieldErrorMessage(errors.password)}
+                      className={styles.inputText}
+                      slotProps={{
+                        input: {
+                          endAdornment: (
+                            <InputAdornment position='end'>
+                              <IconButton
+                                onClick={OnHandleShowPassword}
+                                edge='end'
+                              >
+                                {isShowPassword ? (
+                                  <VisibilityOff />
+                                ) : (
+                                  <Visibility />
+                                )}
+                              </IconButton>
+                            </InputAdornment>
+                          ),
+                        },
+                      }}
+                    />
+                  </Grid2>
+                  <Grid2 size={6}>
+                    <TextField
+                      {...register('email')}
+                      id='email'
+                      data-testid='email'
+                      placeholder={t('email')}
+                      error={Boolean(errors.email)}
+                      helperText={getInputFieldErrorMessage(errors.email)}
+                      className={styles.inputText}
+                    />
+                  </Grid2>
+                </Grid2>
+                <Grid2 container spacing={2}>
+                  <Grid2 size={6}>
+                    <TextField
+                      {...register('phoneNumber', {
+                        required: 'This input is required.',
+                      })}
+                      id='phone-number'
+                      data-testid='phone-number'
+                      placeholder={t('phoneNumber')}
+                      error={Boolean(errors.phoneNumber)}
+                      helperText={getInputFieldErrorMessage(errors.phoneNumber)}
+                      className={styles.inputText}
+                    />
+                  </Grid2>
+                  <Grid2 size={6}>
+                    <TextField
+                      {...register('location', {
+                        required: 'This input is required.',
+                      })}
+                      id='location'
+                      data-testid='location'
+                      placeholder={t('location')}
+                      error={Boolean(errors.location)}
+                      helperText={getInputFieldErrorMessage(errors.location)}
+                      className={styles.inputText}
+                    />
+                  </Grid2>
+                </Grid2>
+
+                <Grid2 container spacing={2}>
+                  <Grid2 size={6}>
+                    <TextField
+                      {...register('address')}
+                      id='address'
+                      data-testid='address'
+                      placeholder={t('address')}
+                      error={Boolean(errors.address)}
+                      helperText={getInputFieldErrorMessage(errors.address)}
+                      className={styles.inputText}
+                    />
+                  </Grid2>
+                  <Grid2 size={6}>
+                    <Button
+                      component='label'
+                      variant='contained'
+                      startIcon={<CloudUploadIcon />}
+                      className={styles.profileImageButton}
+                    >
+                      Choose Profile Image
+                      <VisuallyHiddenInput
+                        {...register('profileImage')}
+                        type='file'
+                        onChange={handleFileChange}
+                      />
+                    </Button>
+                  </Grid2>
+                </Grid2>
               </Box>
             </Grid2>
             <Grid2 className={styles.sectionBg}>
@@ -506,25 +505,28 @@ const CreateUser = () => {
               <Typography variant='h6' className={styles.sectionTitle}>
                 User Role
               </Typography>
-              <FormControl
+              <TextField
+                {...register('role', {
+                  required: 'Please enter role',
+                })}
+                id='user-role'
+                data-testid='user-role'
+                select
                 fullWidth
-                variant='outlined'
                 error={Boolean(errors.role)}
+                helperText={getInputFieldErrorMessage(errors.role)}
+                sx={{
+                  '& .MuiSelect-select span::before': {
+                    content: "'Choose on option'",
+                  },
+                }}
               >
-                <InputLabel id='role-label' htmlFor='role'>
-                  {t('Please select the role*')}
-                </InputLabel>
-                <Select
-                  labelId='role-label'
-                  id='role'
-                  error={Boolean(errors.role)}
-                >
-                  <MenuItem value='admin'>{t('admin')}</MenuItem>
-                  <MenuItem value='lead'>{t('lead')}</MenuItem>
-                  <MenuItem value='employee'>{t('employee')}</MenuItem>
-                  <MenuItem value='developer'>{t('developer')}</MenuItem>
-                </Select>
-              </FormControl>
+                {userRoleOptions.map((option, index) => (
+                  <MenuItem key={`${option}-${index}`} value={option}>
+                    {option}
+                  </MenuItem>
+                ))}
+              </TextField>
             </Grid2>
             <Grid2 className={styles.sectionBg}>
               <Typography variant='h6' className={styles.sectionTitle}>
@@ -532,7 +534,7 @@ const CreateUser = () => {
               </Typography>
               <Box className={styles.permissionGroup}>
                 <FormGroup className={styles.permissionFormGroup}>
-                  {permissionsList.map((section) => {
+                  {userPermissionOptions.map((section) => {
                     const actions = section.actions.map((action) => {
                       const permissionKey =
                         `${section.key}${action}` as keyof Permissions;
