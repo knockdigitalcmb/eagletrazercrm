@@ -12,6 +12,7 @@ import {
   ListItemButton,
   ListItemIcon,
   ListItemText,
+  Button,
 } from '@mui/material';
 import MuiDrawer from '@mui/material/Drawer';
 import MuiAppBar, { AppBarProps as MuiAppBarProps } from '@mui/material/AppBar';
@@ -25,7 +26,7 @@ import UserProfile from '../../../components/UserProfile';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 
-import styles from './Dashboard.module.scss';
+import styles from './User.module.scss';
 import EagleTrazer from '../../../assets/images/eagle-trazer.png';
 
 const drawerWidth = 260;
@@ -136,7 +137,7 @@ const Drawer = styled(MuiDrawer, {
     },
   ],
 }));
-const Dashboard = () => {
+const User = () => {
   const { t } = useTranslation();
   const navigate = useNavigate();
   const [open, setOpen] = React.useState(true);
@@ -247,12 +248,18 @@ const Dashboard = () => {
         </List>
       </Drawer>
       <Box component='main' sx={{ flexGrow: 1, p: 3, marginTop: '70px' }}>
-        <Typography sx={{ marginBottom: 2 }}>
-          welcome to the eagle trazer dashboard.
-        </Typography>
+        <Box className={styles.createUserButton}>
+          <Button
+            id='create-user'
+            data-testid='create-user'
+            onClick={() => window.open('/create-user', '_blank')}
+          >
+            {t('Create User')}
+          </Button>
+        </Box>
       </Box>
     </Box>
   );
 };
 
-export default Dashboard;
+export default User;

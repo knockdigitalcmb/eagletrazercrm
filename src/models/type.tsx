@@ -3,9 +3,9 @@ export interface LoginForm {
   password: string;
 }
 
-export interface CreateUserType{
-  employeeId:string
-  userId: string;
+export interface CreateUserType {
+  employeeID: string;
+  userID: string;
   userName: string;
   phoneNumber: string;
   email: string;
@@ -15,21 +15,28 @@ export interface CreateUserType{
   profileImage: string;
   joiningDate: string;
   previousCompany: string;
-  experienceYears: number | null; 
-  experienceMonths: number | null;
-  role:string;
-  otpPageView: boolean;
-  employeeView: boolean;
-  employeeAdd: boolean;
-  employeeEdit: boolean;
-  employeeDelete: boolean;
-  leadsView: boolean;
-  leadsAdd: boolean;
-  leadsEdit: boolean;
-  leadsDelete: boolean;
-  developerView: boolean;
-  developerAdd: boolean;
-  developerEdit: boolean;
-  developerDelete: boolean;
-  
+  experienceInYears: number | null;
+  experienceInMonths: number | null;
+  role: string;
+  userPermissions: {
+    otpPage: boolean;
+    leads: {
+      view: boolean;
+      add: boolean;
+      edit: boolean;
+      delete: boolean;
+    };
+    employee: {
+      view: boolean;
+      add: boolean;
+      edit: boolean;
+      delete: boolean;
+    };
+    developer: {
+      view: boolean;
+      add: boolean;
+      edit: boolean;
+      delete: boolean;
+    };
+  };
 }

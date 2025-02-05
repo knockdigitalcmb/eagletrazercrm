@@ -1,75 +1,72 @@
 @import '../../../assets/scss/variable';
-.CreateUserContainer {
+.dashboardContainer {
   display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  padding: 50px;
-  .CreateUserLeftContainer {
+}
+.dashboardCompanyLogo {
+  width: 60px;
+  height: 60px;
+  object-fit: contain;
+  margin-left: 2px;
+}
+.toolbar {
+  width: 100%;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  .headerSearchBar {
+    flex-grow: 1;
+    margin: 0 15px;
+  }
+  .headerRightSection {
     display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    gap: 50px;
-    .basicInfoWrapper,
-    .experienceWrapper {
-      padding: 30px 40px;
-      border-radius: 20px;
-      box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
-      div {
-        margin-bottom: 10px !important;
-        height: 70px;
-        border-radius: 10px;
-      }
-    }
-    .profilePicture {
-      margin-bottom: 10px;
-      margin-left: 10px;
-    }
-    .chooseFileButton {
-      border-radius: 10px !important;
-      &:hover {
-        background-color: $primary-lightColor;
-      }
-    }
-    .viewButton {
-      padding: 5px;
-      border-radius: 10px;
-      margin-top: 10px;
-      &:hover {
-        background-color: $primary-color;
-        color: rgb(0, 0, 0);
-      }
-    }
-    .downloadButton {
-      border-radius: 10px;
-      margin-top: 10px;
-      &:hover {
-        background-color: $primary-lightColor;
-      }
-    }
-    .profilePictureBox{
-      margin-top: 10px;
-    }
-    .experienceSection {
-      display: flex;
-      gap: 35px;
-    }
+    flex-direction: row;
+    align-items: center;
+    gap: 20px;
   }
 }
-.createUserHeading {
-  font-weight: 500 !important;
-  margin-bottom: 25px !important ;
-}
-.createUserSave{
-  display: flex;
-  justify-content: flex-end;
-  padding:50px;
-  button{
-    border-radius: 10px;
-    padding:10px;
-    &:hover{
-      background-color:$primary-lightColor;
-    }
+.listItem {
+  display: block;
+  &.active {
+    background-color: $primary-lightColor;
   }
- 
+  &:hover {
+    background-color: $primary-color;
+  }
+}
 
+.createUserContainer {
+  .sectionBg {
+    padding: 20px;
+    margin-bottom: 25px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
+    .sectionTitle {
+      padding-bottom: 12px;
+    }
+    .inputText {
+      margin-bottom: 15px !important;
+    }
+    .profileImageButton {
+      margin-top: 8px !important;
+      &:hover {
+        background-color: $primary-lightColor;
+      }
+    }
+    .permissionGroup {
+      .permissionFormGroup {
+        .permissionSection {
+          margin-bottom: 10px;
+          .permissionTitle {
+            font-size: 16px;
+          }
+          span {
+            font-size: 14px;
+          }
+        }
+      }
+    }
+  }
+}
+.submitButton {
+  margin: 20px 0;
+  text-align: right;
 }
