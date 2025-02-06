@@ -211,6 +211,10 @@ const CreateUser = () => {
   const onHandleUserSubmit = () => {
     console.log(getValues());
   };
+  const getInputFieldErrorMessage = (error: any) => {
+    return error ? error.message : '';
+  };
+
   return (
     <Box data-testid='create-user-page' className={styles.dashboardContainer}>
       <CssBaseline />
@@ -343,38 +347,52 @@ const CreateUser = () => {
                   <Grid2 size={6}>
                     <TextField
                       {...register('password', {
-                        required: 'This input is required.',
+                        required: 'Password is required.',
+                        minLength: {
+                          value: 8,
+                          message:
+                            'Password must be at least 8 characters long.',
+                        },
+                        pattern: {
+                          value: /(?=.*[0-9])(?=.*[!@#$%^&*])/,
+                          message:
+                            'Password must contain at least one number and one special character.',
+                        },
                       })}
                       type={isShowPassword ? 'text' : 'password'}
                       id='password'
                       data-testid='password'
-                      placeholder={t('password')}
+                      placeholder='Password'
                       error={Boolean(errors.password)}
                       helperText={getInputFieldErrorMessage(errors.password)}
                       className={styles.inputText}
-                      slotProps={{
-                        input: {
-                          endAdornment: (
-                            <InputAdornment position='end'>
-                              <IconButton
-                                onClick={OnHandleShowPassword}
-                                edge='end'
-                              >
-                                {isShowPassword ? (
-                                  <VisibilityOff />
-                                ) : (
-                                  <Visibility />
-                                )}
-                              </IconButton>
-                            </InputAdornment>
-                          ),
-                        },
+                      InputProps={{
+                        endAdornment: (
+                          <InputAdornment position='end'>
+                            <IconButton
+                              onClick={OnHandleShowPassword}
+                              edge='end'
+                            >
+                              {isShowPassword ? (
+                                <VisibilityOff />
+                              ) : (
+                                <Visibility />
+                              )}
+                            </IconButton>
+                          </InputAdornment>
+                        ),
                       }}
                     />
                   </Grid2>
                   <Grid2 size={6}>
                     <TextField
-                      {...register('email')}
+                      {...register('email', {
+                        required: 'Email is required.',
+                        pattern: {
+                          value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i,
+                          message: 'Please enter a valid email address.',
+                        },
+                      })}
                       id='email'
                       data-testid='email'
                       placeholder={t('email')}
@@ -388,7 +406,11 @@ const CreateUser = () => {
                   <Grid2 size={6}>
                     <TextField
                       {...register('phoneNumber', {
-                        required: 'This input is required.',
+                        required: 'Phone number is required.',
+                        pattern: {
+                          value: /^[0-9]{10}$/,
+                          message: 'Phone number must be 10 digits.',
+                        },
                       })}
                       id='phone-number'
                       data-testid='phone-number'
@@ -416,7 +438,14 @@ const CreateUser = () => {
                 <Grid2 container spacing={2}>
                   <Grid2 size={6}>
                     <TextField
-                      {...register('address')}
+                      {...register('address', {
+                        required: 'Address is required.',
+                        minLength: {
+                          value: 5,
+                          message:
+                            'Address must be at least 5 characters long.',
+                        },
+                      })}
                       id='address'
                       data-testid='address'
                       placeholder={t('address')}
