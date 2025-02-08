@@ -24,7 +24,7 @@ import UserProfile from '../UserProfile';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 
-import styles from './SlideBar.module.scss';
+import styles from './SidePanel.module.scss';
 import EagleTrazer from '../../assets/images/eagle-trazer.png';
 
 const drawerWidth = 260;
@@ -135,11 +135,15 @@ const Drawer = styled(MuiDrawer, {
   ],
 }));
 
-const SlideBar = () => {
+interface Props {
+  menu: string;
+}
+
+const SidePanel = ({ menu }: Props) => {
   const { t } = useTranslation();
   const navigate = useNavigate();
   const [open, setOpen] = React.useState(true);
-  const [activeItem, setActiveItem] = React.useState<string>('Dashboard');
+  const [activeItem, setActiveItem] = React.useState<string>(menu);
 
   const handleDrawerOpen = () => {
     setOpen(!open);
@@ -249,4 +253,4 @@ const SlideBar = () => {
   );
 };
 
-export default SlideBar;
+export default SidePanel;

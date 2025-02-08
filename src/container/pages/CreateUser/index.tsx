@@ -19,14 +19,14 @@ import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import { useForm } from 'react-hook-form';
-import { getInputFieldErrorMessage } from '../../../helper/formValidators';
+import SidePanel from 'components/SidePanel';
 import {
   userPermissionOptions,
   userRoleOptions,
 } from '../../../constant/common.constant';
+import { getInputFieldErrorMessage } from '../../../helper/formValidators';
 
 import styles from './CreateUser.module.scss';
-import SlideBar from 'components/SlideBar';
 
 const VisuallyHiddenInput = styled('input')({
   clip: 'rect(0 0 0 0)',
@@ -65,13 +65,10 @@ const CreateUser = () => {
   const onHandleUserSubmit = () => {
     console.log(getValues());
   };
-  const getInputFieldErrorMessage = (error: any) => {
-    return error ? error.message : '';
-  };
 
   return (
     <Box data-testid='create-user-page' className={styles.dashboardContainer}>
-      <SlideBar />
+      <SidePanel menu='User' />
       <Box component='main' sx={{ flexGrow: 1, p: 3, marginTop: '70px' }}>
         <Grid2 container spacing={3} className={styles.createUserContainer}>
           <Grid2 size={7} className={styles.leftSection}>
