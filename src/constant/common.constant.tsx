@@ -1,3 +1,11 @@
+import HomeOutlinedIcon from '@mui/icons-material/HomeOutlined';
+import GroupOutlinedIcon from '@mui/icons-material/GroupOutlined';
+
+export const sideBarNavMenus = [
+  { name: 'Dashboard', icon: <HomeOutlinedIcon /> },
+  { name: 'User', icon: <GroupOutlinedIcon /> },
+];
+
 export const userPermissionOptions = [
   { key: 'otpPage', label: 'OTP Page', actions: ['View'] },
   {
