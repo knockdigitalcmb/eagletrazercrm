@@ -1,4 +1,4 @@
- import React, { useState } from 'react';
+import React, { useState } from 'react';
 import {
   Box,
   Typography,
@@ -65,11 +65,14 @@ const CreateUser = () => {
   const onHandleUserSubmit = () => {
     console.log(getValues());
   };
+  const getInputFieldErrorMessage = (error: any) => {
+    return error ? error.message : '';
+  };
+
   return (
-    <Box data-testid='create-user-page' className={styles.dashboardContainer} >
-    <SlideBar/>
-      <Box component='main' sx={{ flexGrow: 1 ,p:3, marginTop: '70px' }}>
-        
+    <Box data-testid='create-user-page' className={styles.dashboardContainer}>
+      <SlideBar />
+      <Box component='main' sx={{ flexGrow: 1, p: 3, marginTop: '70px' }}>
         <Grid2 container spacing={3} className={styles.createUserContainer}>
           <Grid2 size={7} className={styles.leftSection}>
             <Grid2 className={styles.sectionBg}>
@@ -81,7 +84,7 @@ const CreateUser = () => {
                   <Grid2 size={6}>
                     <TextField
                       {...register('employeeID', {
-                        required:`${t('required')}`,
+                        required: `${t('required')}`,
                       })}
                       placeholder={t('employeeIDPlaceholder')}
                       id='employee-id'
@@ -95,7 +98,7 @@ const CreateUser = () => {
                   <Grid2 size={6}>
                     <TextField
                       {...register('userName', {
-                        required:`${t('required')}`,
+                        required: `${t('required')}`,
                       })}
                       id='user-name'
                       data-testid='user-name'
@@ -110,6 +113,16 @@ const CreateUser = () => {
                   <Grid2 size={6}>
                     <TextField
                       {...register('password', {
+                        minLength: {
+                          value: 8,
+                          message:
+                            'Password must be at least 8 characters long.',
+                        },
+                        pattern: {
+                          value: /(?=.*[0-9])(?=.*[!@#$%^&*])/,
+                          message:
+                            'Password must contain at least one number and one special character.',
+                        },
                         required: `${t('required')}`,
                       })}
                       type={isShowPassword ? 'text' : 'password'}
@@ -119,29 +132,33 @@ const CreateUser = () => {
                       error={Boolean(errors.password)}
                       helperText={getInputFieldErrorMessage(errors.password)}
                       className={styles.inputText}
-                      slotProps={{
-                        input: {
-                          endAdornment: (
-                            <InputAdornment position='end'>
-                              <IconButton
-                                onClick={OnHandleShowPassword}
-                                edge='end'
-                              >
-                                {isShowPassword ? (
-                                  <VisibilityOff />
-                                ) : (
-                                  <Visibility />
-                                )}
-                              </IconButton>
-                            </InputAdornment>
-                          ),
-                        },
+                      InputProps={{
+                        endAdornment: (
+                          <InputAdornment position='end'>
+                            <IconButton
+                              onClick={OnHandleShowPassword}
+                              edge='end'
+                            >
+                              {isShowPassword ? (
+                                <VisibilityOff />
+                              ) : (
+                                <Visibility />
+                              )}
+                            </IconButton>
+                          </InputAdornment>
+                        ),
                       }}
                     />
                   </Grid2>
                   <Grid2 size={6}>
                     <TextField
-                      {...register('email')}
+                      {...register('email', {
+                        required: 'Email is required.',
+                        pattern: {
+                          value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i,
+                          message: 'Please enter a valid email address.',
+                        },
+                      })}
                       id='email'
                       data-testid='email'
                       placeholder={t('emailPlaceholder')}
@@ -155,6 +172,10 @@ const CreateUser = () => {
                   <Grid2 size={6}>
                     <TextField
                       {...register('phoneNumber', {
+                        pattern: {
+                          value: /^[0-9]{10}$/,
+                          message: 'Phone number must be 10 digits.',
+                        },
                         required: `${t('required')}`,
                       })}
                       id='phone-number'
@@ -183,7 +204,14 @@ const CreateUser = () => {
                 <Grid2 container spacing={2}>
                   <Grid2 size={6}>
                     <TextField
-                      {...register('address')}
+                      {...register('address', {
+                        required: 'Address is required.',
+                        minLength: {
+                          value: 5,
+                          message:
+                            'Address must be at least 5 characters long.',
+                        },
+                      })}
                       id='address'
                       data-testid='address'
                       placeholder={t('addressPlaceholder')}
@@ -199,7 +227,7 @@ const CreateUser = () => {
                       startIcon={<CloudUploadIcon />}
                       className={styles.profileImageButton}
                     >
-                     {t('chooseProfilePicture')}
+                      {t('chooseProfilePicture')}
                       <VisuallyHiddenInput
                         {...register('profileImage')}
                         type='file'
@@ -217,7 +245,7 @@ const CreateUser = () => {
               <Box>
                 <TextField
                   {...register('joiningDate', {
-                    required:  `${t('required')}`,
+                    required: `${t('required')}`,
                   })}
                   id='joining-date'
                   data-testid='joining-date'
@@ -270,7 +298,7 @@ const CreateUser = () => {
           <Grid2 size={5} className={styles.rightSection}>
             <Grid2 className={styles.sectionBg}>
               <Typography variant='h6' className={styles.sectionTitle}>
-               {t('userRole')}
+                {t('userRole')}
               </Typography>
               <TextField
                 {...register('role', {
@@ -284,7 +312,7 @@ const CreateUser = () => {
                 helperText={getInputFieldErrorMessage(errors.role)}
                 sx={{
                   '& .MuiSelect-select span::before': {
-                    content:`${t('selectOption')}`,
+                    content: `${t('selectOption')}`,
                   },
                 }}
               >
@@ -337,12 +365,12 @@ const CreateUser = () => {
               color='primary'
               onClick={onHandleUserSubmit}
             >
-             {t('submit')}
+              {t('submit')}
             </Button>
           </Box>
         </Grid2>
       </Box>
-      </Box>
+    </Box>
   );
 };
 

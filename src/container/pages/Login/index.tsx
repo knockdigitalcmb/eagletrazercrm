@@ -1,63 +1,88 @@
-import React, { useEffect, useState } from 'react';
-import { Box, Typography, TextField, Button } from '@mui/material';
-import Grid from '@mui/material/Grid2';
+import React, { useState, useEffect } from 'react';
+import {
+  Box,
+  Typography,
+  TextField,
+  Button,
+  Grid2,
+  InputAdornment,
+  IconButton,
+} from '@mui/material';
+import { useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
-import { useNavigate } from 'react-router-dom';
 import { enqueueSnackbar } from 'notistack';
+import { useNavigate } from 'react-router-dom';
+import Loader from '../../../components/Loader';
 import { CRMServiceAPI } from '../../../services/CRMService';
 import { LoginForm } from '../../../models/type';
 import { defaultLoginProps } from '../../../constant/payload.const';
-import Loader from '../../../components/Loader';
-
 import styles from './Login.module.scss';
 import { ReactComponent as LogInImage } from '../../../assets/images/login-bg.svg';
 import EagleTrazer from '../../../assets/images/eagle-trazer.png';
+import { Visibility, VisibilityOff } from '@mui/icons-material';
+import { getInputFieldErrorMessage } from 'helper/formValidators';
 
 const Login = () => {
   const { t } = useTranslation();
   const navigate = useNavigate();
-  const [login, setLogin] = useState<LoginForm>(defaultLoginProps);
   const [isLoading, setIsLoading] = useState(false);
-  const [isButtonDisabled, setIsButtonDisabled] = useState(false);
+  const [isButtonDisabled, setIsButtonDisabled] = useState(true);
+  const [isShowPassword, setIsShowPassword] = useState(false);
 
-  //Login form validation
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    watch,
+  } = useForm<LoginForm>({
+    defaultValues: defaultLoginProps,
+  });
+
+  // Login form validation
   useEffect(() => {
-    if (login && login?.employeeID?.length > 0 && login?.password?.length > 0) {
+    const employeeID = watch('employeeID');
+    const password = watch('password');
+    if (employeeID?.length > 0 && password?.length > 0) {
       setIsButtonDisabled(false);
-    } else setIsButtonDisabled(true);
-  }, [login]);
+    } else {
+      setIsButtonDisabled(true);
+    }
+  }, [watch('employeeID'), watch('password')]);
 
-  //onHandle text filed change
-  const onHandleChange = (e: any, name: string) => {
-    const clonedState: any = { ...login };
-    clonedState[name] = e.target.value;
-    setLogin(clonedState);
-  };
-
-  //onHandle submit button
-  const onHandleSubmit = async () => {
+  const onSubmit = async (data: LoginForm) => {
     try {
       setIsLoading(true);
-      let response = await CRMServiceAPI.userLogin(login);
-      enqueueSnackbar('success message', {
+      await CRMServiceAPI.userLogin(data);
+      enqueueSnackbar('Login successful', {
         variant: 'success',
         autoHideDuration: 3000,
       });
       setIsLoading(false);
       navigate('/otp');
     } catch (error) {
-      console.log('error while sending login details', error);
+      console.error('Error during login:', error);
+      setIsLoading(false);
+      enqueueSnackbar('Login failed', {
+        variant: 'error',
+        autoHideDuration: 3000,
+      });
     }
   };
+
+  // Toggle password visibility
+  const OnHandleShowPassword = () => {
+    setIsShowPassword(!isShowPassword);
+  };
+
   return (
     <Box data-testid='loginpage' className={styles.loginpageContainer}>
-      <Grid container spacing={2}>
-        <Grid size={7} className={styles.alignCenter}>
+      <Grid2 container spacing={2}>
+        <Grid2 size={7} className={styles.alignCenter}>
           <div className={styles.loginImageWrapper}>
             <LogInImage />
           </div>
-        </Grid>
-        <Grid size={5} className={styles.alignCenter}>
+        </Grid2>
+        <Grid2 size={5} className={styles.alignCenter}>
           <div className={styles.loginFormWrapper}>
             <div className={styles.eagleTrazer}>
               <img src={EagleTrazer} alt='eagle-logo' title='Eagle Trazer' />
@@ -68,22 +93,59 @@ const Login = () => {
             {isLoading ? (
               <Loader />
             ) : (
-              <div className={styles.formWrapper}>
+              <form
+                onSubmit={handleSubmit(onSubmit)}
+                className={styles.formWrapper}
+              >
                 <TextField
+                  {...register('employeeID', {
+                    required: 'Employee ID is required',
+                    pattern: {
+                      value: /^[a-zA-Z0-9]+$/,
+                      message: 'Enter a valid Employee ID ',
+                    },
+                  })}
                   placeholder={t('employeeID')}
-                  id='employee-ID'
-                  name='employee-ID'
+                  id='employee-id'
+                  name='employeeID'
                   data-testid='employee-id'
-                  onChange={(e: any) => onHandleChange(e, 'employeeID')}
+                  error={Boolean(errors.employeeID)}
+                  helperText={getInputFieldErrorMessage(errors.employeeID)}
+                  className={styles.inputText}
+                  fullWidth
                 />
                 <TextField
-                  placeholder={t('password')}
+                  {...register('password', {
+                    required: 'Password is required.',
+                    pattern: {
+                      value: /^[a-zA-Z0-9]+$/,
+                      message: 'Enter a valid password  ',
+                    },
+                  })}
+                  type={isShowPassword ? 'text' : 'password'}
                   id='password'
-                  name='password'
                   data-testid='password'
-                  type='password'
-                  onChange={(e: any) => onHandleChange(e, 'password')}
+                  placeholder={t('password')}
+                  error={Boolean(errors.password)}
+                  helperText={getInputFieldErrorMessage(errors.password)}
+                  className={styles.inputText}
+                  slotProps={{
+                    input: {
+                      endAdornment: (
+                        <InputAdornment position='end'>
+                          <IconButton onClick={OnHandleShowPassword} edge='end'>
+                            {isShowPassword ? (
+                              <VisibilityOff />
+                            ) : (
+                              <Visibility />
+                            )}
+                          </IconButton>
+                        </InputAdornment>
+                      ),
+                    },
+                  }}
                 />
+
                 <Button
                   variant='contained'
                   type='submit'
@@ -91,16 +153,15 @@ const Login = () => {
                   data-testid='login-submit'
                   fullWidth
                   className={styles.submitButton}
-                  disabled={isButtonDisabled}
-                  onClick={onHandleSubmit}
+                  disabled={isButtonDisabled || isLoading}
                 >
                   {t('login')}
                 </Button>
-              </div>
+              </form>
             )}
           </div>
-        </Grid>
-      </Grid>
+        </Grid2>
+      </Grid2>
     </Box>
   );
 };
