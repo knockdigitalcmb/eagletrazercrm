@@ -14,9 +14,9 @@ export const userPermissionOptions = [
     actions: ['View', 'Add', 'Edit', 'Delete'],
   },
   {
-    key: 'employee',
-    label: 'Employee',
-    actions: ['View', 'Add', 'Edit', 'Delete'],
+    key: 'user',
+    label: 'User',
+    actions: ['View', 'Add', 'Edit', 'Delete','Upload'],
   },
   {
     key: 'developer',
@@ -25,4 +25,4 @@ export const userPermissionOptions = [
   },
 ];
 
-export const userRoleOptions = ['Admin', 'Lead', 'Employee', 'Developer'];
+export const userRoleOptions = ['Admin', 'Lead', 'User', 'Developer'];
