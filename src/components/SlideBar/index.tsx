@@ -15,8 +15,7 @@ import {
 } from '@mui/material';
 import MuiDrawer from '@mui/material/Drawer';
 import MuiAppBar, { AppBarProps as MuiAppBarProps } from '@mui/material/AppBar';
-
-import {menuItems} from '../../constant/common.constant';
+import { sideBarNavMenus } from '../../constant/common.constant';
 import MenuIcon from '@mui/icons-material/Menu';
 import CloseIcon from '@mui/icons-material/Close';
 import SearchBar from '../SearchBar/index';
@@ -24,7 +23,6 @@ import UserNotification from '../UserNotification';
 import UserProfile from '../UserProfile';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
-
 
 import styles from './SlideBar.module.scss';
 import EagleTrazer from '../../assets/images/eagle-trazer.png';
@@ -211,7 +209,7 @@ const SlideBar = () => {
           )}
         </Box>
         <List>
-          {menuItems.map((item) => (
+          {sideBarNavMenus.map((item) => (
             <ListItem
               key={item.name}
               disablePadding
