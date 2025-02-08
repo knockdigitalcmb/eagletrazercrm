@@ -1,38 +1,4 @@
 @import '../../../assets/scss/variable';
-.dashboardContainer {
-  display: flex;
-}
-.dashboardCompanyLogo {
-  width: 60px;
-  height: 60px;
-  object-fit: contain;
-  margin-left: 2px;
-}
-.toolbar {
-  width: 100%;
-  display: flex;
-  justify-content: flex-start;
-  align-items: center;
-  .headerSearchBar {
-    flex-grow: 1;
-    margin: 0 15px;
-  }
-  .headerRightSection {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    gap: 20px;
-  }
-}
-.listItem {
-  display: block;
-  &.active {
-    background-color: $primary-lightColor;
-  }
-  &:hover {
-    background-color: $primary-color;
-  }
-}
 .createUserButton {
   text-align: right;
   width: 100%;
