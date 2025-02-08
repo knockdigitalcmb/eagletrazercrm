@@ -70,9 +70,9 @@ const CreateUser = () => {
     <Box data-testid='create-user-page' className={styles.dashboardContainer}>
       <SidePanel menu='User' />
       <Box component='main' sx={{ flexGrow: 1, p: 3, marginTop: '70px' }}>
-        <Grid2 container spacing={3} className={styles.createUserContainer}>
-          <Grid2 size={7} className={styles.leftSection}>
-            <Grid2 className={styles.sectionBg}>
+        <Grid2 container spacing={3} className={styles.createUserContainer} direction={'column'}>
+        <Grid2 container spacing={3} className={styles.leftSection} direction='row'>
+        <Grid2 size={7} className={styles.sectionBg}>
               <Typography variant='h6' className={styles.sectionTitle}>
                 {t('basicInformation')}
               </Typography>
@@ -235,7 +235,7 @@ const CreateUser = () => {
                 </Grid2>
               </Box>
             </Grid2>
-            <Grid2 className={styles.sectionBg}>
+            <Grid2 size={5} className={styles.sectionBg}>
               <Typography variant='h6' className={styles.sectionTitle}>
                 {t('Experience')}
               </Typography>
@@ -261,8 +261,7 @@ const CreateUser = () => {
                   helperText={getInputFieldErrorMessage(errors.previousCompany)}
                   className={styles.inputText}
                 />
-                <Grid2 container spacing={2}>
-                  <Grid2 size={6}>
+                  <Grid2 size={12} >
                     <TextField
                       {...register('experienceInYears')}
                       id='experience-in-years'
@@ -275,7 +274,7 @@ const CreateUser = () => {
                       className={styles.inputText}
                     />
                   </Grid2>
-                  <Grid2 size={6}>
+                  <Grid2 size={12}>
                     <TextField
                       {...register('experienceInMonths')}
                       id='experience-in-months'
@@ -288,12 +287,11 @@ const CreateUser = () => {
                       className={styles.inputText}
                     />
                   </Grid2>
-                </Grid2>
               </Box>
             </Grid2>
           </Grid2>
-          <Grid2 size={5} className={styles.rightSection}>
-            <Grid2 className={styles.sectionBg}>
+          <Grid2 container spacing={2} className={styles.rightSection}>
+            <Grid2  size={12} >
               <Typography variant='h6' className={styles.sectionTitle}>
                 {t('userRole')}
               </Typography>
@@ -320,7 +318,7 @@ const CreateUser = () => {
                 ))}
               </TextField>
             </Grid2>
-            <Grid2 className={styles.sectionBg}>
+            <Grid2  size={12} >
               <Typography variant='h6' className={styles.sectionTitle}>
                 {t('usersPermission')}
               </Typography>
@@ -335,6 +333,7 @@ const CreateUser = () => {
                           key={permissionKey}
                           control={<Checkbox checked={false} />}
                           label={action}
+                          sx={{ display: 'inline-flex', alignItems: 'center', marginRight: '20px' }} 
                         />
                       );
                     });
@@ -343,8 +342,9 @@ const CreateUser = () => {
                         key={section.key}
                         className={styles.permissionSection}
                       >
-                        <Typography className={styles.permissionTitle}>
-                          {section.label}
+                        <Typography className={styles.permissionTitle}
+                         sx={{ display: 'inline', marginRight: '20px' }}
+                         >                          {section.label}
                         </Typography>
                         {actions}
                       </Box>
