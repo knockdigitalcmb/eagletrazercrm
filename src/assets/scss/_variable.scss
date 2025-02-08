@@ -1,4 +1,11 @@
 //colors
 $primary-color: #fec601;
 $secondary-color: #1a1a1a;
-$primary-lightColor:rgb(255, 220, 100)
+$primary-lightColor:rgb(255, 220, 100);
+
+//break Points
+$sm: 576px;      // Small (phones)
+$md: 768px;     // Medium (tablets)
+$lg: 992px;      // Large (desktops)
+$xl: 1200px;    // Extra large (large desktops)
+$xxl: 1400px; // Extra Extra large (larger screens)

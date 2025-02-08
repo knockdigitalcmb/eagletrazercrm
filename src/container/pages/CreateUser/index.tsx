@@ -1,4 +1,4 @@
- import React, { useState } from 'react';
+import React, { useState } from 'react';
 import {
   Box,
   Typography,
@@ -66,13 +66,22 @@ const CreateUser = () => {
     console.log(getValues());
   };
   return (
-    <Box data-testid='create-user-page' className={styles.dashboardContainer} >
-    <SlideBar/>
-      <Box component='main' sx={{ flexGrow: 1 ,p:3, marginTop: '70px' }}>
-        
-        <Grid2 container spacing={3} className={styles.createUserContainer}>
-          <Grid2 size={7} className={styles.leftSection}>
-            <Grid2 className={styles.sectionBg}>
+    <Box data-testid='create-user-page' className={styles.dashboardContainer}>
+      <SlideBar />
+      <Box component='main' sx={{ flexGrow: 1, p: 3, marginTop: '70px' }}>
+        <Grid2
+          container
+          spacing={3}
+          className={styles.createUserContainer}
+          direction={'column'}
+        >
+          <Grid2
+            container
+            spacing={3}
+            className={styles.leftSection}
+            direction='row'
+          >
+            <Grid2 size={7} className={styles.sectionBg}>
               <Typography variant='h6' className={styles.sectionTitle}>
                 {t('basicInformation')}
               </Typography>
@@ -81,7 +90,7 @@ const CreateUser = () => {
                   <Grid2 size={6}>
                     <TextField
                       {...register('employeeID', {
-                        required:`${t('required')}`,
+                        required: `${t('required')}`,
                       })}
                       placeholder={t('employeeIDPlaceholder')}
                       id='employee-id'
@@ -95,7 +104,7 @@ const CreateUser = () => {
                   <Grid2 size={6}>
                     <TextField
                       {...register('userName', {
-                        required:`${t('required')}`,
+                        required: `${t('required')}`,
                       })}
                       id='user-name'
                       data-testid='user-name'
@@ -199,7 +208,7 @@ const CreateUser = () => {
                       startIcon={<CloudUploadIcon />}
                       className={styles.profileImageButton}
                     >
-                     {t('chooseProfilePicture')}
+                      {t('chooseProfilePicture')}
                       <VisuallyHiddenInput
                         {...register('profileImage')}
                         type='file'
@@ -210,14 +219,14 @@ const CreateUser = () => {
                 </Grid2>
               </Box>
             </Grid2>
-            <Grid2 className={styles.sectionBg}>
+            <Grid2 size={5} className={styles.sectionBg}>
               <Typography variant='h6' className={styles.sectionTitle}>
                 {t('Experience')}
               </Typography>
               <Box>
                 <TextField
                   {...register('joiningDate', {
-                    required:  `${t('required')}`,
+                    required: `${t('required')}`,
                   })}
                   id='joining-date'
                   data-testid='joining-date'
@@ -236,8 +245,7 @@ const CreateUser = () => {
                   helperText={getInputFieldErrorMessage(errors.previousCompany)}
                   className={styles.inputText}
                 />
-                <Grid2 container spacing={2}>
-                  <Grid2 size={6}>
+                  <Grid2 size={12}>
                     <TextField
                       {...register('experienceInYears')}
                       id='experience-in-years'
@@ -250,7 +258,7 @@ const CreateUser = () => {
                       className={styles.inputText}
                     />
                   </Grid2>
-                  <Grid2 size={6}>
+                  <Grid2 size={12}>
                     <TextField
                       {...register('experienceInMonths')}
                       id='experience-in-months'
@@ -263,14 +271,13 @@ const CreateUser = () => {
                       className={styles.inputText}
                     />
                   </Grid2>
-                </Grid2>
               </Box>
             </Grid2>
           </Grid2>
-          <Grid2 size={5} className={styles.rightSection}>
-            <Grid2 className={styles.sectionBg}>
+          <Grid2  container spacing={2} className={styles.rightSection} direction={'column'}>
+            <Grid2 spacing={12}> 
               <Typography variant='h6' className={styles.sectionTitle}>
-               {t('userRole')}
+                {t('userRole')}
               </Typography>
               <TextField
                 {...register('role', {
@@ -284,7 +291,7 @@ const CreateUser = () => {
                 helperText={getInputFieldErrorMessage(errors.role)}
                 sx={{
                   '& .MuiSelect-select span::before': {
-                    content:`${t('selectOption')}`,
+                    content: `${t('selectOption')}`,
                   },
                 }}
               >
@@ -295,12 +302,12 @@ const CreateUser = () => {
                 ))}
               </TextField>
             </Grid2>
-            <Grid2 className={styles.sectionBg}>
+            <Grid2 spacing={12}> 
               <Typography variant='h6' className={styles.sectionTitle}>
                 {t('usersPermission')}
               </Typography>
-              <Box className={styles.permissionGroup}>
-                <FormGroup className={styles.permissionFormGroup}>
+              <Box className={styles.permissionGroup} >
+                <FormGroup className={styles.permissionFormGroup} >
                   {userPermissionOptions.map((section) => {
                     const actions = section.actions.map((action) => {
                       const permissionKey =
@@ -310,6 +317,7 @@ const CreateUser = () => {
                           key={permissionKey}
                           control={<Checkbox checked={false} />}
                           label={action}
+                           sx={{ display: 'inline-flex', alignItems: 'center', marginRight: '20px' }} 
                         />
                       );
                     });
@@ -318,7 +326,9 @@ const CreateUser = () => {
                         key={section.key}
                         className={styles.permissionSection}
                       >
-                        <Typography className={styles.permissionTitle}>
+                        <Typography className={styles.permissionTitle}
+                        sx={{ display: 'inline', marginRight: '20px' }}
+                        >
                           {section.label}
                         </Typography>
                         {actions}
@@ -328,8 +338,8 @@ const CreateUser = () => {
                 </FormGroup>
               </Box>
             </Grid2>
+            </Grid2>
           </Grid2>
-        </Grid2>
         <Grid2>
           <Box className={styles.submitButton}>
             <Button
@@ -337,12 +347,12 @@ const CreateUser = () => {
               color='primary'
               onClick={onHandleUserSubmit}
             >
-             {t('submit')}
+              {t('submit')}
             </Button>
           </Box>
         </Grid2>
       </Box>
-      </Box>
+    </Box>
   );
 };
 
