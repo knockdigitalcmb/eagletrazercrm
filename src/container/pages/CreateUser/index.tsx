@@ -145,7 +145,7 @@ const CreateUser = () => {
                     >
                       <TextField
                         {...register('userName', {
-                          required: `${t('userName required')}`,
+                          required: `${t('userNameRequired')}`,
                         })}
                         placeholder={t('userNamePlaceholder')}
                         id='user-name'
@@ -186,7 +186,7 @@ const CreateUser = () => {
                     >
                       <TextField
                         {...register('password', {
-                          required: `${t('password required')}`,
+                          required: `${t('passwordRequired')}`,
                           pattern: {
                             value: /^[A-Za-z0-9]+$/,
                             message: `${t('passwordAlphanumeric')}`,
@@ -232,7 +232,7 @@ const CreateUser = () => {
                     >
                       <TextField
                         {...register('email', {
-                          required: `${t('email required')}`,
+                          required: `${t('emailRequired')}`,
                           pattern: {
                             value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i,
                             message: `${t('invalidEmail')}`,
@@ -271,13 +271,13 @@ const CreateUser = () => {
                   <Grid2 size={6}>
                     <TextField
                       {...register('phoneNumber', {
-                        required: 'This input is required',
+                        required: `${t('phoneNumberRequired')}`,
                         pattern: {
                           value: /^[0-9]{10}$/,
-                          message: 'Phone number must be exactly 10 digits',
+                          message: `${t('invalidPhoneNumber')}`,
                         },
                       })}
-                      placeholder='Phone Number'
+                      placeholder={t('phoneNumberPlaceholder')}
                       id='phone-number'
                       data-testid='phone-number'
                       error={Boolean(errors.phoneNumber)}
@@ -299,9 +299,9 @@ const CreateUser = () => {
                   <Grid2 size={6}>
                     <TextField
                       {...register('location', {
-                        required: 'This input is required',
+                        required: `${t('locationRequired')}`,
                       })}
-                      placeholder='Location'
+                      placeholder={t('locationPlaceholder')}
                       id='location'
                       data-testid='location'
                       error={Boolean(errors.location)}
@@ -325,10 +325,8 @@ const CreateUser = () => {
                 <Grid2 container spacing={2}>
                   <Grid2 size={6}>
                     <TextField
-                      {...register('address', {
-                        required: 'This input is required',
-                      })}
-                      placeholder='Address'
+                      {...register('address')}
+                      placeholder={t('addressPlaceholder')}
                       id='address'
                       data-testid='address'
                       error={Boolean(errors.address)}
@@ -356,13 +354,14 @@ const CreateUser = () => {
                       <VisuallyHiddenInput
                         type='file'
                         accept='image/jpeg, image/png'
-                        {...register('profileImage', {
-                          required: 'Profile image is required',
-                          validate: onHandleImageValidation,
-                        })}
+                        {...register('profileImage')}
                         onChange={(e) => handleFileChange(e)}
                       />
                     </Button>
+                    <Typography
+                        variant='body2'
+                        className={styles.fileSize}
+                      > {t('fileSize')}</Typography>
                     {errors.profileImage && (
                       <Typography variant='body2' color='error'>
                         {errors.profileImage.message}
@@ -374,7 +373,7 @@ const CreateUser = () => {
                         className={styles.filename}
                         title={selectedPicture}
                       >
-                        {selectedPicture}
+                        {selectedPicture.length>15?`${selectedPicture.substring(0,25)}...`:selectedPicture}
                       </Typography>
                     )}
                   </Grid2>
@@ -383,17 +382,16 @@ const CreateUser = () => {
             </Grid2>
             <Grid2 size={5} className={styles.sectionBg}>
               <Typography variant='h6' className={styles.sectionTitle}>
-                {t('Experience')}
+                {t('experience')}
               </Typography>
               <Box>
                 <TextField
                   {...register('joiningDate', {
-                    required: `${t('required')}`,
+                    required: `${t('joiningDateRequired')}`,
                   })}
                   id='joining-date'
                   data-testid='joining-date'
                   type='date'
-                  placeholder={t('joiningDate')}
                   error={Boolean(errors.joiningDate)}
                   helperText={
                     errors.joiningDate ? errors.joiningDate.message : ''
@@ -410,9 +408,7 @@ const CreateUser = () => {
                   fullWidth
                 />
                 <TextField
-                  {...register('previousCompany', {
-                    required: `${t('required')}`,
-                  })}
+                  {...register('previousCompany')}
                   id='previous-company'
                   data-testid='previous-company'
                   placeholder={t('previousCompanyPlaceholder')}
@@ -433,13 +429,7 @@ const CreateUser = () => {
                 />
                 <Grid2 size={12}>
                   <TextField
-                    {...register('experienceInYears', {
-                      required: `${t('required')}`,
-                      min: {
-                        value: 0,
-                        message: `${t('experienceMinMessage')}`,
-                      },
-                    })}
+                    {...register('experienceInYears')}
                     id='experience-in-years'
                     data-testid='experience-in-years'
                     placeholder={t('experienceYearsPlaceholder')}
@@ -463,13 +453,7 @@ const CreateUser = () => {
                 </Grid2>
                 <Grid2 size={12}>
                   <TextField
-                    {...register('experienceInMonths', {
-                      required: `${t('required')}`,
-                      min: {
-                        value: 0,
-                        message: `${t('experienceMinMessage')}`,
-                      },
-                    })}
+                    {...register('experienceInMonths')}
                     id='experience-in-months'
                     data-testid='experience-in-months'
                     placeholder={t('experienceMonthsPlaceholder')}
@@ -591,7 +575,11 @@ const CreateUser = () => {
             <Button
               variant='contained'
               color='primary'
+<<<<<<< HEAD
               onClick={handleSubmit(onHandleUserSubmit)}
+=======
+              onClick={handleSubmit(onHandleUserSubmit) }
+>>>>>>> develop
             >
               {t('submit')}
             </Button>
