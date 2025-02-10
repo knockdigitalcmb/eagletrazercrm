@@ -19,6 +19,9 @@ import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import ErrorOutlineIcon from '@mui/icons-material/ErrorOutline';
+import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
+import FormControl from '@mui/material/FormControl';
+import FormHelperText from '@mui/material/FormHelperText';
 import { useForm } from 'react-hook-form';
 import SidePanel from 'components/SidePanel';
 import {
@@ -52,6 +55,8 @@ const CreateUser = () => {
     formState: { errors },
     register,
     getValues,
+    handleSubmit,
+    clearErrors,
   } = useForm<CreateUserType>({
     mode: 'onChange',
   });
@@ -94,136 +99,172 @@ const CreateUser = () => {
               <Box className={styles.basicInformationSection}>
                 <Grid2 container spacing={2}>
                   <Grid2 size={6}>
-                    <TextField
-                      {...register('employeeID', {
-                        required: `${t('employeeIDRequired')}`,
-                      })}
-                      placeholder={t('employeeIDPlaceholder')}
-                      id='employee-id'
-                      data-testid='employee-id'
+                    <FormControl
+                      fullWidth
                       error={Boolean(errors.employeeID)}
-                      helperText={getInputFieldErrorMessage(errors.employeeID)}
-                      slotProps={{
-                        input: {
-                          endAdornment: errors.employeeID && (
-                            <InputAdornment position='end'>
-                              <ErrorOutlineIcon color='error' />
-                            </InputAdornment>
-                          ),
-                        },
-                      }}
-                    />
+                      sx={{ position: 'relative' }}
+                    >
+                      <TextField
+                        {...register('employeeID', {
+                          required: `${t('employeeIDRequired')}`,
+                        })}
+                        placeholder={t('employeeIDPlaceholder')}
+                        id='employee-id'
+                        data-testid='employee-id'
+                        error={Boolean(errors.employeeID)}
+                        sx={{
+                          '& .MuiInputBase-root': {
+                            paddingRight: errors.employeeID ? '48px' : '24px',
+                          },
+                        }}
+                      />
+                      {errors.employeeID && (
+                        <FormHelperText
+                          sx={{
+                            marginTop: 1,
+                            color: 'error.main',
+                            display: 'flex',
+                            alignItems: 'center',
+                          }}
+                        >
+                          <ErrorOutlineIcon
+                            color='error'
+                            sx={{ marginRight: '8px' }}
+                          />
+                          {getInputFieldErrorMessage(errors.employeeID)}
+                        </FormHelperText>
+                      )}
+                    </FormControl>
                   </Grid2>
+
                   <Grid2 size={6}>
-                    <TextField
-                      {...register('userName', {
-                        required: `${t('required')}`,
-                      })}
-                      placeholder={t('userNamePlaceholder')}
-                      id='user-name'
-                      data-testid='user-name'
+                    <FormControl
+                      fullWidth
                       error={Boolean(errors.userName)}
-                      helperText={
-                        errors.userName
-                          ? getInputFieldErrorMessage(errors.userName)
-                          : ''
-                      }
-                      slotProps={{
-                        input: {
-                          endAdornment: errors.userName && (
-                            <InputAdornment position='end'>
-                              <ErrorOutlineIcon color='error' />
-                            </InputAdornment>
-                          ),
-                        },
-                      }}
-                    />
+                      sx={{ position: 'relative' }}
+                    >
+                      <TextField
+                        {...register('userName', {
+                          required: `${t('userName required')}`,
+                        })}
+                        placeholder={t('userNamePlaceholder')}
+                        id='user-name'
+                        data-testid='user-name'
+                        error={Boolean(errors.userName)}
+                        sx={{
+                          '& .MuiInputBase-root': {
+                            paddingRight: '24px',
+                          },
+                        }}
+                      />
+                      {errors.userName && (
+                        <FormHelperText
+                          sx={{
+                            marginTop: 1,
+                            color: 'error.main',
+                            display: 'flex',
+                            alignItems: 'center',
+                          }}
+                        >
+                          <ErrorOutlineIcon
+                            color='error'
+                            sx={{ marginRight: '8px' }}
+                          />
+                          {getInputFieldErrorMessage(errors.userName)}
+                        </FormHelperText>
+                      )}
+                    </FormControl>
                   </Grid2>
                 </Grid2>
+
                 <Grid2 container spacing={2}>
                   <Grid2 size={6}>
-                    <TextField
-                      {...register('password', {
-                        required: `${t('required')}`,
-                        minLength: {
-                          value: 8,
-                          message: `${t('required')}`,
-                        },
-                        pattern: {
-                          value: /^[A-Za-z0-9]+$/,
-                          message: `${t('passwordAlphanumeric')}`,
-                        },
-                      })}
-                      placeholder={t('passwordPlaceholder')}
-                      id='password'
-                      data-testid='password'
-                      type={isShowPassword ? 'text' : 'password'}
-                      error={Boolean(errors.password)}
-                      helperText={
-                        errors.password
-                          ? getInputFieldErrorMessage(errors.password)
-                          : ''
-                      }
+                    <FormControl
                       fullWidth
-                      slotProps={{
-                        input: {
-                          endAdornment: (
-                            <>
-                              {errors.password && (
-                                <InputAdornment position='end'>
-                                  <ErrorOutlineIcon color='error' />
-                                </InputAdornment>
-                              )}
-                              <InputAdornment position='end'>
-                                <IconButton
-                                  onClick={handleClickShowPassword}
-                                  edge='end'
-                                  aria-label='toggle password visibility'
-                                >
-                                  {isShowPassword ? (
-                                    <VisibilityOff />
-                                  ) : (
-                                    <Visibility />
-                                  )}
-                                </IconButton>
-                              </InputAdornment>
-                            </>
-                          ),
-                        },
-                      }}
-                      sx={{
-                        '& .MuiInputAdornment-root': {
-                          display: 'flex',
-                          alignItems: 'center',
-                        },
-                      }}
-                    />
+                      error={Boolean(errors.password)}
+                      sx={{ position: 'relative' }}
+                    >
+                      <TextField
+                        {...register('password', {
+                          required: `${t('password required')}`,
+                          pattern: {
+                            value: /^[A-Za-z0-9]+$/,
+                            message: `${t('passwordAlphanumeric')}`,
+                          },
+                        })}
+                        placeholder={t('passwordPlaceholder')}
+                        id='password'
+                        data-testid='password'
+                        type={isShowPassword ? 'text' : 'password'}
+                        error={Boolean(errors.password)}
+                        fullWidth
+                        sx={{
+                          '& .MuiInputAdornment-root': {
+                            display: 'flex',
+                            alignItems: 'center',
+                          },
+                        }}
+                      />
+
+                      {errors.password && (
+                        <FormHelperText
+                          sx={{
+                            marginTop: 1,
+                            color: 'error.main',
+                            display: 'flex',
+                            alignItems: 'center',
+                          }}
+                        >
+                          <ErrorOutlineIcon
+                            color='error'
+                            sx={{ marginRight: '8px' }}
+                          />
+                          {getInputFieldErrorMessage(errors.password)}
+                        </FormHelperText>
+                      )}
+                    </FormControl>
                   </Grid2>
                   <Grid2 size={6}>
-                    <TextField
-                      {...register('email', {
-                        required: 'This input is required',
-                        pattern: {
-                          value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i,
-                          message: 'Invalid email',
-                        },
-                      })}
-                      placeholder='Email'
-                      id='email'
-                      data-testid='email'
-                      error={Boolean(errors.email)}
-                      helperText={errors.email ? errors.email.message : ''}
-                      slotProps={{
-                        input: {
-                          endAdornment: errors.email && (
-                            <InputAdornment position='end'>
-                              <ErrorOutlineIcon color='error' />
-                            </InputAdornment>
-                          ),
-                        },
-                      }}
+                    <FormControl
                       fullWidth
-                    />
+                      error={Boolean(errors.email)}
+                      sx={{ position: 'relative' }}
+                    >
+                      <TextField
+                        {...register('email', {
+                          required: `${t('email required')}`,
+                          pattern: {
+                            value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i,
+                            message: `${t('invalidEmail')}`,
+                          },
+                        })}
+                        placeholder={t('emailPlaceholder')}
+                        id='email'
+                        data-testid='email'
+                        error={Boolean(errors.email)}
+                        sx={{
+                          '& .MuiInputBase-root': {
+                            paddingRight: '24px',
+                          },
+                        }}
+                      />
+                      {errors.email && (
+                        <FormHelperText
+                          sx={{
+                            marginTop: 1,
+                            color: 'error.main',
+                            display: 'flex',
+                            alignItems: 'center',
+                          }}
+                        >
+                          <ErrorOutlineIcon
+                            color='error'
+                            sx={{ marginRight: '8px' }}
+                          />
+                          {getInputFieldErrorMessage(errors.email)}
+                        </FormHelperText>
+                      )}
+                    </FormControl>
                   </Grid2>
                 </Grid2>
                 <Grid2 container spacing={2}>
@@ -467,34 +508,33 @@ const CreateUser = () => {
                 select
                 fullWidth
                 error={Boolean(errors.role)}
-                helperText={getInputFieldErrorMessage(errors.role)}
-                slotProps={{
-                  input: {
-                    endAdornment: (
-                      <>
-                        {errors.role && (
-                          <InputAdornment position='end'>
-                            <ErrorOutlineIcon color='error' />
-                          </InputAdornment>
-                        )}
-                      </>
-                    ),
-                  },
-                  select: {
-                    // Hide dropdown arrow when error is present
-                    sx: {
-                      '&.MuiSelect-root': {
-                        'pointer-events': errors.role ? 'none' : 'auto',
-                      },
+                helperText={
+                  errors.role ? getInputFieldErrorMessage(errors.role) : ''
+                }
+                SelectProps={{
+                  IconComponent: errors.role
+                    ? ErrorOutlineIcon
+                    : KeyboardArrowDownIcon,
+                  sx: {
+                    '&.MuiOutlinedInput-root': { position: 'relative' },
+                    '& .MuiSelect-icon': {
+                      color: errors.role ? 'red' : 'inherit',
+                      right: errors.role ? 40 : 10,
                     },
                   },
                 }}
                 sx={{
-                  '& .MuiSelect-select span::before': {
-                    content: `${t('selectOption')}`,
+                  '& .MuiSelect-select': {
+                    paddingRight: errors.role ? '48px' : '24px',
                   },
                 }}
+                onChange={(e) => {
+                  clearErrors('role');
+                }}
               >
+                <MenuItem value='' disabled>
+                  {t('selectOption')}
+                </MenuItem>
                 {userRoleOptions.map((option, index) => (
                   <MenuItem key={`${option}-${index}`} value={option}>
                     {option}
@@ -551,7 +591,7 @@ const CreateUser = () => {
             <Button
               variant='contained'
               color='primary'
-              onClick={onHandleUserSubmit}
+              onClick={handleSubmit(onHandleUserSubmit)}
             >
               {t('submit')}
             </Button>
