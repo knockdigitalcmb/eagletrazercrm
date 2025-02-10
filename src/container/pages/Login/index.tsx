@@ -53,7 +53,7 @@ const Login = () => {
   const onSubmit = async (data: LoginForm) => {
     try {
       setIsLoading(true);
-      await CRMServiceAPI.userLogin(data);
+      // await CRMServiceAPI.userLogin(data);
       enqueueSnackbar('Login successful', {
         variant: 'success',
         autoHideDuration: 3000,
@@ -124,10 +124,6 @@ const Login = () => {
                 <TextField
                   {...register('password', {
                     required: `${t('required')}`,
-                    minLength: {
-                      value: 8,
-                      message: `${t('required')}`,
-                    },
                     pattern: {
                       value: /^[A-Za-z0-9]+$/,
                       message: `${t('invalid password')}`,
@@ -145,7 +141,7 @@ const Login = () => {
                   }
                   fullWidth
                   slotProps={{
-                    input: {  
+                    input: {
                       endAdornment: (
                         <>
                           {errors.password && (

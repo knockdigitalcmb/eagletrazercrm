@@ -16,7 +16,7 @@ export const userPermissionOptions = [
   {
     key: 'user',
     label: 'User',
-    actions: ['View', 'Add', 'Edit', 'Delete','Upload'],
+    actions: ['View', 'Add', 'Edit', 'Delete', 'Upload'],
   },
   {
     key: 'developer',
