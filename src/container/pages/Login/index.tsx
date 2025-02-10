@@ -21,6 +21,7 @@ import { ReactComponent as LogInImage } from '../../../assets/images/login-bg.sv
 import EagleTrazer from '../../../assets/images/eagle-trazer.png';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
 import { getInputFieldErrorMessage } from 'helper/formValidators';
+import ErrorOutlineIcon from '@mui/icons-material/ErrorOutline';
 
 const Login = () => {
   const { t } = useTranslation();
@@ -99,49 +100,80 @@ const Login = () => {
               >
                 <TextField
                   {...register('employeeID', {
-                    required: 'Employee ID is required',
-                    pattern: {
-                      value: /^[a-zA-Z0-9]+$/,
-                      message: 'Enter a valid Employee ID ',
-                    },
+                    required: `${t('required')}`,
                   })}
-                  placeholder={t('employeeID')}
+                  placeholder={t('employeeIDPlaceholder')}
                   id='employee-id'
-                  name='employeeID'
                   data-testid='employee-id'
                   error={Boolean(errors.employeeID)}
-                  helperText={getInputFieldErrorMessage(errors.employeeID)}
-                  className={styles.inputText}
-                  fullWidth
+                  helperText={
+                    errors.employeeID
+                      ? getInputFieldErrorMessage(errors.employeeID)
+                      : ''
+                  }
+                  slotProps={{
+                    input: {
+                      endAdornment: errors.employeeID && (
+                        <InputAdornment position='end'>
+                          <ErrorOutlineIcon color='error' />
+                        </InputAdornment>
+                      ),
+                    },
+                  }}
                 />
                 <TextField
                   {...register('password', {
-                    required: 'Password is required.',
+                    required: `${t('required')}`,
+                    minLength: {
+                      value: 8,
+                      message: `${t('required')}`,
+                    },
                     pattern: {
-                      value: /^[a-zA-Z0-9]+$/,
-                      message: 'Enter a valid password  ',
+                      value: /^[A-Za-z0-9]+$/,
+                      message: `${t('invalid password')}`,
                     },
                   })}
-                  type={isShowPassword ? 'text' : 'password'}
+                  placeholder={t('passwordPlaceholder')}
                   id='password'
                   data-testid='password'
-                  placeholder={t('password')}
+                  type={isShowPassword ? 'text' : 'password'}
                   error={Boolean(errors.password)}
-                  helperText={getInputFieldErrorMessage(errors.password)}
-                  className={styles.inputText}
+                  helperText={
+                    errors.password
+                      ? getInputFieldErrorMessage(errors.password)
+                      : ''
+                  }
+                  fullWidth
                   slotProps={{
-                    input: {
+                    input: {  
                       endAdornment: (
-                        <InputAdornment position='end'>
-                          <IconButton onClick={OnHandleShowPassword} edge='end'>
-                            {isShowPassword ? (
-                              <VisibilityOff />
-                            ) : (
-                              <Visibility />
-                            )}
-                          </IconButton>
-                        </InputAdornment>
+                        <>
+                          {errors.password && (
+                            <InputAdornment position='end'>
+                              <ErrorOutlineIcon color='error' />
+                            </InputAdornment>
+                          )}
+                          <InputAdornment position='end'>
+                            <IconButton
+                              onClick={OnHandleShowPassword}
+                              edge='end'
+                              aria-label='toggle password visibility'
+                            >
+                              {isShowPassword ? (
+                                <VisibilityOff />
+                              ) : (
+                                <Visibility />
+                              )}
+                            </IconButton>
+                          </InputAdornment>
+                        </>
                       ),
+                    },
+                  }}
+                  sx={{
+                    '& .MuiInputAdornment-root': {
+                      display: 'flex',
+                      alignItems: 'center',
                     },
                   }}
                 />
