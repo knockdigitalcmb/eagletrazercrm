@@ -18,6 +18,7 @@ import InputAdornment from '@mui/material/InputAdornment';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
+import ErrorOutlineIcon from '@mui/icons-material/ErrorOutline';
 import { useForm } from 'react-hook-form';
 import SidePanel from 'components/SidePanel';
 import {
@@ -43,6 +44,7 @@ const VisuallyHiddenInput = styled('input')({
 const CreateUser = () => {
   const { t } = useTranslation();
   const [isShowPassword, setIsShowPassword] = useState(false);
+  const [selectedPicture, setSelectedPicture] = useState('');
 
   const {
     formState: { errors },
@@ -53,12 +55,15 @@ const CreateUser = () => {
   });
 
   //on Handle Show Password
-  const OnHandleShowPassword = () => {
-    setIsShowPassword(!isShowPassword);
+  const handleClickShowPassword = () => {
+    setIsShowPassword((prev) => !prev);
   };
 
-  const handleFileChange = () => {
-    console.log('dsds');
+  const handleFileChange = (event: any) => {
+    const file = event.target.files[0];
+    if (file) {
+      setSelectedPicture(file.name);
+    }
   };
 
   //on Handle User Submit
@@ -70,9 +75,19 @@ const CreateUser = () => {
     <Box data-testid='create-user-page' className={styles.dashboardContainer}>
       <SidePanel menu='User' />
       <Box component='main' sx={{ flexGrow: 1, p: 3, marginTop: '70px' }}>
-        <Grid2 container spacing={3} className={styles.createUserContainer} direction={'column'}>
-        <Grid2 container spacing={3} className={styles.leftSection} direction='row'>
-        <Grid2 size={7} className={styles.sectionBg}>
+        <Grid2
+          container
+          spacing={3}
+          className={styles.createUserContainer}
+          direction={'column'}
+        >
+          <Grid2
+            container
+            spacing={3}
+            className={styles.leftSection}
+            direction='row'
+          >
+            <Grid2 size={7} className={styles.sectionBg}>
               <Typography variant='h6' className={styles.sectionTitle}>
                 {t('basicInformation')}
               </Typography>
@@ -87,9 +102,20 @@ const CreateUser = () => {
                       id='employee-id'
                       data-testid='employee-id'
                       error={Boolean(errors.employeeID)}
-                      required
-                      helperText={getInputFieldErrorMessage(errors.employeeID)}
-                      className={styles.inputText}
+                      helperText={
+                        errors.employeeID
+                          ? getInputFieldErrorMessage(errors.employeeID)
+                          : ''
+                      }
+                      slotProps={{
+                        input: {
+                          endAdornment: errors.employeeID && (
+                            <InputAdornment position='end'>
+                              <ErrorOutlineIcon color='error' />
+                            </InputAdornment>
+                          ),
+                        },
+                      }}
                     />
                   </Grid2>
                   <Grid2 size={6}>
@@ -97,12 +123,24 @@ const CreateUser = () => {
                       {...register('userName', {
                         required: `${t('required')}`,
                       })}
+                      placeholder={t('userNamePlaceholder')}
                       id='user-name'
                       data-testid='user-name'
-                      placeholder={t('userNamePlaceholder')}
                       error={Boolean(errors.userName)}
-                      helperText={getInputFieldErrorMessage(errors.userName)}
-                      className={styles.inputText}
+                      helperText={
+                        errors.userName
+                          ? getInputFieldErrorMessage(errors.userName)
+                          : ''
+                      }
+                      slotProps={{
+                        input: {
+                          endAdornment: errors.userName && (
+                            <InputAdornment position='end'>
+                              <ErrorOutlineIcon color='error' />
+                            </InputAdornment>
+                          ),
+                        },
+                      }}
                     />
                   </Grid2>
                 </Grid2>
@@ -110,58 +148,85 @@ const CreateUser = () => {
                   <Grid2 size={6}>
                     <TextField
                       {...register('password', {
+                        required: `${t('required')}`,
                         minLength: {
                           value: 8,
-                          message:
-                            'Password must be at least 8 characters long.',
+                          message: `${t('required')}`,
                         },
                         pattern: {
-                          value: /(?=.*[0-9])(?=.*[!@#$%^&*])/,
-                          message:
-                            'Password must contain at least one number and one special character.',
+                          value: /^[A-Za-z0-9]+$/,
+                          message: `${t('passwordAlphanumeric')}`,
                         },
-                        required: `${t('required')}`,
                       })}
-                      type={isShowPassword ? 'text' : 'password'}
+                      placeholder={t('passwordPlaceholder')}
                       id='password'
                       data-testid='password'
-                      placeholder={t('passwordPlaceholder')}
+                      type={isShowPassword ? 'text' : 'password'}
                       error={Boolean(errors.password)}
-                      helperText={getInputFieldErrorMessage(errors.password)}
-                      className={styles.inputText}
-                      InputProps={{
-                        endAdornment: (
-                          <InputAdornment position='end'>
-                            <IconButton
-                              onClick={OnHandleShowPassword}
-                              edge='end'
-                            >
-                              {isShowPassword ? (
-                                <VisibilityOff />
-                              ) : (
-                                <Visibility />
+                      helperText={
+                        errors.password
+                          ? getInputFieldErrorMessage(errors.password)
+                          : ''
+                      }
+                      fullWidth
+                      slotProps={{
+                        input: {
+                          endAdornment: (
+                            <>
+                              {errors.password && (
+                                <InputAdornment position='end'>
+                                  <ErrorOutlineIcon color='error' />
+                                </InputAdornment>
                               )}
-                            </IconButton>
-                          </InputAdornment>
-                        ),
+                              <InputAdornment position='end'>
+                                <IconButton
+                                  onClick={handleClickShowPassword}
+                                  edge='end'
+                                  aria-label='toggle password visibility'
+                                >
+                                  {isShowPassword ? (
+                                    <VisibilityOff />
+                                  ) : (
+                                    <Visibility />
+                                  )}
+                                </IconButton>
+                              </InputAdornment>
+                            </>
+                          ),
+                        },
+                      }}
+                      sx={{
+                        '& .MuiInputAdornment-root': {
+                          display: 'flex',
+                          alignItems: 'center',
+                        },
                       }}
                     />
                   </Grid2>
                   <Grid2 size={6}>
                     <TextField
                       {...register('email', {
-                        required: 'Email is required.',
+                        required: 'This input is required',
                         pattern: {
                           value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i,
-                          message: 'Please enter a valid email address.',
+                          message: 'Invalid email',
                         },
                       })}
+                      placeholder='Email'
                       id='email'
                       data-testid='email'
-                      placeholder={t('emailPlaceholder')}
                       error={Boolean(errors.email)}
-                      helperText={getInputFieldErrorMessage(errors.email)}
-                      className={styles.inputText}
+                      helperText={errors.email ? errors.email.message : ''}
+                      slotProps={{
+                        input: {
+                          endAdornment: errors.email && (
+                            <InputAdornment position='end'>
+                              <ErrorOutlineIcon color='error' />
+                            </InputAdornment>
+                          ),
+                        },
+                      }}
+                      fullWidth
                     />
                   </Grid2>
                 </Grid2>
@@ -169,31 +234,53 @@ const CreateUser = () => {
                   <Grid2 size={6}>
                     <TextField
                       {...register('phoneNumber', {
+                        required: 'This input is required',
                         pattern: {
                           value: /^[0-9]{10}$/,
-                          message: 'Phone number must be 10 digits.',
+                          message: 'Phone number must be exactly 10 digits',
                         },
-                        required: `${t('required')}`,
                       })}
+                      placeholder='Phone Number'
                       id='phone-number'
                       data-testid='phone-number'
-                      placeholder={t('phoneNumberPlaceholder')}
                       error={Boolean(errors.phoneNumber)}
-                      helperText={getInputFieldErrorMessage(errors.phoneNumber)}
-                      className={styles.inputText}
+                      helperText={
+                        errors.phoneNumber ? errors.phoneNumber.message : ''
+                      }
+                      slotProps={{
+                        input: {
+                          endAdornment: errors.phoneNumber && (
+                            <InputAdornment position='end'>
+                              <ErrorOutlineIcon color='error' />
+                            </InputAdornment>
+                          ),
+                        },
+                      }}
+                      fullWidth
                     />
                   </Grid2>
                   <Grid2 size={6}>
                     <TextField
                       {...register('location', {
-                        required: `${t('required')}`,
+                        required: 'This input is required',
                       })}
+                      placeholder='Location'
                       id='location'
                       data-testid='location'
-                      placeholder={t('locationPlaceholder')}
                       error={Boolean(errors.location)}
-                      helperText={getInputFieldErrorMessage(errors.location)}
-                      className={styles.inputText}
+                      helperText={
+                        errors.location ? errors.location.message : ''
+                      }
+                      slotProps={{
+                        input: {
+                          endAdornment: errors.location && (
+                            <InputAdornment position='end'>
+                              <ErrorOutlineIcon color='error' />
+                            </InputAdornment>
+                          ),
+                        },
+                      }}
+                      fullWidth
                     />
                   </Grid2>
                 </Grid2>
@@ -202,19 +289,23 @@ const CreateUser = () => {
                   <Grid2 size={6}>
                     <TextField
                       {...register('address', {
-                        required: 'Address is required.',
-                        minLength: {
-                          value: 5,
-                          message:
-                            'Address must be at least 5 characters long.',
-                        },
+                        required: 'This input is required',
                       })}
+                      placeholder='Address'
                       id='address'
                       data-testid='address'
-                      placeholder={t('addressPlaceholder')}
                       error={Boolean(errors.address)}
-                      helperText={getInputFieldErrorMessage(errors.address)}
-                      className={styles.inputText}
+                      helperText={errors.address ? errors.address.message : ''}
+                      slotProps={{
+                        input: {
+                          endAdornment: errors.address && (
+                            <InputAdornment position='end'>
+                              <ErrorOutlineIcon color='error' />
+                            </InputAdornment>
+                          ),
+                        },
+                      }}
+                      fullWidth
                     />
                   </Grid2>
                   <Grid2 size={6}>
@@ -226,11 +317,49 @@ const CreateUser = () => {
                     >
                       {t('chooseProfilePicture')}
                       <VisuallyHiddenInput
-                        {...register('profileImage')}
                         type='file'
-                        onChange={handleFileChange}
+                        accept='image/jpeg, image/png'
+                        {...register('profileImage', {
+                          required: 'Profile image is required',
+                          validate: (value) => {
+                            const fileList = value as unknown as FileList; 
+                            if (!fileList || fileList.length === 0) {
+                              return 'Profile image is required';
+                            }
+                            const file = fileList[0];
+
+                            // Validate file type
+                            if (
+                              !['image/jpeg', 'image/png'].includes(file.type)
+                            ) {
+                              return 'Only JPG and PNG images are allowed';
+                            }
+
+                            // Validate file size (max 2MB)
+                            if (file.size > 2 * 1024 * 1024) {
+                              return 'File size must be less than 2MB';
+                            }
+                            return true;
+                          },
+                        })}
+                        onChange={(e) => {
+                          const file = e.target.files?.[0];
+                          if (file) {
+                            handleFileChange(e);
+                          }
+                        }}
                       />
                     </Button>
+{errors.profileImage && (
+                      <Typography variant='body2' color='error'>
+                        {errors.profileImage.message}
+                      </Typography>
+                    )}
+                    {selectedPicture && (
+                      <Typography variant='body2' className={styles.filename}>
+                        {selectedPicture}
+                      </Typography>
+                    )}
                   </Grid2>
                 </Grid2>
               </Box>
@@ -249,49 +378,107 @@ const CreateUser = () => {
                   type='date'
                   placeholder={t('joiningDate')}
                   error={Boolean(errors.joiningDate)}
-                  helperText={getInputFieldErrorMessage(errors.joiningDate)}
-                  className={styles.inputText}
+                  helperText={
+                    errors.joiningDate ? errors.joiningDate.message : ''
+                  }
+                  slotProps={{
+                    input: {
+                      endAdornment: errors.joiningDate && (
+                        <InputAdornment position='end'>
+                          <ErrorOutlineIcon color='error' />
+                        </InputAdornment>
+                      ),
+                    },
+                  }}
+                  fullWidth
                 />
                 <TextField
-                  {...register('joiningDate')}
+                  {...register('previousCompany', {
+                    required: `${t('required')}`,
+                  })}
                   id='previous-company'
                   data-testid='previous-company'
                   placeholder={t('previousCompanyPlaceholder')}
                   error={Boolean(errors.previousCompany)}
-                  helperText={getInputFieldErrorMessage(errors.previousCompany)}
-                  className={styles.inputText}
+                  helperText={
+                    errors.previousCompany ? errors.previousCompany.message : ''
+                  }
+                  slotProps={{
+                    input: {
+                      endAdornment: errors.previousCompany && (
+                        <InputAdornment position='end'>
+                          <ErrorOutlineIcon color='error' />
+                        </InputAdornment>
+                      ),
+                    },
+                  }}
+                  fullWidth
                 />
-                  <Grid2 size={12} >
-                    <TextField
-                      {...register('experienceInYears')}
-                      id='experience-in-years'
-                      data-testid='experience-in-years'
-                      placeholder={t('experienceYearsPlaceholder')}
-                      error={Boolean(errors.experienceInYears)}
-                      helperText={getInputFieldErrorMessage(
-                        errors.experienceInYears
-                      )}
-                      className={styles.inputText}
-                    />
-                  </Grid2>
-                  <Grid2 size={12}>
-                    <TextField
-                      {...register('experienceInMonths')}
-                      id='experience-in-months'
-                      data-testid='experience-in-months'
-                      placeholder={t('experienceMonthsPlaceholder')}
-                      error={Boolean(errors.experienceInMonths)}
-                      helperText={getInputFieldErrorMessage(
-                        errors.experienceInMonths
-                      )}
-                      className={styles.inputText}
-                    />
-                  </Grid2>
+                <Grid2 size={12}>
+                  <TextField
+                    {...register('experienceInYears', {
+                      required: `${t('required')}`,
+                      min: {
+                        value: 0,
+                        message: `${t('experienceMinMessage')}`,
+                      },
+                    })}
+                    id='experience-in-years'
+                    data-testid='experience-in-years'
+                    placeholder={t('experienceYearsPlaceholder')}
+                    error={Boolean(errors.experienceInYears)}
+                    helperText={
+                      errors.experienceInYears
+                        ? errors.experienceInYears.message
+                        : ''
+                    }
+                    slotProps={{
+                      input: {
+                        endAdornment: errors.experienceInYears && (
+                          <InputAdornment position='end'>
+                            <ErrorOutlineIcon color='error' />
+                          </InputAdornment>
+                        ),
+                      },
+                    }}
+                    fullWidth
+                  />
+                </Grid2>
+                <Grid2 size={12}>
+                  <TextField
+                    {...register('experienceInMonths', {
+                      required: `${t('required')}`,
+                      min: {
+                        value: 0,
+                        message: `${t('experienceMinMessage')}`,
+                      },
+                    })}
+                    id='experience-in-months'
+                    data-testid='experience-in-months'
+                    placeholder={t('experienceMonthsPlaceholder')}
+                    error={Boolean(errors.experienceInMonths)}
+                    helperText={
+                      errors.experienceInMonths
+                        ? errors.experienceInMonths.message
+                        : ''
+                    }
+                    slotProps={{
+                      input: {
+                        endAdornment: errors.experienceInMonths && (
+                          <InputAdornment position='end'>
+                            <ErrorOutlineIcon color='error' />
+                          </InputAdornment>
+                        ),
+                      },
+                    }}
+                    fullWidth
+                  />
+                </Grid2>
               </Box>
             </Grid2>
           </Grid2>
           <Grid2 container spacing={2} className={styles.rightSection}>
-            <Grid2  size={12} >
+            <Grid2 size={12}>
               <Typography variant='h6' className={styles.sectionTitle}>
                 {t('userRole')}
               </Typography>
@@ -304,7 +491,28 @@ const CreateUser = () => {
                 select
                 fullWidth
                 error={Boolean(errors.role)}
-                helperText={getInputFieldErrorMessage(errors.role)}
+                helperText={errors.role ? errors.role.message : ''}
+                slotProps={{
+                  input: {
+                    endAdornment: (
+                      <>
+                        {errors.role && (
+                          <InputAdornment position='end'>
+                            <ErrorOutlineIcon color='error' />
+                          </InputAdornment>
+                        )}
+                      </>
+                    ),
+                  },
+                  select: {
+                    // Hide dropdown arrow when error is present
+                    sx: {
+                      '&.MuiSelect-root': {
+                        'pointer-events': errors.role ? 'none' : 'auto',
+                      },
+                    },
+                  },
+                }}
                 sx={{
                   '& .MuiSelect-select span::before': {
                     content: `${t('selectOption')}`,
@@ -318,7 +526,7 @@ const CreateUser = () => {
                 ))}
               </TextField>
             </Grid2>
-            <Grid2  size={12} >
+            <Grid2 size={12}>
               <Typography variant='h6' className={styles.sectionTitle}>
                 {t('usersPermission')}
               </Typography>
@@ -333,7 +541,11 @@ const CreateUser = () => {
                           key={permissionKey}
                           control={<Checkbox checked={false} />}
                           label={action}
-                          sx={{ display: 'inline-flex', alignItems: 'center', marginRight: '20px' }} 
+                          sx={{
+                            display: 'inline-flex',
+                            alignItems: 'center',
+                            marginRight: '20px',
+                          }}
                         />
                       );
                     });
@@ -342,9 +554,12 @@ const CreateUser = () => {
                         key={section.key}
                         className={styles.permissionSection}
                       >
-                        <Typography className={styles.permissionTitle}
-                         sx={{ display: 'inline', marginRight: '20px' }}
-                         >                          {section.label}
+                        <Typography
+                          className={styles.permissionTitle}
+                          sx={{ display: 'inline', marginRight: '20px' }}
+                        >
+                          {' '}
+                          {section.label}
                         </Typography>
                         {actions}
                       </Box>
