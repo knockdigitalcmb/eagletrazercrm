@@ -19,14 +19,14 @@
   "emailPlaceholder": "Email ID *",
   "phoneNumberPlaceholder": "Phone Number *",
   "locationPlaceholder": "Location *",
-  "addressPlaceholder": "Address ", 
+  "addressPlaceholder": "Address ",
   "chooseProfilePicture": "Choose Profile Image",
   "experience": "Experience",
   "previousCompanyPlaceholder": "Previous Company Name",
   "experienceYearsPlaceholder": "Years of Experience",
   "experienceMonthsPlaceholder": "Months of Experience",
   "userRole": "User Role ",
-  "selectOption":"'Select option *'",
+  "selectOption": "'Select option *'",
   "admin": "Admin",
   "lead": "Lead",
   "user": "User",
@@ -34,7 +34,8 @@
   "usersPermission": "Users Permission",
   "otpPage": "OTP Page",
   "save": "Save",
-  "required":"This input is required.",
+  "required": "This input is required.",
+  "employeeIDRequired": "Employee ID is required",
   "createUser": "Create User",
-  "requiredRole":"Please enter role"
+  "requiredRole": "Please choose user role"
 }

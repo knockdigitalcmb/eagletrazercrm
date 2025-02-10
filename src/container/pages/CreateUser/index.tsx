@@ -25,7 +25,10 @@ import {
   userPermissionOptions,
   userRoleOptions,
 } from '../../../constant/common.constant';
-import { getInputFieldErrorMessage } from '../../../helper/formValidators';
+import {
+  getInputFieldErrorMessage,
+  onHandleImageValidation,
+} from '../../../helper/formValidators';
 
 import styles from './CreateUser.module.scss';
 
@@ -45,7 +48,6 @@ const CreateUser = () => {
   const { t } = useTranslation();
   const [isShowPassword, setIsShowPassword] = useState(false);
   const [selectedPicture, setSelectedPicture] = useState('');
-
   const {
     formState: { errors },
     register,
@@ -61,9 +63,7 @@ const CreateUser = () => {
 
   const handleFileChange = (event: any) => {
     const file = event.target.files[0];
-    if (file) {
-      setSelectedPicture(file.name);
-    }
+    if (file) setSelectedPicture(file.name);
   };
 
   //on Handle User Submit
@@ -91,22 +91,18 @@ const CreateUser = () => {
               <Typography variant='h6' className={styles.sectionTitle}>
                 {t('basicInformation')}
               </Typography>
-              <Box>
+              <Box className={styles.basicInformationSection}>
                 <Grid2 container spacing={2}>
                   <Grid2 size={6}>
                     <TextField
                       {...register('employeeID', {
-                        required: `${t('required')}`,
+                        required: `${t('employeeIDRequired')}`,
                       })}
                       placeholder={t('employeeIDPlaceholder')}
                       id='employee-id'
                       data-testid='employee-id'
                       error={Boolean(errors.employeeID)}
-                      helperText={
-                        errors.employeeID
-                          ? getInputFieldErrorMessage(errors.employeeID)
-                          : ''
-                      }
+                      helperText={getInputFieldErrorMessage(errors.employeeID)}
                       slotProps={{
                         input: {
                           endAdornment: errors.employeeID && (
@@ -321,42 +317,22 @@ const CreateUser = () => {
                         accept='image/jpeg, image/png'
                         {...register('profileImage', {
                           required: 'Profile image is required',
-                          validate: (value) => {
-                            const fileList = value as unknown as FileList; 
-                            if (!fileList || fileList.length === 0) {
-                              return 'Profile image is required';
-                            }
-                            const file = fileList[0];
-
-                            // Validate file type
-                            if (
-                              !['image/jpeg', 'image/png'].includes(file.type)
-                            ) {
-                              return 'Only JPG and PNG images are allowed';
-                            }
-
-                            // Validate file size (max 2MB)
-                            if (file.size > 2 * 1024 * 1024) {
-                              return 'File size must be less than 2MB';
-                            }
-                            return true;
-                          },
+                          validate: onHandleImageValidation,
                         })}
-                        onChange={(e) => {
-                          const file = e.target.files?.[0];
-                          if (file) {
-                            handleFileChange(e);
-                          }
-                        }}
+                        onChange={(e) => handleFileChange(e)}
                       />
                     </Button>
-{errors.profileImage && (
+                    {errors.profileImage && (
                       <Typography variant='body2' color='error'>
                         {errors.profileImage.message}
                       </Typography>
                     )}
                     {selectedPicture && (
-                      <Typography variant='body2' className={styles.filename}>
+                      <Typography
+                        variant='body2'
+                        className={styles.filename}
+                        title={selectedPicture}
+                      >
                         {selectedPicture}
                       </Typography>
                     )}
@@ -491,7 +467,7 @@ const CreateUser = () => {
                 select
                 fullWidth
                 error={Boolean(errors.role)}
-                helperText={errors.role ? errors.role.message : ''}
+                helperText={getInputFieldErrorMessage(errors.role)}
                 slotProps={{
                   input: {
                     endAdornment: (

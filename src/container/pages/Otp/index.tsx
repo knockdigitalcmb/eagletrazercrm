@@ -180,7 +180,7 @@ const OTPPage = () => {
   //on Handle Submit
   const onHandleSubmit = async () => {
     try {
-      let response = await CRMServiceAPI.OTPVerification(otp);
+      // let response = await CRMServiceAPI.OTPVerification(otp);
       navigate('/dashboard');
     } catch (error) {
       console.log('error while submitting otp verification', error);
