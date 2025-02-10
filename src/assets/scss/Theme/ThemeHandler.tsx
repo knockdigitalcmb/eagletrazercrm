@@ -27,9 +27,6 @@ const ThemeHandler = ({ children }: ThemeHandlerProps) => {
               fullWidth: true,
               size: 'small',
               color: 'primary',
-              style: {
-                marginBottom: '10px',
-              },
             },
           },
           MuiTypography: {

@@ -13,7 +13,7 @@ import {
   styled,
 } from '@mui/material';
 import { useTranslation } from 'react-i18next';
-import { CreateUserType } from '../../../models/type';
+import { CreateUserType, IUserPermissionIndex } from '../../../models/type';
 import InputAdornment from '@mui/material/InputAdornment';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
@@ -32,6 +32,7 @@ import {
   getInputFieldErrorMessage,
   onHandleImageValidation,
 } from '../../../helper/formValidators';
+import { capitalizeFirstLetter, getStringEclipse } from '../../../helper';
 
 import styles from './CreateUser.module.scss';
 
@@ -51,6 +52,9 @@ const CreateUser = () => {
   const { t } = useTranslation();
   const [isShowPassword, setIsShowPassword] = useState(false);
   const [selectedPicture, setSelectedPicture] = useState('');
+  const [userPermissions, setUserPermissions] = useState<IUserPermissionIndex>(
+    userPermissionOptions
+  );
   const {
     formState: { errors },
     register,
@@ -69,6 +73,17 @@ const CreateUser = () => {
   const handleFileChange = (event: any) => {
     const file = event.target.files[0];
     if (file) setSelectedPicture(file.name);
+  };
+
+  //Handle checkbox change
+  const onHandlePermissionChange = (
+    key: any,
+    action: any,
+    e: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    let clonedPermissionProps = { ...userPermissions };
+    clonedPermissionProps[key].actions[action] = e.target.checked;
+    setUserPermissions(clonedPermissionProps);
   };
 
   //on Handle User Submit
@@ -91,6 +106,7 @@ const CreateUser = () => {
             spacing={3}
             className={styles.leftSection}
             direction='row'
+            height='380px'
           >
             <Grid2 size={7} className={styles.sectionBg}>
               <Typography variant='h6' className={styles.sectionTitle}>
@@ -98,7 +114,7 @@ const CreateUser = () => {
               </Typography>
               <Box className={styles.basicInformationSection}>
                 <Grid2 container spacing={2}>
-                  <Grid2 size={6}>
+                  <Grid2 size={6} className={styles.spaceBetweenDivs}>
                     <FormControl
                       fullWidth
                       error={Boolean(errors.employeeID)}
@@ -129,15 +145,14 @@ const CreateUser = () => {
                         >
                           <ErrorOutlineIcon
                             color='error'
-                            sx={{ marginRight: '8px' }}
+                            sx={{ marginRight: '8px', width: '16px' }}
                           />
                           {getInputFieldErrorMessage(errors.employeeID)}
                         </FormHelperText>
                       )}
                     </FormControl>
                   </Grid2>
-
-                  <Grid2 size={6}>
+                  <Grid2 size={6} className={styles.spaceBetweenDivs}>
                     <FormControl
                       fullWidth
                       error={Boolean(errors.userName)}
@@ -176,8 +191,11 @@ const CreateUser = () => {
                     </FormControl>
                   </Grid2>
                 </Grid2>
-
-                <Grid2 container spacing={2}>
+                <Grid2
+                  container
+                  spacing={2}
+                  className={styles.spaceBetweenDivs}
+                >
                   <Grid2 size={6}>
                     <FormControl
                       fullWidth
@@ -267,7 +285,11 @@ const CreateUser = () => {
                     </FormControl>
                   </Grid2>
                 </Grid2>
-                <Grid2 container spacing={2}>
+                <Grid2
+                  container
+                  spacing={2}
+                  className={styles.spaceBetweenDivs}
+                >
                   <Grid2 size={6}>
                     <TextField
                       {...register('phoneNumber', {
@@ -321,9 +343,8 @@ const CreateUser = () => {
                     />
                   </Grid2>
                 </Grid2>
-
                 <Grid2 container spacing={2}>
-                  <Grid2 size={6}>
+                  <Grid2 size={6} className={styles.spaceBetweenDivs}>
                     <TextField
                       {...register('address')}
                       placeholder={t('addressPlaceholder')}
@@ -343,7 +364,7 @@ const CreateUser = () => {
                       fullWidth
                     />
                   </Grid2>
-                  <Grid2 size={6}>
+                  <Grid2 size={6} className={styles.spaceBetweenDivs}>
                     <Button
                       component='label'
                       variant='contained'
@@ -358,10 +379,10 @@ const CreateUser = () => {
                         onChange={(e) => handleFileChange(e)}
                       />
                     </Button>
-                    <Typography
-                        variant='body2'
-                        className={styles.fileSize}
-                      > {t('fileSize')}</Typography>
+                    <Typography variant='body2' className={styles.fileSize}>
+                      {' '}
+                      {t('fileSize')}
+                    </Typography>
                     {errors.profileImage && (
                       <Typography variant='body2' color='error'>
                         {errors.profileImage.message}
@@ -373,7 +394,7 @@ const CreateUser = () => {
                         className={styles.filename}
                         title={selectedPicture}
                       >
-                        {selectedPicture.length>15?`${selectedPicture.substring(0,25)}...`:selectedPicture}
+                        {getStringEclipse(selectedPicture, 25)}
                       </Typography>
                     )}
                   </Grid2>
@@ -384,7 +405,7 @@ const CreateUser = () => {
               <Typography variant='h6' className={styles.sectionTitle}>
                 {t('experience')}
               </Typography>
-              <Box>
+              <Box className={styles.spaceBetweenDivs}>
                 <TextField
                   {...register('joiningDate', {
                     required: `${t('joiningDateRequired')}`,
@@ -407,6 +428,8 @@ const CreateUser = () => {
                   }}
                   fullWidth
                 />
+              </Box>
+              <Box className={styles.spaceBetweenDivs}>
                 <TextField
                   {...register('previousCompany')}
                   id='previous-company'
@@ -427,7 +450,9 @@ const CreateUser = () => {
                   }}
                   fullWidth
                 />
-                <Grid2 size={12}>
+              </Box>
+              <Box>
+                <Grid2 size={12} className={styles.spaceBetweenDivs}>
                   <TextField
                     {...register('experienceInYears')}
                     id='experience-in-years'
@@ -451,7 +476,7 @@ const CreateUser = () => {
                     fullWidth
                   />
                 </Grid2>
-                <Grid2 size={12}>
+                <Grid2 size={12} className={styles.spaceBetweenDivs}>
                   <TextField
                     {...register('experienceInMonths')}
                     id='experience-in-months'
@@ -532,15 +557,22 @@ const CreateUser = () => {
               </Typography>
               <Box className={styles.permissionGroup}>
                 <FormGroup className={styles.permissionFormGroup}>
-                  {userPermissionOptions.map((section) => {
-                    const actions = section.actions.map((action) => {
-                      const permissionKey =
-                        `${section.key}${action}` as keyof Permissions;
+                  {Object.keys(userPermissions).map((keys, i) => {
+                    const permissionActions = Object.keys(
+                      userPermissions[keys]?.actions
+                    ).map((action, i) => {
                       return (
                         <FormControlLabel
-                          key={permissionKey}
-                          control={<Checkbox checked={false} />}
-                          label={action}
+                          key={`${action}-${i}`}
+                          onChange={(e: any) =>
+                            onHandlePermissionChange(keys, action, e)
+                          }
+                          control={
+                            <Checkbox
+                              checked={userPermissions[keys]?.actions[action]}
+                            />
+                          }
+                          label={capitalizeFirstLetter(action)}
                           sx={{
                             display: 'inline-flex',
                             alignItems: 'center',
@@ -551,17 +583,16 @@ const CreateUser = () => {
                     });
                     return (
                       <Box
-                        key={section.key}
+                        key={`${keys}-${i}`}
                         className={styles.permissionSection}
                       >
                         <Typography
                           className={styles.permissionTitle}
                           sx={{ display: 'inline', marginRight: '20px' }}
                         >
-                          {' '}
-                          {section.label}
+                          {userPermissions[keys].label}
                         </Typography>
-                        {actions}
+                        {permissionActions}
                       </Box>
                     );
                   })}
@@ -575,11 +606,7 @@ const CreateUser = () => {
             <Button
               variant='contained'
               color='primary'
-<<<<<<< HEAD
               onClick={handleSubmit(onHandleUserSubmit)}
-=======
-              onClick={handleSubmit(onHandleUserSubmit) }
->>>>>>> develop
             >
               {t('submit')}
             </Button>

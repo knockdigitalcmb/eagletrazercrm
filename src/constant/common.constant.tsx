@@ -6,23 +6,40 @@ export const sideBarNavMenus = [
   { name: 'User', icon: <GroupOutlinedIcon /> },
 ];
 
-export const userPermissionOptions = [
-  { key: 'otpPage', label: 'OTP Page', actions: ['View'] },
-  {
-    key: 'leads',
+export const userPermissionOptions = {
+  otpPage: {
+    label: 'OTP Page',
+    actions: {
+      view: false,
+    },
+  },
+  leads: {
     label: 'Leads',
-    actions: ['View', 'Add', 'Edit', 'Delete'],
+    actions: {
+      view: false,
+      add: false,
+      edit: false,
+      delete: false,
+    },
   },
-  {
-    key: 'user',
+  user: {
     label: 'User',
-    actions: ['View', 'Add', 'Edit', 'Delete', 'Upload'],
+    actions: {
+      view: false,
+      add: false,
+      edit: false,
+      delete: false,
+    },
   },
-  {
-    key: 'developer',
+  developer: {
     label: 'Developer',
-    actions: ['View', 'Add', 'Edit', 'Delete'],
+    actions: {
+      view: false,
+      add: false,
+      edit: false,
+      delete: false,
+    },
   },
-];
+};
 
 export const userRoleOptions = ['Admin', 'Lead', 'User', 'Developer'];

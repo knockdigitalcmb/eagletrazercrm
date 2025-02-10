@@ -2,10 +2,14 @@
 .dashboardContainer {
   display: flex;
 }
+.spaceBetweenDivs {
+  margin-bottom: 20px;
+}
 .createUserContainer {
   .basicInformationSection {
     p {
-      margin-left: 0px;
+      margin: 0px;
+      margin-top: 5px;
     }
   }
   .sectionBg,
@@ -24,11 +28,12 @@
         background-color: $primary-lightColor;
       }
     }
-    .fileSize{
+    .fileSize {
       margin-top: 10px;
-      color:#aaa
+      color: #aaa;
+      font-size: 10px;
     }
-    .filename{
+    .filename {
       margin-top: 10px;
     }
     .permissionGroup {
