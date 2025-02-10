@@ -18,25 +18,8 @@ export interface CreateUserType {
   experienceInYears: number | null;
   experienceInMonths: number | null;
   role: string;
-  userPermissions: {
-    otpPage: boolean;
-    leads: {
-      view: boolean;
-      add: boolean;
-      edit: boolean;
-      delete: boolean;
-    };
-    employee: {
-      view: boolean;
-      add: boolean;
-      edit: boolean;
-      delete: boolean;
-    };
-    developer: {
-      view: boolean;
-      add: boolean;
-      edit: boolean;
-      delete: boolean;
-    };
-  };
+}
+
+export interface IUserPermissionIndex {
+  [key: string]: any;
 }
