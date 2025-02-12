@@ -5,8 +5,10 @@ import {
   TextField,
   Button,
   Grid2,
-  InputAdornment,
   IconButton,
+  FormControl,
+  InputAdornment,
+  FormHelperText,
 } from '@mui/material';
 import { useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
@@ -50,6 +52,17 @@ const Login = () => {
     }
   }, [watch('employeeID'), watch('password')]);
 
+  
+  const handleClickShowPassword = () => {
+    setIsShowPassword((prev) => !prev); 
+  };
+
+  const handleMouseDownPassword = (
+    event: React.MouseEvent<HTMLButtonElement>
+  ) => {
+    event.preventDefault(); 
+  };
+
   const onSubmit = async (data: LoginForm) => {
     try {
       setIsLoading(true);
@@ -69,12 +82,6 @@ const Login = () => {
       });
     }
   };
-
-  // Toggle password visibility
-  const OnHandleShowPassword = () => {
-    setIsShowPassword(!isShowPassword);
-  };
-
   return (
     <Box data-testid='loginpage' className={styles.loginpageContainer}>
       <Grid2 container spacing={2}>
@@ -98,81 +105,98 @@ const Login = () => {
                 onSubmit={handleSubmit(onSubmit)}
                 className={styles.formWrapper}
               >
-                <TextField
-                  {...register('employeeID', {
-                    required: `${t('required')}`,
-                  })}
-                  placeholder={t('employeeIDPlaceholder')}
-                  id='employee-id'
-                  data-testid='employee-id'
-                  error={Boolean(errors.employeeID)}
-                  helperText={
-                    errors.employeeID
-                      ? getInputFieldErrorMessage(errors.employeeID)
-                      : ''
-                  }
-                  slotProps={{
-                    input: {
-                      endAdornment: errors.employeeID && (
-                        <InputAdornment position='end'>
-                          <ErrorOutlineIcon color='error' />
-                        </InputAdornment>
-                      ),
-                    },
-                  }}
-                />
-                <TextField
-                  {...register('password', {
-                    required: `${t('required')}`,
-                    pattern: {
-                      value: /^[A-Za-z0-9]+$/,
-                      message: `${t('invalid password')}`,
-                    },
-                  })}
-                  placeholder={t('passwordPlaceholder')}
-                  id='password'
-                  data-testid='password'
-                  type={isShowPassword ? 'text' : 'password'}
-                  error={Boolean(errors.password)}
-                  helperText={
-                    errors.password
-                      ? getInputFieldErrorMessage(errors.password)
-                      : ''
-                  }
+                <FormControl
                   fullWidth
-                  slotProps={{
-                    input: {
-                      endAdornment: (
-                        <>
-                          {errors.password && (
-                            <InputAdornment position='end'>
-                              <ErrorOutlineIcon color='error' />
-                            </InputAdornment>
-                          )}
-                          <InputAdornment position='end'>
-                            <IconButton
-                              onClick={OnHandleShowPassword}
-                              edge='end'
-                              aria-label='toggle password visibility'
-                            >
-                              {isShowPassword ? (
-                                <VisibilityOff />
-                              ) : (
-                                <Visibility />
-                              )}
-                            </IconButton>
-                          </InputAdornment>
-                        </>
-                      ),
-                    },
-                  }}
-                  sx={{
-                    '& .MuiInputAdornment-root': {
-                      display: 'flex',
-                      alignItems: 'center',
-                    },
-                  }}
-                />
+                  error={Boolean(errors.employeeID)}
+                  sx={{ position: 'relative', marginBottom: '20px' }}
+                >
+                  <TextField
+                    {...register('employeeID', {
+                      required: `${t('employeeIDRequired')}`,
+                      pattern: {
+                        value: /^[A-Za-z0-9]+$/,
+                        message: t('employeeIDIsInvalid'),
+                      },
+                    })}
+                    placeholder={t('employeeIDPlaceholder')}
+                    id='employee-id'
+                    data-testid='employee-id'
+                    error={Boolean(errors.employeeID)}
+                    sx={{
+                      '& .MuiInputBase-root': {
+                        paddingRight: errors.employeeID ? '48px' : '24px',
+                      },
+                    }}
+                  />
+                  {errors.employeeID && (
+                    <FormHelperText
+                      sx={{
+                        marginTop: 1,
+                        color: 'error.main',
+                        display: 'flex',
+                        alignItems: 'center',
+                      }}
+                    >
+                      <ErrorOutlineIcon
+                        color='error'
+                        sx={{ marginRight: '8px', width: '16px' }}
+                      />
+                      {getInputFieldErrorMessage(errors.employeeID)}
+                    </FormHelperText>
+                  )}
+                </FormControl>
+                <FormControl
+                  fullWidth
+                  error={Boolean(errors.password)}
+                  sx={{ position: 'relative', marginBottom: '20px' }}
+                >
+                  <TextField
+                    {...register('password', {
+                      required: `${t('passwordRequired')}`,
+                      pattern: {
+                        value: /^[A-Za-z0-9]+$/,
+                        message: t('passwordIsInvalid'),
+                      },
+                    })}
+                    placeholder={t('passwordPlaceholder')}
+                    id='password'
+                    data-testid='password'
+                    type={isShowPassword ? 'text' : 'password'}
+                    error={Boolean(errors.password)}
+                    fullWidth
+                  />
+                  <IconButton
+                    aria-label='toggle password visibility'
+                    onClick={handleClickShowPassword}
+                    onMouseDown={handleMouseDownPassword}
+                    sx={{
+                      position: 'absolute',
+                      right: '10px',
+                      top: '50%',
+                      transform: 'translateY(-50%)',
+                      zIndex: 1,
+                    }}
+                  >
+                    {isShowPassword ? <VisibilityOff /> : <Visibility />}
+                  </IconButton>
+
+                  {errors.password && (
+                    <FormHelperText
+                      sx={{
+                        marginTop: 1,
+                        color: 'error.main',
+                        display: 'flex',
+                        alignItems: 'center',
+                      }}
+                    >
+                      <ErrorOutlineIcon
+                        color='error'
+                        sx={{ marginRight: '8px', width: '16px' }}
+                      />
+                      {getInputFieldErrorMessage(errors.password)}
+                    </FormHelperText>
+                  )}
+                </FormControl>
 
                 <Button
                   variant='contained'

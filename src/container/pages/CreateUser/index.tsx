@@ -60,16 +60,21 @@ const CreateUser = () => {
     register,
     getValues,
     handleSubmit,
+    setValue,
     clearErrors,
   } = useForm<CreateUserType>({
     mode: 'onChange',
   });
-
-  //on Handle Show Password
+  const [userRole, setUserRole] = useState<string>('');
   const handleClickShowPassword = () => {
     setIsShowPassword((prev) => !prev);
   };
 
+  const handleMouseDownPassword = (
+    event: React.MouseEvent<HTMLButtonElement>
+  ) => {
+    event.preventDefault(); // Prevents the input field from losing focus when clicking the icon
+  };
   const handleFileChange = (event: any) => {
     const file = event.target.files[0];
     if (file) setSelectedPicture(file.name);
@@ -168,7 +173,7 @@ const CreateUser = () => {
                         error={Boolean(errors.userName)}
                         sx={{
                           '& .MuiInputBase-root': {
-                            paddingRight: '24px',
+                            paddingRight: errors.userName ? '48px' : '24px',
                           },
                         }}
                       />
@@ -183,7 +188,7 @@ const CreateUser = () => {
                         >
                           <ErrorOutlineIcon
                             color='error'
-                            sx={{ marginRight: '8px' }}
+                            sx={{ marginRight: '8px', width: '16px' }}
                           />
                           {getInputFieldErrorMessage(errors.userName)}
                         </FormHelperText>
@@ -207,7 +212,7 @@ const CreateUser = () => {
                           required: `${t('passwordRequired')}`,
                           pattern: {
                             value: /^[A-Za-z0-9]+$/,
-                            message: `${t('passwordAlphanumeric')}`,
+                            message: `${t('passwordIsInvalid')}`,
                           },
                         })}
                         placeholder={t('passwordPlaceholder')}
@@ -220,6 +225,25 @@ const CreateUser = () => {
                           '& .MuiInputAdornment-root': {
                             display: 'flex',
                             alignItems: 'center',
+                          },
+                        }}
+                        slotProps={{
+                          input: {
+                            endAdornment: (
+                              <InputAdornment position='end'>
+                                <IconButton
+                                  aria-label='toggle password visibility'
+                                  onClick={handleClickShowPassword}
+                                  onMouseDown={handleMouseDownPassword}
+                                >
+                                  {isShowPassword ? (
+                                    <VisibilityOff />
+                                  ) : (
+                                    <Visibility />
+                                  )}
+                                </IconButton>
+                              </InputAdornment>
+                            ),
                           },
                         }}
                       />
@@ -235,7 +259,7 @@ const CreateUser = () => {
                         >
                           <ErrorOutlineIcon
                             color='error'
-                            sx={{ marginRight: '8px' }}
+                            sx={{ marginRight: '8px', width: '16px' }}
                           />
                           {getInputFieldErrorMessage(errors.password)}
                         </FormHelperText>
@@ -277,7 +301,7 @@ const CreateUser = () => {
                         >
                           <ErrorOutlineIcon
                             color='error'
-                            sx={{ marginRight: '8px' }}
+                            sx={{ marginRight: '8px', width: '16px' }}
                           />
                           {getInputFieldErrorMessage(errors.email)}
                         </FormHelperText>
@@ -291,78 +315,125 @@ const CreateUser = () => {
                   className={styles.spaceBetweenDivs}
                 >
                   <Grid2 size={6}>
-                    <TextField
-                      {...register('phoneNumber', {
-                        required: `${t('phoneNumberRequired')}`,
-                        pattern: {
-                          value: /^[0-9]{10}$/,
-                          message: `${t('invalidPhoneNumber')}`,
-                        },
-                      })}
-                      placeholder={t('phoneNumberPlaceholder')}
-                      id='phone-number'
-                      data-testid='phone-number'
+                    <FormControl
+                      fullWidth
                       error={Boolean(errors.phoneNumber)}
-                      helperText={
-                        errors.phoneNumber ? errors.phoneNumber.message : ''
-                      }
-                      slotProps={{
-                        input: {
-                          endAdornment: errors.phoneNumber && (
-                            <InputAdornment position='end'>
-                              <ErrorOutlineIcon color='error' />
-                            </InputAdornment>
-                          ),
-                        },
-                      }}
-                      fullWidth
-                    />
+                      sx={{ position: 'relative' }}
+                    >
+                      <TextField
+                        {...register('phoneNumber', {
+                          required: t('phoneNumberRequired'),
+                          pattern: {
+                            value: /^[0-9]{10}$/,
+                            message: t('invalidPhoneNumber'),
+                          },
+                        })}
+                        placeholder={t('phoneNumberPlaceholder')}
+                        id='phone-number'
+                        data-testid='phone-number'
+                        error={Boolean(errors.phoneNumber)}
+                        sx={{
+                          '& .MuiInputBase-root': {
+                            paddingRight: '24px',
+                          },
+                        }}
+                      />
+                      {errors.phoneNumber && (
+                        <FormHelperText
+                          sx={{
+                            marginTop: 1,
+                            color: 'error.main',
+                            display: 'flex',
+                            alignItems: 'center',
+                          }}
+                        >
+                          <ErrorOutlineIcon
+                            color='error'
+                            sx={{ marginRight: '8px', width: '16px' }}
+                          />
+                          {getInputFieldErrorMessage(errors.phoneNumber)}
+                        </FormHelperText>
+                      )}
+                    </FormControl>
                   </Grid2>
+
                   <Grid2 size={6}>
-                    <TextField
-                      {...register('location', {
-                        required: `${t('locationRequired')}`,
-                      })}
-                      placeholder={t('locationPlaceholder')}
-                      id='location'
-                      data-testid='location'
-                      error={Boolean(errors.location)}
-                      helperText={
-                        errors.location ? errors.location.message : ''
-                      }
-                      slotProps={{
-                        input: {
-                          endAdornment: errors.location && (
-                            <InputAdornment position='end'>
-                              <ErrorOutlineIcon color='error' />
-                            </InputAdornment>
-                          ),
-                        },
-                      }}
+                    <FormControl
                       fullWidth
-                    />
+                      error={Boolean(errors.location)}
+                      sx={{ position: 'relative' }}
+                    >
+                      <TextField
+                        {...register('location', {
+                          required: t('locationRequired'),
+                        })}
+                        placeholder={t('locationPlaceholder')}
+                        id='location'
+                        data-testid='location'
+                        error={Boolean(errors.location)}
+                        sx={{
+                          '& .MuiInputBase-root': {
+                            paddingRight: '24px',
+                          },
+                        }}
+                      />
+                      {errors.location && (
+                        <FormHelperText
+                          sx={{
+                            marginTop: 1,
+                            color: 'error.main',
+                            display: 'flex',
+                            alignItems: 'center',
+                          }}
+                        >
+                          <ErrorOutlineIcon
+                            color='error'
+                            sx={{ marginRight: '8px', width: '16px' }}
+                          />
+                          {errors.location.message}
+                        </FormHelperText>
+                      )}
+                    </FormControl>
                   </Grid2>
                 </Grid2>
                 <Grid2 container spacing={2}>
                   <Grid2 size={6} className={styles.spaceBetweenDivs}>
-                    <TextField
-                      {...register('address')}
-                      placeholder={t('addressPlaceholder')}
-                      id='address'
-                      data-testid='address'
-                      error={Boolean(errors.address)}
-                      helperText={errors.address ? errors.address.message : ''}
-                      slotProps={{
-                        input: {
-                          endAdornment: errors.address && (
-                            <InputAdornment position='end'>
-                              <ErrorOutlineIcon color='error' />
-                            </InputAdornment>
-                          ),
-                        },
-                      }}
+                    <FormControl
                       fullWidth
-                    />
+                      error={Boolean(errors.address)}
+                      sx={{ position: 'relative' }}
+                    >
+                      <TextField
+                        {...register('address', {
+                          required: t('addressRequired'),
+                        })}
+                        placeholder={t('addressPlaceholder')}
+                        id='address'
+                        data-testid='address'
+                        error={Boolean(errors.address)}
+                        sx={{
+                          '& .MuiInputBase-root': {
+                            paddingRight: '24px',
+                          },
+                        }}
+                      />
+                      {errors.address && (
+                        <FormHelperText
+                          sx={{
+                            marginTop: 1,
+                            color: 'error.main',
+                            display: 'flex',
+                            alignItems: 'center',
+                          }}
+                        >
+                          <ErrorOutlineIcon
+                            color='error'
+                            sx={{ marginRight: '8px', width: '16px' }}
+                          />
+                          {errors.address.message}
+                        </FormHelperText>
+                      )}
+                    </FormControl>
                   </Grid2>
                   <Grid2 size={6} className={styles.spaceBetweenDivs}>
                     <Button
@@ -406,151 +477,240 @@ const CreateUser = () => {
                 {t('experience')}
               </Typography>
               <Box className={styles.spaceBetweenDivs}>
-                <TextField
-                  {...register('joiningDate', {
-                    required: `${t('joiningDateRequired')}`,
-                  })}
-                  id='joining-date'
-                  data-testid='joining-date'
-                  type='date'
-                  error={Boolean(errors.joiningDate)}
-                  helperText={
-                    errors.joiningDate ? errors.joiningDate.message : ''
-                  }
-                  slotProps={{
-                    input: {
-                      endAdornment: errors.joiningDate && (
-                        <InputAdornment position='end'>
-                          <ErrorOutlineIcon color='error' />
-                        </InputAdornment>
-                      ),
-                    },
-                  }}
+                <FormControl
                   fullWidth
-                />
+                  error={Boolean(errors.joiningDate)}
+                  sx={{ position: 'relative' }}
+                >
+                  <TextField
+                    {...register('joiningDate', {
+                      required: t('joiningDateRequired'),
+                    })}
+                    id='joining-date'
+                    data-testid='joining-date'
+                    type='date'
+                    error={Boolean(errors.joiningDate)}
+                    sx={{
+                      '& .MuiInputBase-root': {
+                        paddingRight: '24px',
+                      },
+                    }}
+                    slotProps={{
+                      inputLabel: {
+                        shrink: true,      
+                      },
+                    }}
+                    fullWidth
+                  />
+                  {errors.joiningDate && (
+                    <FormHelperText
+                      sx={{
+                        marginTop: 1,
+                        color: 'error.main',
+                        display: 'flex',
+                        alignItems: 'center',
+                      }}
+                    >
+                      <ErrorOutlineIcon
+                        color='error'
+                        sx={{ marginRight: '8px', width: '16px' }}
+                      />
+                      {errors.joiningDate.message}
+                    </FormHelperText>
+                  )}
+                </FormControl>
               </Box>
               <Box className={styles.spaceBetweenDivs}>
-                <TextField
-                  {...register('previousCompany')}
-                  id='previous-company'
-                  data-testid='previous-company'
-                  placeholder={t('previousCompanyPlaceholder')}
-                  error={Boolean(errors.previousCompany)}
-                  helperText={
-                    errors.previousCompany ? errors.previousCompany.message : ''
-                  }
-                  slotProps={{
-                    input: {
-                      endAdornment: errors.previousCompany && (
-                        <InputAdornment position='end'>
-                          <ErrorOutlineIcon color='error' />
-                        </InputAdornment>
-                      ),
-                    },
-                  }}
+                <FormControl
                   fullWidth
-                />
+                  error={Boolean(errors.previousCompany)}
+                  sx={{ position: 'relative' }}
+                >
+                  <TextField
+                    {...register('previousCompany', {
+                      required: t('previousCompanyNameRequired'),
+                    })}
+                    id='previous-company'
+                    data-testid='previous-company'
+                    placeholder={t('previousCompanyPlaceholder')}
+                    error={Boolean(errors.previousCompany)}
+                    sx={{
+                      '& .MuiInputBase-root': {
+                        paddingRight: '24px',
+                      },
+                    }}
+                    fullWidth
+                  />
+                  {errors.previousCompany && (
+                    <FormHelperText
+                      sx={{
+                        marginTop: 1,
+                        color: 'error.main',
+                        display: 'flex',
+                        alignItems: 'center',
+                      }}
+                    >
+                      <ErrorOutlineIcon
+                        color='error'
+                        sx={{ marginRight: '8px', width: '16px' }}
+                      />
+                      {errors.previousCompany.message}
+                    </FormHelperText>
+                  )}
+                </FormControl>
               </Box>
               <Box>
                 <Grid2 size={12} className={styles.spaceBetweenDivs}>
-                  <TextField
-                    {...register('experienceInYears')}
-                    id='experience-in-years'
-                    data-testid='experience-in-years'
-                    placeholder={t('experienceYearsPlaceholder')}
-                    error={Boolean(errors.experienceInYears)}
-                    helperText={
-                      errors.experienceInYears
-                        ? errors.experienceInYears.message
-                        : ''
-                    }
-                    slotProps={{
-                      input: {
-                        endAdornment: errors.experienceInYears && (
-                          <InputAdornment position='end'>
-                            <ErrorOutlineIcon color='error' />
-                          </InputAdornment>
-                        ),
-                      },
-                    }}
+                  <FormControl
                     fullWidth
-                  />
+                    error={Boolean(errors.experienceInYears)}
+                    sx={{ position: 'relative' }}
+                  >
+                    <TextField
+                      {...register('experienceInYears', {
+                        required: t('experienceYearsRequired'),
+                        pattern: {
+                          value: /^[0-9]+$/,
+                          message: t('invalidExperienceYears'),
+                        },
+                      })}
+                      id='experience-in-years'
+                      data-testid='experience-in-years'
+                      placeholder={t('experienceYearsPlaceholder')}
+                      error={Boolean(errors.experienceInYears)}
+                      sx={{
+                        '& .MuiInputBase-root': {
+                          paddingRight: '24px',
+                        },
+                      }}
+                      fullWidth
+                    />
+                    {errors.experienceInYears && (
+                      <FormHelperText
+                        sx={{
+                          marginTop: 1,
+                          color: 'error.main',
+                          display: 'flex',
+                          alignItems: 'center',
+                        }}
+                      >
+                        <ErrorOutlineIcon
+                          color='error'
+                          sx={{ marginRight: '8px', width: '16px' }}
+                        />
+                        {errors.experienceInYears.message}
+                      </FormHelperText>
+                    )}
+                  </FormControl>
                 </Grid2>
                 <Grid2 size={12} className={styles.spaceBetweenDivs}>
-                  <TextField
-                    {...register('experienceInMonths')}
-                    id='experience-in-months'
-                    data-testid='experience-in-months'
-                    placeholder={t('experienceMonthsPlaceholder')}
-                    error={Boolean(errors.experienceInMonths)}
-                    helperText={
-                      errors.experienceInMonths
-                        ? errors.experienceInMonths.message
-                        : ''
-                    }
-                    slotProps={{
-                      input: {
-                        endAdornment: errors.experienceInMonths && (
-                          <InputAdornment position='end'>
-                            <ErrorOutlineIcon color='error' />
-                          </InputAdornment>
-                        ),
-                      },
-                    }}
+                  <FormControl
                     fullWidth
-                  />
+                    error={Boolean(errors.experienceInMonths)}
+                    sx={{ position: 'relative' }}
+                  >
+                    <TextField
+                      {...register('experienceInMonths', {
+                        required: t('monthsExperienceRequired'),
+                        pattern: {
+                          value: /^[0-9]+$/,
+                          message: t('invalidExperienceMonths'),
+                        },
+                      })}
+                      id='experience-in-months'
+                      data-testid='experience-in-months'
+                      placeholder={t('experienceMonthsPlaceholder')}
+                      error={Boolean(errors.experienceInMonths)}
+                      sx={{
+                        '& .MuiInputBase-root': {
+                          paddingRight: '24px',
+                        },
+                      }}
+                      fullWidth
+                    />
+                    {errors.experienceInMonths && (
+                      <FormHelperText
+                        sx={{
+                          marginTop: 1,
+                          color: 'error.main',
+                          display: 'flex',
+                          alignItems: 'center',
+                        }}
+                      >
+                        <ErrorOutlineIcon
+                          color='error'
+                          sx={{ marginRight: '8px', width: '16px' }}
+                        />
+                        {errors.experienceInMonths.message}
+                      </FormHelperText>
+                    )}
+                  </FormControl>
                 </Grid2>
               </Box>
             </Grid2>
           </Grid2>
+
           <Grid2 container spacing={2} className={styles.rightSection}>
             <Grid2 size={12}>
               <Typography variant='h6' className={styles.sectionTitle}>
                 {t('userRole')}
               </Typography>
-              <TextField
-                {...register('role', {
-                  required: `${t('requiredRole')}`,
-                })}
-                id='user-role'
-                data-testid='user-role'
-                select
+              <FormControl
                 fullWidth
                 error={Boolean(errors.role)}
-                helperText={
-                  errors.role ? getInputFieldErrorMessage(errors.role) : ''
-                }
-                SelectProps={{
-                  IconComponent: errors.role
-                    ? ErrorOutlineIcon
-                    : KeyboardArrowDownIcon,
-                  sx: {
-                    '&.MuiOutlinedInput-root': { position: 'relative' },
-                    '& .MuiSelect-icon': {
-                      color: errors.role ? 'red' : 'inherit',
-                      right: errors.role ? 40 : 10,
-                    },
-                  },
-                }}
-                sx={{
-                  '& .MuiSelect-select': {
-                    paddingRight: errors.role ? '48px' : '24px',
-                  },
-                }}
-                onChange={(e) => {
-                  clearErrors('role');
-                }}
+                sx={{ position: 'relative' }}
               >
-                <MenuItem value='' disabled>
-                  {t('selectOption')}
-                </MenuItem>
-                {userRoleOptions.map((option, index) => (
-                  <MenuItem key={`${option}-${index}`} value={option}>
-                    {option}
-                  </MenuItem>
-                ))}
-              </TextField>
+                <TextField
+                  {...register('role', {
+                    required: t('userRoleRequired'),
+                  })}
+                  id='user-role'
+                  data-testid='user-role'
+                  select
+                  fullWidth
+                  error={Boolean(errors.role)}
+                  value={userRole || ''}
+                  onChange={(e) => {
+                    clearErrors('role');
+                    setUserRole(e.target.value);
+                    setValue('role', e.target.value);
+                  }}
+                  slotProps={{
+                    select: {
+                      displayEmpty: true,
+                      renderValue: (selected) =>
+                        typeof selected === 'string' && selected.trim() !== ''
+                          ? selected
+                          : t('selectOption'),
+                    },
+                  }}
+                >
+                  {userRoleOptions.map((option, index) => (
+                    <MenuItem key={`${option}-${index}`} value={option}>
+                      {option}
+                    </MenuItem>
+                  ))}
+                </TextField>
+
+                {errors.role && (
+                  <FormHelperText
+                    sx={{
+                      marginTop: 1,
+                      color: 'error.main',
+                      display: 'flex',
+                      alignItems: 'center',
+                    }}
+                  >
+                    <ErrorOutlineIcon
+                      color='error'
+                      sx={{ marginRight: '8px', width: '16px' }}
+                    />
+                    {getInputFieldErrorMessage(errors.role)}
+                  </FormHelperText>
+                )}
+              </FormControl>
             </Grid2>
+
             <Grid2 size={12}>
               <Typography variant='h6' className={styles.sectionTitle}>
                 {t('usersPermission')}
