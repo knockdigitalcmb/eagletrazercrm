@@ -1,6 +1,7 @@
 {
   "loginAccount": "Login Account",
   "employeeID": "Employee ID",
+  "employeeIDIsInvalid": "Employee ID is invalid",
   "password": "Password",
   "login": "Login",
   "authenticationCode": "Authentication Code",
@@ -18,6 +19,7 @@
   "userNamePlaceholder": "User Name *",
   "userNameRequired": "User Name is required",
   "passwordPlaceholder": "Password *",
+  "passwordIsInvalid": "Password is invalid",
   "passwordRequired": "Password is required",
   "passwordAlphanumeric": "Password should contains only Alphabets and Numbers",
   "emailPlaceholder": "Email ID *",
@@ -29,12 +31,15 @@
   "locationPlaceholder": "Location *",
   "locationRequired": "Location is required",
   "addressPlaceholder": "Address ",
+  "addressRequired": "Address is required",
   "chooseProfilePicture": "Choose Profile Image",
   "fileSize": "File size should not exceed 2MB(JPEG,PNG)",
   "joiningDateRequired": "Joining date is required.",
   "experience": "Experience",
   "previousCompanyPlaceholder": "Previous Company Name",
+  "previousCompanyNameRequired": "Previous Company Name is required",
   "experienceYearsPlaceholder": "Years of Experience",
+  "experienceYearsRequired": "Experience years are required",
   "experienceMonthsPlaceholder": "Months of Experience",
   "userRole": "User Role ",
   "selectOption": "'Select option *'",
@@ -47,5 +52,9 @@
   "save": "Save",
   "createUser": "Create User",
   "requiredRole": "Select user role",
-  "submit": "Submit"
+  "submit": "Submit",
+  "invalidExperienceYears": "Invalid experience years",
+  "monthsExperienceRequired": "Months of experience is required",
+  "invalidExperienceMonths": "Invalid experience months",
+  "userRoleRequired": "User Role is required"
 }
