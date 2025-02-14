@@ -188,13 +188,13 @@ const OTPPage = () => {
   };
   return (
     <Box data-testid='otppage' className={styles.otppageContainer}>
-      <Grid container spacing={2}>
-        <Grid size={7} className={styles.alignCenter}>
+      <Grid container spacing={{ xs: 0, md: 2 }} direction={{md:'row',sm:'column'}}>
+        <Grid size={{ md: 7, sm: 12 }} className={styles.alignCenter}>
           <div className={styles.OtpImageWrapper}>
             <OtpImage />
           </div>
         </Grid>
-        <Grid size={5} className={styles.alignCenter}>
+        <Grid size={{ md: 5, sm: 12 }}  className={styles.alignCenter}>
           <div className={styles.otpFormWrapper}>
             <div className={styles.eagleTrazer}>
               <img src={EagleTrazer} alt='eagle-logo' title='Eagle Trazer' />
