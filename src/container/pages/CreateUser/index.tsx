@@ -19,7 +19,6 @@ import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import ErrorOutlineIcon from '@mui/icons-material/ErrorOutline';
-import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import FormControl from '@mui/material/FormControl';
 import FormHelperText from '@mui/material/FormHelperText';
 import { useForm } from 'react-hook-form';
@@ -73,7 +72,7 @@ const CreateUser = () => {
   const handleMouseDownPassword = (
     event: React.MouseEvent<HTMLButtonElement>
   ) => {
-    event.preventDefault(); // Prevents the input field from losing focus when clicking the icon
+    event.preventDefault();
   };
   const handleFileChange = (event: any) => {
     const file = event.target.files[0];
@@ -221,12 +220,6 @@ const CreateUser = () => {
                         type={isShowPassword ? 'text' : 'password'}
                         error={Boolean(errors.password)}
                         fullWidth
-                        sx={{
-                          '& .MuiInputAdornment-root': {
-                            display: 'flex',
-                            alignItems: 'center',
-                          },
-                        }}
                         slotProps={{
                           input: {
                             endAdornment: (
@@ -235,11 +228,12 @@ const CreateUser = () => {
                                   aria-label='toggle password visibility'
                                   onClick={handleClickShowPassword}
                                   onMouseDown={handleMouseDownPassword}
+                                  size='small' // Set IconButton size to small
                                 >
                                   {isShowPassword ? (
-                                    <VisibilityOff />
+                                    <VisibilityOff fontSize='small' /> // Set icon size to small
                                   ) : (
-                                    <Visibility />
+                                    <Visibility fontSize='small' /> // Set icon size to small
                                   )}
                                 </IconButton>
                               </InputAdornment>
@@ -266,6 +260,7 @@ const CreateUser = () => {
                       )}
                     </FormControl>
                   </Grid2>
+
                   <Grid2 size={6}>
                     <FormControl
                       fullWidth
@@ -497,7 +492,7 @@ const CreateUser = () => {
                     }}
                     slotProps={{
                       inputLabel: {
-                        shrink: true,      
+                        shrink: true,
                       },
                     }}
                     fullWidth
@@ -509,6 +504,8 @@ const CreateUser = () => {
                         color: 'error.main',
                         display: 'flex',
                         alignItems: 'center',
+                        justifyContent: 'flex-start',
+                        marginLeft: '-2px',
                       }}
                     >
                       <ErrorOutlineIcon
@@ -548,6 +545,8 @@ const CreateUser = () => {
                         color: 'error.main',
                         display: 'flex',
                         alignItems: 'center',
+                        justifyContent: 'flex-start',
+                        marginLeft: '-2px',
                       }}
                     >
                       <ErrorOutlineIcon
@@ -592,6 +591,8 @@ const CreateUser = () => {
                           color: 'error.main',
                           display: 'flex',
                           alignItems: 'center',
+                          justifyContent: 'flex-start',
+                          marginLeft: '-2px',
                         }}
                       >
                         <ErrorOutlineIcon
@@ -635,6 +636,8 @@ const CreateUser = () => {
                           color: 'error.main',
                           display: 'flex',
                           alignItems: 'center',
+                          justifyContent: 'flex-start',
+                          marginLeft: '-2px',
                         }}
                       >
                         <ErrorOutlineIcon
@@ -681,7 +684,7 @@ const CreateUser = () => {
                       renderValue: (selected) =>
                         typeof selected === 'string' && selected.trim() !== ''
                           ? selected
-                          : t('selectOption'),
+                          : t('chooseAnOption'),
                     },
                   }}
                 >
@@ -691,7 +694,6 @@ const CreateUser = () => {
                     </MenuItem>
                   ))}
                 </TextField>
-
                 {errors.role && (
                   <FormHelperText
                     sx={{
@@ -699,6 +701,8 @@ const CreateUser = () => {
                       color: 'error.main',
                       display: 'flex',
                       alignItems: 'center',
+                      justifyContent: 'flex-start',
+                      marginLeft: '-2px',
                     }}
                   >
                     <ErrorOutlineIcon
