@@ -1,7 +1,7 @@
 import React from 'react';
 import { Box, Typography } from '@mui/material';
 import { useTranslation } from 'react-i18next';
-import SidePanel from 'components/SidePanel';
+import SidePanel from '../../../components/SidePanel';
 
 import styles from './Dashboard.module.scss';
 
