@@ -107,18 +107,21 @@ const CreateUser = () => {
         >
           <Grid2
             container
-            spacing={3}
+            spacing={{ md: 3, sm: 0 }}
             className={styles.leftSection}
-            direction='row'
-            height='380px'
+            direction={{ md: 'row', sm: 'column' }}
+            height={{ md: '380px' }}
           >
-            <Grid2 size={7} className={styles.sectionBg}>
+            <Grid2 size={{ md: 7, sm: 12 }} className={styles.sectionBg}>
               <Typography variant='h6' className={styles.sectionTitle}>
                 {t('basicInformation')}
               </Typography>
               <Box className={styles.basicInformationSection}>
-                <Grid2 container spacing={2}>
-                  <Grid2 size={6} className={styles.spaceBetweenDivs}>
+                <Grid2 container spacing={{ md: 2, sm: 0, xs: 0 }}>
+                  <Grid2
+                    size={{ md: 6, sm: 12, xs: 12 }}
+                    className={styles.spaceBetweenDivs}
+                  >
                     <FormControl
                       fullWidth
                       error={Boolean(errors.employeeID)}
@@ -156,7 +159,10 @@ const CreateUser = () => {
                       )}
                     </FormControl>
                   </Grid2>
-                  <Grid2 size={6} className={styles.spaceBetweenDivs}>
+                  <Grid2
+                    size={{ md: 6, sm: 12, xs: 12 }}
+                    className={styles.spaceBetweenDivs}
+                  >
                     <FormControl
                       fullWidth
                       error={Boolean(errors.userName)}
@@ -197,10 +203,10 @@ const CreateUser = () => {
                 </Grid2>
                 <Grid2
                   container
-                  spacing={2}
+                  spacing={{ md: 2, sm: 2 }}
                   className={styles.spaceBetweenDivs}
                 >
-                  <Grid2 size={6}>
+                  <Grid2 size={{ md: 6, sm: 12, xs: 12 }}>
                     <FormControl
                       fullWidth
                       error={Boolean(errors.password)}
@@ -228,12 +234,12 @@ const CreateUser = () => {
                                   aria-label='toggle password visibility'
                                   onClick={handleClickShowPassword}
                                   onMouseDown={handleMouseDownPassword}
-                                  size='small' // Set IconButton size to small
+                                  size='small'
                                 >
                                   {isShowPassword ? (
-                                    <VisibilityOff fontSize='small' /> // Set icon size to small
+                                    <VisibilityOff fontSize='small' />
                                   ) : (
-                                    <Visibility fontSize='small' /> // Set icon size to small
+                                    <Visibility fontSize='small' />
                                   )}
                                 </IconButton>
                               </InputAdornment>
@@ -260,8 +266,7 @@ const CreateUser = () => {
                       )}
                     </FormControl>
                   </Grid2>
-
-                  <Grid2 size={6}>
+                  <Grid2 size={{ md: 6, sm: 12, xs: 12 }}>
                     <FormControl
                       fullWidth
                       error={Boolean(errors.email)}
@@ -306,10 +311,10 @@ const CreateUser = () => {
                 </Grid2>
                 <Grid2
                   container
-                  spacing={2}
+                  spacing={{ md: 2, sm: 2 }}
                   className={styles.spaceBetweenDivs}
                 >
-                  <Grid2 size={6}>
+                  <Grid2 size={{ md: 6, sm: 12, xs: 12 }}>
                     <FormControl
                       fullWidth
                       error={Boolean(errors.phoneNumber)}
@@ -352,7 +357,7 @@ const CreateUser = () => {
                     </FormControl>
                   </Grid2>
 
-                  <Grid2 size={6}>
+                  <Grid2 size={{ md: 6, sm: 12, xs: 12 }}>
                     <FormControl
                       fullWidth
                       error={Boolean(errors.location)}
@@ -391,8 +396,11 @@ const CreateUser = () => {
                     </FormControl>
                   </Grid2>
                 </Grid2>
-                <Grid2 container spacing={2}>
-                  <Grid2 size={6} className={styles.spaceBetweenDivs}>
+                <Grid2 container spacing={{ md: 2, sm: 0, xs: 0 }}>
+                  <Grid2
+                    size={{ md: 6, sm: 12, xs: 12 }}
+                    className={styles.spaceBetweenDivs}
+                  >
                     <FormControl
                       fullWidth
                       error={Boolean(errors.address)}
@@ -430,7 +438,10 @@ const CreateUser = () => {
                       )}
                     </FormControl>
                   </Grid2>
-                  <Grid2 size={6} className={styles.spaceBetweenDivs}>
+                  <Grid2
+                    size={{ md: 6, sm: 12, xs: 12 }}
+                    className={styles.spaceBetweenDivs}
+                  >
                     <Button
                       component='label'
                       variant='contained'
@@ -446,7 +457,6 @@ const CreateUser = () => {
                       />
                     </Button>
                     <Typography variant='body2' className={styles.fileSize}>
-                      {' '}
                       {t('fileSize')}
                     </Typography>
                     {errors.profileImage && (
@@ -467,7 +477,10 @@ const CreateUser = () => {
                 </Grid2>
               </Box>
             </Grid2>
-            <Grid2 size={5} className={styles.sectionBg}>
+            <Grid2
+              size={{ md: 5, sm: 12, xs: 12 }}
+              className={styles.sectionBg}
+            >
               <Typography variant='h6' className={styles.sectionTitle}>
                 {t('experience')}
               </Typography>

@@ -15,15 +15,15 @@ import { useTranslation } from 'react-i18next';
 import { enqueueSnackbar } from 'notistack';
 import { useNavigate } from 'react-router-dom';
 import Loader from '../../../components/Loader';
-import { CRMServiceAPI } from '../../../services/CRMService';
 import { LoginForm } from '../../../models/type';
 import { defaultLoginProps } from '../../../constant/payload.const';
-import styles from './Login.module.scss';
-import { ReactComponent as LogInImage } from '../../../assets/images/login-bg.svg';
-import EagleTrazer from '../../../assets/images/eagle-trazer.png';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
 import { getInputFieldErrorMessage } from 'helper/formValidators';
 import ErrorOutlineIcon from '@mui/icons-material/ErrorOutline';
+
+import styles from './Login.module.scss';
+import { ReactComponent as LogInImage } from '../../../assets/images/login-bg.svg';
+import EagleTrazer from '../../../assets/images/eagle-trazer.png';
 
 const Login = () => {
   const { t } = useTranslation();
@@ -81,16 +81,19 @@ const Login = () => {
       });
     }
   };
-
   return (
     <Box data-testid='loginpage' className={styles.loginpageContainer}>
-      <Grid2 container spacing={2}>
-        <Grid2 size={7} className={styles.alignCenter}>
+      <Grid2
+        container
+        spacing={{ xs: 0, md: 2 }}
+        direction={{ xs: 'column', md: 'row' }}
+      >
+        <Grid2 size={{ md: 7, sm: 12 }} className={styles.alignCenter}>
           <div className={styles.loginImageWrapper}>
             <LogInImage />
           </div>
         </Grid2>
-        <Grid2 size={5} className={styles.alignCenter}>
+        <Grid2 size={{ md: 5, sm: 12 }} className={styles.alignCenter}>
           <div className={styles.loginFormWrapper}>
             <div className={styles.eagleTrazer}>
               <img src={EagleTrazer} alt='eagle-logo' title='Eagle Trazer' />
@@ -176,6 +179,13 @@ const Login = () => {
                               onClick={handleClickShowPassword}
                               onMouseDown={handleMouseDownPassword}
                               size='small'
+                              sx={{
+                                position: 'absolute',
+                                right: '10px',
+                                top: '50%',
+                                transform: 'translateY(-50%)',
+                                zIndex: 1,
+                              }}
                             >
                               {isShowPassword ? (
                                 <VisibilityOff fontSize='small' />
