@@ -22,7 +22,7 @@ import ErrorOutlineIcon from '@mui/icons-material/ErrorOutline';
 import FormControl from '@mui/material/FormControl';
 import FormHelperText from '@mui/material/FormHelperText';
 import { useForm } from 'react-hook-form';
-import SidePanel from 'components/SidePanel';
+import SidePanel from '../../../components/SidePanel';
 import {
   userPermissionOptions,
   userRoleOptions,
@@ -135,11 +135,6 @@ const CreateUser = () => {
                         id='employee-id'
                         data-testid='employee-id'
                         error={Boolean(errors.employeeID)}
-                        sx={{
-                          '& .MuiInputBase-root': {
-                            paddingRight: errors.employeeID ? '48px' : '24px',
-                          },
-                        }}
                       />
                       {errors.employeeID && (
                         <FormHelperText
@@ -176,11 +171,6 @@ const CreateUser = () => {
                         id='user-name'
                         data-testid='user-name'
                         error={Boolean(errors.userName)}
-                        sx={{
-                          '& .MuiInputBase-root': {
-                            paddingRight: errors.userName ? '48px' : '24px',
-                          },
-                        }}
                       />
                       {errors.userName && (
                         <FormHelperText
@@ -284,11 +274,6 @@ const CreateUser = () => {
                         id='email'
                         data-testid='email'
                         error={Boolean(errors.email)}
-                        sx={{
-                          '& .MuiInputBase-root': {
-                            paddingRight: '24px',
-                          },
-                        }}
                       />
                       {errors.email && (
                         <FormHelperText
@@ -332,11 +317,6 @@ const CreateUser = () => {
                         id='phone-number'
                         data-testid='phone-number'
                         error={Boolean(errors.phoneNumber)}
-                        sx={{
-                          '& .MuiInputBase-root': {
-                            paddingRight: '24px',
-                          },
-                        }}
                       />
                       {errors.phoneNumber && (
                         <FormHelperText
@@ -371,11 +351,6 @@ const CreateUser = () => {
                         id='location'
                         data-testid='location'
                         error={Boolean(errors.location)}
-                        sx={{
-                          '& .MuiInputBase-root': {
-                            paddingRight: '24px',
-                          },
-                        }}
                       />
                       {errors.location && (
                         <FormHelperText
@@ -414,11 +389,6 @@ const CreateUser = () => {
                         id='address'
                         data-testid='address'
                         error={Boolean(errors.address)}
-                        sx={{
-                          '& .MuiInputBase-root': {
-                            paddingRight: '24px',
-                          },
-                        }}
                       />
                       {errors.address && (
                         <FormHelperText
@@ -498,11 +468,6 @@ const CreateUser = () => {
                     data-testid='joining-date'
                     type='date'
                     error={Boolean(errors.joiningDate)}
-                    sx={{
-                      '& .MuiInputBase-root': {
-                        paddingRight: '24px',
-                      },
-                    }}
                     slotProps={{
                       inputLabel: {
                         shrink: true,
@@ -544,11 +509,6 @@ const CreateUser = () => {
                     data-testid='previous-company'
                     placeholder={t('previousCompanyPlaceholder')}
                     error={Boolean(errors.previousCompany)}
-                    sx={{
-                      '& .MuiInputBase-root': {
-                        paddingRight: '24px',
-                      },
-                    }}
                     fullWidth
                   />
                   {errors.previousCompany && (
@@ -590,11 +550,6 @@ const CreateUser = () => {
                       data-testid='experience-in-years'
                       placeholder={t('experienceYearsPlaceholder')}
                       error={Boolean(errors.experienceInYears)}
-                      sx={{
-                        '& .MuiInputBase-root': {
-                          paddingRight: '24px',
-                        },
-                      }}
                       fullWidth
                     />
                     {errors.experienceInYears && (
@@ -635,11 +590,6 @@ const CreateUser = () => {
                       data-testid='experience-in-months'
                       placeholder={t('experienceMonthsPlaceholder')}
                       error={Boolean(errors.experienceInMonths)}
-                      sx={{
-                        '& .MuiInputBase-root': {
-                          paddingRight: '24px',
-                        },
-                      }}
                       fullWidth
                     />
                     {errors.experienceInMonths && (

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   Box,
   Typography,
@@ -44,12 +44,18 @@ const Login = () => {
     defaultValues: defaultLoginProps,
   });
 
+  useEffect(() => {
+    console.log(formData);
+    if (formData?.employeeID.length > 0 && formData.password.length > 0) {
+      setIsButtonDisabled(false);
+    } else {
+      setIsButtonDisabled(true);
+    }
+  }, [formData]);
+
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setFormData((prev) => {
-      const updatedData = { ...prev, [e.target.name]: e.target.value };
-      setIsButtonDisabled(!updatedData.employeeID || !updatedData.password);
-      return updatedData;
-    });
+    const updatedData: any = { ...formData, [e.target.name]: e.target.value };
+    setFormData(updatedData);
   };
 
   const handleClickShowPassword = () => {
@@ -154,7 +160,7 @@ const Login = () => {
                 <FormControl
                   fullWidth
                   error={Boolean(errors.password)}
-                  sx={{ position: 'relative', marginBottom: '16px' }} // Added marginBottom for spacing
+                  sx={{ position: 'relative', marginBottom: '16px' }}
                 >
                   <TextField
                     {...register('password', {
@@ -170,6 +176,7 @@ const Login = () => {
                     type={isShowPassword ? 'text' : 'password'}
                     error={Boolean(errors.password)}
                     fullWidth
+                    onChange={handleInputChange}
                     slotProps={{
                       input: {
                         endAdornment: (
@@ -223,7 +230,7 @@ const Login = () => {
                   data-testid='login-submit'
                   fullWidth
                   className={styles.submitButton}
-                  disabled={isButtonDisabled || isLoading}
+                  disabled={isButtonDisabled}
                 >
                   {t('login')}
                 </Button>
