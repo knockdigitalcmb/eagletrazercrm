@@ -84,13 +84,14 @@ const Login = () => {
   };
   return (
     <Box data-testid='loginpage' className={styles.loginpageContainer}>
-      <Grid2 container spacing={2}>
-        <Grid2 size={7} className={styles.alignCenter}>
+      <Grid2 container  spacing={{ xs: 0, md: 2 }}
+        direction={{ xs: 'column', md: 'row' }}>
+        <Grid2 size={{ md: 7, sm: 12 }} className={styles.alignCenter}>
           <div className={styles.loginImageWrapper}>
             <LogInImage />
           </div>
         </Grid2>
-        <Grid2 size={5} className={styles.alignCenter}>
+        <Grid2 size={{ md: 5, sm: 12 }} className={styles.alignCenter}>
           <div className={styles.loginFormWrapper}>
             <div className={styles.eagleTrazer}>
               <img src={EagleTrazer} alt='eagle-logo' title='Eagle Trazer' />

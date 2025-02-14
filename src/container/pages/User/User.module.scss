@@ -1,5 +1,11 @@
-@import '../../../assets/scss/variable';
+@import '../../../assets/scss/mixin';
 .createUserButton {
   text-align: right;
   width: 100%;
+  
+  @include respond-to($md){
+    display: flex;
+    justify-content: center;
+    min-width: 100vw;
+  }
 }

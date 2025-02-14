@@ -1,7 +1,21 @@
+@import '../../../assets/scss/mixin';
 .otppageContainer {
+  @include respond-to($sm){
+    display: flex;
+    justify-content: center;
+   }
   .OtpImageWrapper {
     width: 92%;
     height: 100%;
+    @include respond-to($xxl){
+      width:78%;
+    }
+    @include respond-to($md){
+      width:48%;
+    }
+    @include respond-to($sm){
+      display: none;
+    }
   }
   .alignCenter {
     display: flex;
@@ -9,14 +23,36 @@
     justify-content: center;
     align-items: center;
     min-height: 100vh;
+    @include respond-to($md){
+      min-height: auto;
+    }
     .otpFormWrapper {
       width: 60%;
       margin: 0 auto;
       text-align: center;
+      @include respond-to($md){
+        width:40%
+      }
+      @include respond-to($sm){
+        width: 100%;
+       display:flex;
+       flex-direction: column;
+       justify-content: center;
+       align-items: center;
+       min-height: 100vh;
+      }
       .eagleTrazer {
         width: 150px;
         height: 120px;
         margin: 0 auto;
+        @include respond-to($md){
+          width: 120px;
+          height: 100px;
+        }
+        @include respond-to($sm){
+          width: 200px;
+          height: 200px;
+        }
         img {
           width: 100%;
           height: 100%;
