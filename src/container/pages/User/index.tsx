@@ -9,7 +9,7 @@ const User = () => {
   const { t } = useTranslation();
   return (
     <Box component='main' sx={{ flexGrow: 1, p: 3, marginTop: '70px' }}>
-      <SidePanel menu='User' />
+      <SidePanel menu={t('user')} />
       <Box
         id='create-user'
         data-testid='create-user'

@@ -9,7 +9,7 @@ const Dashboard = () => {
   const { t } = useTranslation();
   return (
     <Box data-testid='dashboard-page' className={styles.dashboardContainer}>
-      <SidePanel menu='Dashboard' />
+      <SidePanel menu={t('dashboard')} />
       <Box component='main' sx={{ flexGrow: 1, p: 3, marginTop: '70px' }}>
         <Typography sx={{ marginBottom: 2 }}>
           welcome to the eagle trazer dashboard.

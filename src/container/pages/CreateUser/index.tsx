@@ -97,7 +97,7 @@ const CreateUser = () => {
 
   return (
     <Box data-testid='create-user-page' className={styles.dashboardContainer}>
-      <SidePanel menu='User' />
+      <SidePanel menu={t('user')} />
       <Box component='main' sx={{ flexGrow: 1, p: 3, marginTop: '70px' }}>
         <Grid2
           container
@@ -110,9 +110,24 @@ const CreateUser = () => {
             spacing={{ md: 3, sm: 0 }}
             className={styles.leftSection}
             direction={{ md: 'row', sm: 'column' }}
-            height={{ md: '380px' }}
+            height={{
+              md:
+                errors.employeeID ||
+                errors.userName ||
+                errors.password ||
+                errors.email ||
+                errors.phoneNumber ||
+                errors.location ||
+                errors.address ||
+                errors.profileImage
+                  ? 'auto'
+                  : '350px',
+            }}
           >
-            <Grid2 size={{ md: 7, sm: 12 }} className={styles.sectionBg}>
+            <Grid2
+              size={{ md: 7, sm: 12, xs: 12 }}
+              className={styles.sectionBg}
+            >
               <Typography variant='h6' className={styles.sectionTitle}>
                 {t('basicInformation')}
               </Typography>
@@ -137,14 +152,7 @@ const CreateUser = () => {
                         error={Boolean(errors.employeeID)}
                       />
                       {errors.employeeID && (
-                        <FormHelperText
-                          sx={{
-                            marginTop: 1,
-                            color: 'error.main',
-                            display: 'flex',
-                            alignItems: 'center',
-                          }}
-                        >
+                        <FormHelperText className={styles.formHelper}>
                           <ErrorOutlineIcon
                             color='error'
                             sx={{ marginRight: '8px', width: '16px' }}
@@ -161,7 +169,7 @@ const CreateUser = () => {
                     <FormControl
                       fullWidth
                       error={Boolean(errors.userName)}
-                      sx={{ position: 'relative' }}
+                      className={styles.formControlError}
                     >
                       <TextField
                         {...register('userName', {
@@ -173,14 +181,7 @@ const CreateUser = () => {
                         error={Boolean(errors.userName)}
                       />
                       {errors.userName && (
-                        <FormHelperText
-                          sx={{
-                            marginTop: 1,
-                            color: 'error.main',
-                            display: 'flex',
-                            alignItems: 'center',
-                          }}
-                        >
+                        <FormHelperText className={styles.formHelper}>
                           <ErrorOutlineIcon
                             color='error'
                             sx={{ marginRight: '8px', width: '16px' }}
@@ -200,7 +201,7 @@ const CreateUser = () => {
                     <FormControl
                       fullWidth
                       error={Boolean(errors.password)}
-                      sx={{ position: 'relative' }}
+                      className={styles.formControlError}
                     >
                       <TextField
                         {...register('password', {
@@ -239,14 +240,7 @@ const CreateUser = () => {
                       />
 
                       {errors.password && (
-                        <FormHelperText
-                          sx={{
-                            marginTop: 1,
-                            color: 'error.main',
-                            display: 'flex',
-                            alignItems: 'center',
-                          }}
-                        >
+                        <FormHelperText className={styles.formHelper}>
                           <ErrorOutlineIcon
                             color='error'
                             sx={{ marginRight: '8px', width: '16px' }}
@@ -260,7 +254,7 @@ const CreateUser = () => {
                     <FormControl
                       fullWidth
                       error={Boolean(errors.email)}
-                      sx={{ position: 'relative' }}
+                      className={styles.formControlError}
                     >
                       <TextField
                         {...register('email', {
@@ -276,14 +270,7 @@ const CreateUser = () => {
                         error={Boolean(errors.email)}
                       />
                       {errors.email && (
-                        <FormHelperText
-                          sx={{
-                            marginTop: 1,
-                            color: 'error.main',
-                            display: 'flex',
-                            alignItems: 'center',
-                          }}
-                        >
+                        <FormHelperText className={styles.formHelper}>
                           <ErrorOutlineIcon
                             color='error'
                             sx={{ marginRight: '8px', width: '16px' }}
@@ -303,30 +290,24 @@ const CreateUser = () => {
                     <FormControl
                       fullWidth
                       error={Boolean(errors.phoneNumber)}
-                      sx={{ position: 'relative' }}
+                      className={styles.formControlError}
                     >
                       <TextField
                         {...register('phoneNumber', {
-                          required: t('phoneNumberRequired'),
+                          required: `${t('phoneNumberRequired')} `,
                           pattern: {
                             value: /^[0-9]{10}$/,
-                            message: t('invalidPhoneNumber'),
+                            message: `${t('invalidPhoneNumber')} `,
                           },
                         })}
                         placeholder={t('phoneNumberPlaceholder')}
                         id='phone-number'
                         data-testid='phone-number'
                         error={Boolean(errors.phoneNumber)}
+                        fullWidth
                       />
                       {errors.phoneNumber && (
-                        <FormHelperText
-                          sx={{
-                            marginTop: 1,
-                            color: 'error.main',
-                            display: 'flex',
-                            alignItems: 'center',
-                          }}
-                        >
+                        <FormHelperText className={styles.formHelper}>
                           <ErrorOutlineIcon
                             color='error'
                             sx={{ marginRight: '8px', width: '16px' }}
@@ -341,11 +322,11 @@ const CreateUser = () => {
                     <FormControl
                       fullWidth
                       error={Boolean(errors.location)}
-                      sx={{ position: 'relative' }}
+                      className={styles.formControlError}
                     >
                       <TextField
                         {...register('location', {
-                          required: t('locationRequired'),
+                          required: `${t('locationRequired')}`,
                         })}
                         placeholder={t('locationPlaceholder')}
                         id='location'
@@ -353,14 +334,7 @@ const CreateUser = () => {
                         error={Boolean(errors.location)}
                       />
                       {errors.location && (
-                        <FormHelperText
-                          sx={{
-                            marginTop: 1,
-                            color: 'error.main',
-                            display: 'flex',
-                            alignItems: 'center',
-                          }}
-                        >
+                        <FormHelperText className={styles.formHelper}>
                           <ErrorOutlineIcon
                             color='error'
                             sx={{ marginRight: '8px', width: '16px' }}
@@ -379,33 +353,15 @@ const CreateUser = () => {
                     <FormControl
                       fullWidth
                       error={Boolean(errors.address)}
-                      sx={{ position: 'relative' }}
+                      className={styles.formControlError}
                     >
                       <TextField
-                        {...register('address', {
-                          required: t('addressRequired'),
-                        })}
+                        {...register('address')}
                         placeholder={t('addressPlaceholder')}
                         id='address'
                         data-testid='address'
                         error={Boolean(errors.address)}
                       />
-                      {errors.address && (
-                        <FormHelperText
-                          sx={{
-                            marginTop: 1,
-                            color: 'error.main',
-                            display: 'flex',
-                            alignItems: 'center',
-                          }}
-                        >
-                          <ErrorOutlineIcon
-                            color='error'
-                            sx={{ marginRight: '8px', width: '16px' }}
-                          />
-                          {errors.address.message}
-                        </FormHelperText>
-                      )}
                     </FormControl>
                   </Grid2>
                   <Grid2
@@ -458,11 +414,11 @@ const CreateUser = () => {
                 <FormControl
                   fullWidth
                   error={Boolean(errors.joiningDate)}
-                  sx={{ position: 'relative' }}
+                  className={styles.formControlError}
                 >
                   <TextField
                     {...register('joiningDate', {
-                      required: t('joiningDateRequired'),
+                      required: `${t('joiningDateRequired')}`,
                     })}
                     id='joining-date'
                     data-testid='joining-date'
@@ -499,36 +455,16 @@ const CreateUser = () => {
                 <FormControl
                   fullWidth
                   error={Boolean(errors.previousCompany)}
-                  sx={{ position: 'relative' }}
+                  className={styles.formControlError}
                 >
                   <TextField
-                    {...register('previousCompany', {
-                      required: t('previousCompanyNameRequired'),
-                    })}
+                    {...register('previousCompany')}
                     id='previous-company'
                     data-testid='previous-company'
                     placeholder={t('previousCompanyPlaceholder')}
                     error={Boolean(errors.previousCompany)}
                     fullWidth
                   />
-                  {errors.previousCompany && (
-                    <FormHelperText
-                      sx={{
-                        marginTop: 1,
-                        color: 'error.main',
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'flex-start',
-                        marginLeft: '-2px',
-                      }}
-                    >
-                      <ErrorOutlineIcon
-                        color='error'
-                        sx={{ marginRight: '8px', width: '16px' }}
-                      />
-                      {errors.previousCompany.message}
-                    </FormHelperText>
-                  )}
                 </FormControl>
               </Box>
               <Box>
@@ -536,80 +472,32 @@ const CreateUser = () => {
                   <FormControl
                     fullWidth
                     error={Boolean(errors.experienceInYears)}
-                    sx={{ position: 'relative' }}
+                    className={styles.formControlError}
                   >
                     <TextField
-                      {...register('experienceInYears', {
-                        required: t('experienceYearsRequired'),
-                        pattern: {
-                          value: /^[0-9]+$/,
-                          message: t('invalidExperienceYears'),
-                        },
-                      })}
+                      {...register('experienceInYears')}
                       id='experience-in-years'
                       data-testid='experience-in-years'
                       placeholder={t('experienceYearsPlaceholder')}
                       error={Boolean(errors.experienceInYears)}
                       fullWidth
                     />
-                    {errors.experienceInYears && (
-                      <FormHelperText
-                        sx={{
-                          marginTop: 1,
-                          color: 'error.main',
-                          display: 'flex',
-                          alignItems: 'center',
-                          justifyContent: 'flex-start',
-                          marginLeft: '-2px',
-                        }}
-                      >
-                        <ErrorOutlineIcon
-                          color='error'
-                          sx={{ marginRight: '8px', width: '16px' }}
-                        />
-                        {errors.experienceInYears.message}
-                      </FormHelperText>
-                    )}
                   </FormControl>
                 </Grid2>
                 <Grid2 size={12} className={styles.spaceBetweenDivs}>
                   <FormControl
                     fullWidth
                     error={Boolean(errors.experienceInMonths)}
-                    sx={{ position: 'relative' }}
+                    className={styles.formControlError}
                   >
                     <TextField
-                      {...register('experienceInMonths', {
-                        required: t('monthsExperienceRequired'),
-                        pattern: {
-                          value: /^[0-9]+$/,
-                          message: t('invalidExperienceMonths'),
-                        },
-                      })}
+                      {...register('experienceInMonths')}
                       id='experience-in-months'
                       data-testid='experience-in-months'
                       placeholder={t('experienceMonthsPlaceholder')}
                       error={Boolean(errors.experienceInMonths)}
                       fullWidth
                     />
-                    {errors.experienceInMonths && (
-                      <FormHelperText
-                        sx={{
-                          marginTop: 1,
-                          color: 'error.main',
-                          display: 'flex',
-                          alignItems: 'center',
-                          justifyContent: 'flex-start',
-                          marginLeft: '-2px',
-                        }}
-                      >
-                        <ErrorOutlineIcon
-                          color='error'
-                          sx={{ marginRight: '8px', width: '16px' }}
-                        />
-                        {errors.experienceInMonths.message}
-                      </FormHelperText>
-                    )}
                   </FormControl>
                 </Grid2>
               </Box>
@@ -624,12 +512,10 @@ const CreateUser = () => {
               <FormControl
                 fullWidth
                 error={Boolean(errors.role)}
-                sx={{ position: 'relative' }}
+                className={styles.formControlError}
               >
                 <TextField
-                  {...register('role', {
-                    required: t('userRoleRequired'),
-                  })}
+                  {...register('role')}
                   id='user-role'
                   data-testid='user-role'
                   select
@@ -657,24 +543,6 @@ const CreateUser = () => {
                     </MenuItem>
                   ))}
                 </TextField>
-                {errors.role && (
-                  <FormHelperText
-                    sx={{
-                      marginTop: 1,
-                      color: 'error.main',
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'flex-start',
-                      marginLeft: '-2px',
-                    }}
-                  >
-                    <ErrorOutlineIcon
-                      color='error'
-                      sx={{ marginRight: '8px', width: '16px' }}
-                    />
-                    {getInputFieldErrorMessage(errors.role)}
-                  </FormHelperText>
-                )}
               </FormControl>
             </Grid2>
 
