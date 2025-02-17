@@ -6,7 +6,7 @@ import styles from './Loader.module.scss';
 
 const Loader = () => {
   return (
-    <Box className={styles.loderWrapper}>
+    <Box className={styles.loderWrapper} data-testid='loader-component'>
       <CircularProgress />
     </Box>
   );
