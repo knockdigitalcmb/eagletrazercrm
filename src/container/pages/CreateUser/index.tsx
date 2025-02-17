@@ -111,17 +111,7 @@ const CreateUser = () => {
             className={styles.leftSection}
             direction={{ md: 'row', sm: 'column' }}
             height={{
-              md:
-                errors.employeeID ||
-                errors.userName ||
-                errors.password ||
-                errors.email ||
-                errors.phoneNumber ||
-                errors.location ||
-                errors.address ||
-                errors.profileImage
-                  ? 'auto'
-                  : '350px',
+              md: Object.keys(errors).length > 0 ? 'auto' : '350px',
             }}
           >
             <Grid2
