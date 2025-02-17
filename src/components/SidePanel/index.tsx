@@ -20,7 +20,7 @@ import { sideBarNavMenus } from '../../constant/common.constant';
 import MenuIcon from '@mui/icons-material/Menu';
 import CloseIcon from '@mui/icons-material/Close';
 import SearchBar from '../SearchBar/index';
-import SearchIcon from "@mui/icons-material/Search";
+import SearchIcon from '@mui/icons-material/Search';
 import UserNotification from '../UserNotification';
 import UserProfile from '../UserProfile';
 import { useTranslation } from 'react-i18next';
@@ -42,10 +42,10 @@ const openedMixin = (theme: Theme): CSSObject => ({
   borderRight: '1px solid #dee2e6',
   boxShadow:
     '0 2px 6px 0 rgba(0, 0, 0, 0.044), 0 2px 6px 0 rgba(0, 0, 0, 0.049)',
-    [theme.breakpoints.down('md')]: {
-      width: 0, // Hide sidebar on tablets and mobile
-      display: 'none',
-    },
+  [theme.breakpoints.down('md')]: {
+    width: 0, // Hide sidebar on tablets and mobile
+    display: 'none',
+  },
 });
 
 const closedMixin = (theme: Theme): CSSObject => ({
@@ -64,7 +64,7 @@ const closedMixin = (theme: Theme): CSSObject => ({
     width: `calc(${theme.spacing(8)} + 1px)`,
   },
   [theme.breakpoints.down('md')]: {
-    width: 0, 
+    width: 0,
     display: 'none',
   },
 });
@@ -108,8 +108,8 @@ const AppBar = styled(MuiAppBar, {
     },
   ],
   [theme.breakpoints.down('md')]: {
-    width: '100%', 
-    marginLeft: 0, 
+    width: '100%',
+    marginLeft: 0,
   },
 }));
 const Drawer = styled(MuiDrawer, {
@@ -160,7 +160,7 @@ const SidePanel = ({ menu }: Props) => {
   const navigate = useNavigate();
   const [open, setOpen] = React.useState(true);
   const [activeItem, setActiveItem] = React.useState<string>(menu);
-  const [search,setSearch]=React.useState(false);
+  const [search, setSearch] = React.useState(false);
 
   const handleDrawerOpen = () => {
     setOpen(!open);
@@ -173,20 +173,19 @@ const SidePanel = ({ menu }: Props) => {
   //handleDrawerClose
   const handleDrawerClose = () => {
     setOpen(true);
-
-  };// On Handle Search
-  const onHandleSearch=()=>{
-   setSearch(true)
-  }
+  }; // On Handle Search
+  const onHandleSearch = () => {
+    setSearch(true);
+  };
   //on Handle Close Search
-  const onHandleCloseSearch=()=>{
-    setSearch(false)
-  }
+  const onHandleCloseSearch = () => {
+    setSearch(false);
+  };
 
-  const isMediumScreen=useMediaQuery("(max-width:768px)")
-  React.useEffect(()=>{
-    if(isMediumScreen) setOpen(false)
-   },[isMediumScreen])
+  const isMediumScreen = useMediaQuery('(max-width:768px)');
+  React.useEffect(() => {
+    if (isMediumScreen) setOpen(false);
+  }, [isMediumScreen]);
 
   return (
     <Box data-testid='dashboard-page' className={styles.dashboardContainer}>
@@ -199,30 +198,33 @@ const SidePanel = ({ menu }: Props) => {
               aria-label='open drawer'
               onClick={handleDrawerOpen}
               edge='start'
-              sx={{ fontSize: '60px' }}
             >
               <MenuIcon />
             </IconButton>
           </Box>
           <Box className={styles.headerSearchBar} onClick={onHandleSearch}>
-           { isMediumScreen? (<IconButton>   <SearchIcon /> </IconButton>
-           ) : (
-            <SearchBar />)}
+            {isMediumScreen ? (
+              <IconButton>
+                {' '}
+                <SearchIcon />{' '}
+              </IconButton>
+            ) : (
+              <SearchBar />
+            )}
           </Box>
-          { search && 
-          <Box className={styles.searchBarPosition}>
-          <SearchBar/>
-          <CloseIcon onClick={onHandleCloseSearch}/>
-         </Box>}
+          {search && (
+            <Box className={styles.searchBarPosition}>
+              <SearchBar />
+              <CloseIcon onClick={onHandleCloseSearch} />
+            </Box>
+          )}
           <Box className={styles.headerRightSection}>
             <UserNotification />
             <UserProfile />
           </Box>
         </Toolbar>
       </AppBar>
-      <Drawer 
-       variant='permanent'
-       open={open} anchor='left'>
+      <Drawer variant='permanent' open={open} anchor='left'>
         <Divider />
         <Box
           sx={{
