@@ -72,7 +72,7 @@ const Login = () => {
     try {
       setIsLoading(true);
       // await CRMServiceAPI.userLogin(data);
-      enqueueSnackbar('Login successful', {
+      enqueueSnackbar(`${t('loginSuccess')}`, {
         variant: 'success',
         autoHideDuration: 3000,
       });
@@ -81,14 +81,14 @@ const Login = () => {
     } catch (error) {
       console.error('Error during login:', error);
       setIsLoading(false);
-      enqueueSnackbar('Login failed', {
+      enqueueSnackbar(`${t('loginFailed')}`, {
         variant: 'error',
         autoHideDuration: 3000,
       });
     }
   };
   return (
-    <Box data-testid='loginpage' className={styles.loginpageContainer}>
+    <Box data-testid='loginPage' className={styles.loginpageContainer}>
       <Grid2
         container
         spacing={{ xs: 0, md: 2 }}

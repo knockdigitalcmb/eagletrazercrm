@@ -187,7 +187,7 @@ const OTPPage = () => {
     }
   };
   return (
-    <Box data-testid='otppage' className={styles.otppageContainer}>
+    <Box data-testid='otpPage' className={styles.otppageContainer}>
       <Grid container spacing={{ xs: 0, md: 2 }} direction={{md:'row',sm:'column'}}>
         <Grid size={{ md: 7, sm: 12 }} className={styles.alignCenter}>
           <div className={styles.OtpImageWrapper}>
