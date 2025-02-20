@@ -6,9 +6,11 @@ import styles from './UserNotification.module.scss';
 
 const UserNotification = () => {
   const notificationCount = 1;
-
   return (
-    <div className={styles.notificationIcon} data-testid="userNotification-component">
+    <div
+      className={styles.notificationIcon}
+      data-testid='user-notification-component'
+    >
       <Badge badgeContent={notificationCount} color='error' overlap='circular'>
         <Notifications />
       </Badge>

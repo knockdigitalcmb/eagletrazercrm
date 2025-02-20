@@ -15,7 +15,10 @@ const User = () => {
         data-testid='create-user'
         className={styles.createUserButton}
       >
-        <Button   data-testid='create-user-button' onClick={() => window.open('/create-user', '_blank')}>
+        <Button
+          data-testid='create-user-button'
+          onClick={() => window.open('/create-user', '_blank')}
+        >
           {t('Create User')}
         </Button>
       </Box>
