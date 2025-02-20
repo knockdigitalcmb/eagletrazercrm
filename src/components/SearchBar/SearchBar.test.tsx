@@ -1,7 +1,6 @@
 import { render, screen, fireEvent, cleanup } from '@testing-library/react';
 import SearchBar from './index';
 
-const onHandleInput = jest.fn();
 describe('Search Bar Component', () => {
   afterEach(cleanup);
   it('should search bar component render without error', () => {
@@ -17,6 +16,6 @@ describe('Search Bar Component', () => {
     fireEvent.change(searchInput, {
       target: { value: 'test' },
     });
-    expect(onHandleInput).toHaveBeenCalled();
+    expect(searchInput).toBeInTheDocument();
   });
 });

@@ -1,6 +1,11 @@
-import { fireEvent, render, screen, waitFor } from '@testing-library/react';
+import {
+  fireEvent,
+  render,
+  screen,
+  waitFor,
+  act,
+} from '@testing-library/react';
 import CreateUser from './index';
-import { act } from 'react';
 
 jest.mock('react-hook-form', () => ({
   ...jest.requireActual('react-hook-form'),
@@ -13,7 +18,7 @@ jest.mock('react-hook-form', () => ({
   })),
 }));
 
-describe('CreateUser component', () => {
+describe('Create User Page', () => {
   it('Should render CreateUser component', () => {
     render(<CreateUser />);
     const createUserElement = screen.getByTestId('create-user-page');
@@ -46,7 +51,7 @@ describe('CreateUser component', () => {
     expect(screen.getByText(/Password is Invalid/i)).toBeInTheDocument();
   });
 
-  it('Valid PhoneNumber Format', async () => {
+  it('should Valid PhoneNumber Format', async () => {
     render(<CreateUser />);
     const phoneNumberInput = screen.getByTestId('phone-number');
     await act(async () => {
@@ -74,21 +79,35 @@ describe('CreateUser component', () => {
     fireEvent.change(screen.getByTestId('user-name'), {
       target: { value: '' },
     });
-    fireEvent.change(screen.getByTestId('password'), { target: { value: 'test123' } });
-    fireEvent.change(screen.getByTestId('phone-number'), {target: { value: '1234567890' },});
-    fireEvent.change(screen.getByTestId('email'), { target: { value: 'test@gmail.com' } });
-    fireEvent.change(screen.getByTestId('location'), { target: { value: 'test' } });
-    fireEvent.change(screen.getByTestId('joining-date'), {target: { value: '2025-02-20' },});
+    fireEvent.change(screen.getByTestId('password'), {
+      target: { value: 'test123' },
+    });
+    fireEvent.change(screen.getByTestId('phone-number'), {
+      target: { value: '1234567890' },
+    });
+    fireEvent.change(screen.getByTestId('email'), {
+      target: { value: 'test@gmail.com' },
+    });
+    fireEvent.change(screen.getByTestId('location'), {
+      target: { value: 'test' },
+    });
+    fireEvent.change(screen.getByTestId('joining-date'), {
+      target: { value: '2025-02-20' },
+    });
 
     const submitButton = screen.getByTestId('submitButton');
 
     await act(async () => {
       fireEvent.click(submitButton);
-      await waitFor(()=>{
-        expect(screen.queryByText(/Password is Invalid/i)).not.toBeInTheDocument();
-        expect(screen.queryByText(/Please enter a valid 10-digit phone number/i)).not.toBeInTheDocument();
+      await waitFor(() => {
+        expect(
+          screen.queryByText(/Password is Invalid/i)
+        ).not.toBeInTheDocument();
+        expect(
+          screen.queryByText(/Please enter a valid 10-digit phone number/i)
+        ).not.toBeInTheDocument();
         expect(screen.queryByText(/Invalid email/i)).not.toBeInTheDocument();
-      })
+      });
     });
   });
 });

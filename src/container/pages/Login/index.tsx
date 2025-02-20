@@ -88,7 +88,7 @@ const Login = () => {
     }
   };
   return (
-    <Box data-testid='loginPage' className={styles.loginpageContainer}>
+    <Box data-testid='login-page' className={styles.loginpageContainer}>
       <Grid2
         container
         spacing={{ xs: 0, md: 2 }}
