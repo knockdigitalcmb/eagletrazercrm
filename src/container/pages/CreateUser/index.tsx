@@ -29,7 +29,6 @@ import {
 } from '../../../constant/common.constant';
 import {
   getInputFieldErrorMessage,
-  onHandleImageValidation,
 } from '../../../helper/formValidators';
 import { capitalizeFirstLetter, getStringEclipse } from '../../../helper';
 
@@ -589,6 +588,7 @@ const CreateUser = () => {
         <Grid2>
           <Box className={styles.submitButton}>
             <Button
+              data-testid='submitButton'
               variant='contained'
               color='primary'
               onClick={handleSubmit(onHandleUserSubmit)}

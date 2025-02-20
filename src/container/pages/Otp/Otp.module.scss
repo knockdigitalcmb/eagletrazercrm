@@ -61,6 +61,12 @@
       .otpHeading {
         font-size: 28px;
         line-height: 28px;
+        @include respond-to($md){
+         font-size: 25px;
+        }
+        @include respond-to($sm){
+          font-size: 25px;
+         }
       }
       .submitButton {
         border-radius: 0px;
