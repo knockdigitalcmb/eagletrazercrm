@@ -148,6 +148,7 @@ const OTP = ({ separator, length, value, onChange }: OTPProps) => {
       {new Array(length).fill(null).map((_, index) => (
         <React.Fragment key={index}>
           <InputElement
+           data-testid={`otp-input-${index}`}
             aria-label={`Digit ${index + 1} of OTP`}
             ref={(ele) => {
               if (ele) inputRefs.current[index] = ele;
@@ -168,9 +169,9 @@ const OTPPage = () => {
   const { t } = useTranslation();
   const navigate = useNavigate();
   const [otp, setOtp] = useState('');
-  const [isButtonDisabled, setIsButtonDisabled] = useState(false);
-
-  //otp form validatiom
+  const [isButtonDisabled, setIsButtonDisabled] = useState(false);  
+  
+  //otp form validation
   useEffect(() => {
     if (otp && otp?.length === 6) {
       setIsButtonDisabled(false);

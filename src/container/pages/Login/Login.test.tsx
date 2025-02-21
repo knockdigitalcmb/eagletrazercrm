@@ -3,13 +3,13 @@ import Login from './index';
 
 describe('Login Page', () => {
   afterEach(cleanup);
-  it('Should Login Component Render', () => {
+  it('should Login page render', () => {
     render(<Login />);
     const loginElement = screen.getByTestId('loginPage');
     expect(loginElement).toBeInTheDocument();
   });
 
-  it('Should display error message when Employee Id is empty', async () => {
+  it('should display error message when employee Id is empty', async () => {
     render(<Login />);
     const submitButton = screen.getByTestId('login-submit');
     fireEvent.click(submitButton);
@@ -18,7 +18,7 @@ describe('Login Page', () => {
     ).toBeInTheDocument();
   });
 
-  it('Should display error when Password is empty', async () => {
+  it('should display error when password is empty', async () => {
     render(<Login />);
     const submitButton = screen.getByTestId('login-submit');
     fireEvent.click(submitButton);
@@ -27,7 +27,7 @@ describe('Login Page', () => {
     ).toBeInTheDocument();
   });
 
-  it('Should enable when employeeId and password are filled', () => {
+  it('should enable when employeeId and password are filled', () => {
     render(<Login />);
     const employeeIdInput = screen.getByTestId('employee-id');
     const PasswordInput = screen.getByTestId('password');
