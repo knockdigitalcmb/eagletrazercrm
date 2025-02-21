@@ -198,13 +198,14 @@ const SidePanel = ({ menu }: Props) => {
               aria-label='open drawer'
               onClick={handleDrawerOpen}
               edge='start'
+              data-testid="menu-icon"
             >
               <MenuIcon />
             </IconButton>
           </Box>
           <Box className={styles.headerSearchBar} onClick={onHandleSearch}>
             {isMediumScreen ? (
-              <IconButton>
+              <IconButton data-testid="search-button">
                 {' '}
                 <SearchIcon />{' '}
               </IconButton>
@@ -213,7 +214,7 @@ const SidePanel = ({ menu }: Props) => {
             )}
           </Box>
           {search && (
-            <Box className={styles.searchBarPosition}>
+            <Box className={styles.searchBarPosition} data-testid="search-input">
               <SearchBar />
               <CloseIcon onClick={onHandleCloseSearch} />
             </Box>
@@ -258,6 +259,7 @@ const SidePanel = ({ menu }: Props) => {
             <ListItem
               key={item.name}
               disablePadding
+              data-testid="list-item"
               className={`${styles.listItem} ${activeItem === item.name ? styles.active : ''}`}
             >
               <ListItemButton
@@ -268,6 +270,7 @@ const SidePanel = ({ menu }: Props) => {
                     : { justifyContent: 'center' },
                 ]}
                 onClick={() => handleItemClick(item.name)}
+                data-testid={`menu-${item.name.toLowerCase()}`}
               >
                 <ListItemIcon
                   sx={[
