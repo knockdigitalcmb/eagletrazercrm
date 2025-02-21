@@ -23,7 +23,7 @@ const UserProfile = () => {
   };
 
   return (
-    <Box data-testid='user-profile-component'>
+    <Box data-testid='user-profile'>
       <div className={styles.profileMenu} onClick={handleProfileMenuOpen}>
         <img
           src={userProfilePic}
