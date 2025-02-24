@@ -16,6 +16,12 @@ interface OTPProps {
   onChange: React.Dispatch<React.SetStateAction<string>>;
 }
 
+interface Props {
+  name?: string;
+  email?: string;
+  body: string;
+  title?: string;
+}
 const InputElement = styled('input')(
   () => `
   width: 40px;
@@ -148,7 +154,7 @@ const OTP = ({ separator, length, value, onChange }: OTPProps) => {
       {new Array(length).fill(null).map((_, index) => (
         <React.Fragment key={index}>
           <InputElement
-           data-testid={`otp-input-${index}`}
+            data-testid={`otp-input-${index}`}
             aria-label={`Digit ${index + 1} of OTP`}
             ref={(ele) => {
               if (ele) inputRefs.current[index] = ele;
@@ -169,8 +175,8 @@ const OTPPage = () => {
   const { t } = useTranslation();
   const navigate = useNavigate();
   const [otp, setOtp] = useState('');
-  const [isButtonDisabled, setIsButtonDisabled] = useState(false);  
-  
+  const [isButtonDisabled, setIsButtonDisabled] = useState(false);
+  const [getData, setGetData] = useState<Props | null>(null);
   //otp form validation
   useEffect(() => {
     if (otp && otp?.length === 6) {
@@ -178,6 +184,20 @@ const OTPPage = () => {
     } else setIsButtonDisabled(true);
   }, [otp]);
 
+  useEffect(() => {
+    api();
+  }, []);
+
+  const api = async () => {
+    const postapi = await CRMServiceAPI.OTPVerification({
+      name: 'vaisu',
+      email: 'vaisu@gmail.com',
+      body: 'jhgyvg',
+      title: 'nijbii',
+    });
+    setGetData(postapi);
+    console.log('API Response:', postapi);
+  };
   //on Handle Submit
   const onHandleSubmit = async () => {
     try {
@@ -189,13 +209,17 @@ const OTPPage = () => {
   };
   return (
     <Box data-testid='otpPage' className={styles.otppageContainer}>
-      <Grid container spacing={{ xs: 0, md: 2 }} direction={{md:'row',sm:'column'}}>
+      <Grid
+        container
+        spacing={{ xs: 0, md: 2 }}
+        direction={{ md: 'row', sm: 'column' }}
+      >
         <Grid size={{ md: 7, sm: 12 }} className={styles.alignCenter}>
           <div className={styles.OtpImageWrapper}>
             <OtpImage />
           </div>
         </Grid>
-        <Grid size={{ md: 5, sm: 12 }}  className={styles.alignCenter}>
+        <Grid size={{ md: 5, sm: 12 }} className={styles.alignCenter}>
           <div className={styles.otpFormWrapper}>
             <div className={styles.eagleTrazer}>
               <img src={EagleTrazer} alt='eagle-logo' title='Eagle Trazer' />
@@ -230,6 +254,24 @@ const OTPPage = () => {
               >
                 {t('verify')}
               </Button>
+              {getData ? (
+                <div>
+                  <p>
+                    <strong>Name:</strong> {getData.name}
+                  </p>
+                  <p>
+                    <strong>Email:</strong> {getData.email}
+                  </p>
+                  <p>
+                    <strong>Body:</strong> {getData.body}
+                  </p>
+                  <p>
+                    <strong>Title:</strong> {getData.title}
+                  </p>
+                </div>
+              ) : (
+                <p>Loading data...</p>
+              )}
             </Box>
           </div>
         </Grid>

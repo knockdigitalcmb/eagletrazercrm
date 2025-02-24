@@ -5,9 +5,9 @@ export class CRMServiceAPI {
   static userLogin = async (payload: any) => {
     try {
       const response = await commonServiceAPI.CRMAPICall({
-        url: 'https://dummyapi.online/api/movies',
-        method: 'POST',
-        data: payload,
+        url: 'https://jsonplaceholder.typicode.com/comments?postId=1',
+        method: 'GET',
+        //  data: payload,
       });
       return response?.data;
     } catch (error) {
@@ -19,7 +19,7 @@ export class CRMServiceAPI {
   static OTPVerification = async (payload: any) => {
     try {
       const response = await commonServiceAPI.CRMAPICall({
-        url: 'https://dummyapi.online/api/movies',
+        url: 'https://jsonplaceholder.typicode.com/comments?postId=1',
         method: 'POST',
         data: payload,
       });

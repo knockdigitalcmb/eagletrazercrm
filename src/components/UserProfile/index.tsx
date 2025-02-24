@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { Box, Menu, MenuItem } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-
 import styles from './UserProfile.module.scss';
 import userProfilePic from '../../../src/assets/images/userprofileimage.png';
 
