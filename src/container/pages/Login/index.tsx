@@ -26,16 +26,9 @@ import { ReactComponent as LogInImage } from '../../../assets/images/login-bg.sv
 import EagleTrazer from '../../../assets/images/eagle-trazer.png';
 import { CRMServiceAPI } from 'services/CRMService';
 
-interface Props {
-  
-  name: string;
-  body: string;
-}
-
 const Login = () => {
   const { t } = useTranslation();
   const navigate = useNavigate();
-  const [getData, setGetData] = useState<Props | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [isButtonDisabled, setIsButtonDisabled] = useState(true);
   const [isShowPassword, setIsShowPassword] = useState(false);
@@ -51,16 +44,6 @@ const Login = () => {
   } = useForm<LoginForm>({
     defaultValues: defaultLoginProps,
   });
-
-  useEffect(() => {
-    api();
-  }, []);
-
-  const api = async () => {
-    const postapi = await CRMServiceAPI.userLogin('');
-    setGetData(postapi[0]);
-    console.log('API Response:', postapi); 
-  };
 
   useEffect(() => {
     console.log(formData);
@@ -252,20 +235,6 @@ const Login = () => {
                 >
                   {t('login')}
                 </Button>
-
-                {getData ? (
-                  <div>
-                    
-                    <p>
-                      <strong>Name:</strong> {getData.name}
-                    </p>
-                    <p>
-                      <strong>Body:</strong> {getData.body}
-                    </p>
-                  </div>
-                ) : (
-                  <p>Loading data...</p>
-                )}
               </form>
             )}
           </div>

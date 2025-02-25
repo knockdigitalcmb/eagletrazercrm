@@ -6,8 +6,8 @@ export class CRMServiceAPI {
     try {
       const response = await commonServiceAPI.CRMAPICall({
         url: 'https://jsonplaceholder.typicode.com/comments?postId=1',
-        method: 'GET',
-        //  data: payload,
+        method: 'POST',
+         data: payload,
       });
       return response?.data;
     } catch (error) {
