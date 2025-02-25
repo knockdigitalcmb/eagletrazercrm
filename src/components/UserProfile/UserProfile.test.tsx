@@ -1,7 +1,7 @@
 import { render, screen, fireEvent } from '@testing-library/react';
 import UserProfile from './index';
 
-describe('UserProfile Page', () => {
+describe('User Profile Page', () => {
   it('should render the user profile', () => {
     render(<UserProfile />);
     expect(screen.getByTestId('user-profile')).toBeInTheDocument();
@@ -25,7 +25,7 @@ describe('UserProfile Page', () => {
     expect(screen.queryByText('logout')).not.toBeInTheDocument();
   });
 
-  it('should call on handle logout when clicking "logout"', () => {
+  it('should call on handle logout when clicking logout', () => {
     render(<UserProfile />);
     fireEvent.click(screen.getByAltText('User Profile'));
     fireEvent.click(screen.getByText('logout'));

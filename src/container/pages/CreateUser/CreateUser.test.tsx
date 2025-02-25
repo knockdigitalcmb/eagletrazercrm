@@ -27,7 +27,7 @@ describe('Create User Page', () => {
     expect(createUserElement).toBeInTheDocument();
   });
 
-  it('should trigger employee id input change', () => {
+  it('should trigger the employee id input on change', () => {
     render(<CreateUser />);
     const employeeIdInput=screen.getByTestId('employee-id')
     fireEvent.change(screen.getByTestId('employee-id'), {
@@ -35,34 +35,34 @@ describe('Create User Page', () => {
       expect(employeeIdInput).toHaveValue('test');
 
   });
-  it('should trigger username input change', () => {
+  it('should trigger the username input on change', () => {
     render(<CreateUser />);
     const userNameInput = screen.getByTestId('user-name');
     fireEvent.change(userNameInput, { target: { value: 'test' } });
     expect(userNameInput).toHaveValue('test');
   });
 
- it('should trigger password input change', () => {
+ it('should trigger the password input on change', () => {
     render(<CreateUser />);
     const passwordInput = screen.getByTestId('password');
     fireEvent.change(passwordInput, { target: { value: 'test123' } });
     expect(passwordInput).toHaveValue('test123');
   });
 
-  it('should trigger phone number input change', () => {
+  it('should trigger the phone number input on change', () => {
     render(<CreateUser />);
     const phoneNumberInput = screen.getByTestId('phone-number');
     fireEvent.change(phoneNumberInput, { target: { value: '1234567890' } });
     expect(phoneNumberInput).toHaveValue('1234567890');
   });
 
-   it('should trigger email input change', () => {
+   it('should trigger the email input on change', () => {
     render(<CreateUser />);
     const emailInput = screen.getByTestId('email');
     fireEvent.change(emailInput, { target: { value: 'test@gmail.com' } });
     expect(emailInput).toHaveValue('test@gmail.com');
   });
-  it('should trigger location input change', () => {
+  it('should trigger the location input on change', () => {
     render(<CreateUser />);
     const locationInput = screen.getByTestId('location');
     fireEvent.change(locationInput, { target: { value: 'test' } });
@@ -70,14 +70,15 @@ describe('Create User Page', () => {
   });
 
 
-  it('should trigger joining date input change', () => {
+  it('should trigger the joining date input on change', () => {
     render(<CreateUser />);
     const joiningDateInput = screen.getByTestId('joining-date');
     fireEvent.change(joiningDateInput, { target: { value: '20-02-2025' } });
     expect(joiningDateInput).toHaveValue('20-02-2025');
   });
 
-  it('should have submit button',() => {
+  it('should render the submit button',() => {
+     render(<CreateUser />);
     const submitButton = screen.getByTestId('submit-button');
     expect(submitButton).toBeInTheDocument;
   });
@@ -85,11 +86,9 @@ describe('Create User Page', () => {
   it('should validate employee id field', async () => {
     render(<CreateUser />);
     const submitButton = screen.getByTestId('submit-button');
-
     await act(async () => {
       fireEvent.click(submitButton);
     });
-
     await waitFor(() => {
       expect(screen.getByTestId('employee-id')).toBeInTheDocument();
     });
@@ -98,11 +97,9 @@ describe('Create User Page', () => {
   it('should validate username field', async () => {
     render(<CreateUser />);
     const submitButton = screen.getByTestId('submit-button');
-
     await act(async () => {
       fireEvent.click(submitButton);
     });
-
     await waitFor(() => {
       expect(screen.getByTestId('user-name')).toBeInTheDocument();
     });
@@ -110,11 +107,9 @@ describe('Create User Page', () => {
   it('should validate password field', async () => {
     render(<CreateUser />);
     const submitButton = screen.getByTestId('submit-button');
-
     await act(async () => {
       fireEvent.click(submitButton);
     });
-
     await waitFor(() => {
       expect(screen.getByTestId('password')).toBeInTheDocument();
     });
@@ -122,11 +117,9 @@ describe('Create User Page', () => {
   it('should validate phone number field', async () => {
     render(<CreateUser />);
     const submitButton = screen.getByTestId('submit-button');
-
     await act(async () => {
       fireEvent.click(submitButton);
     });
-
     await waitFor(() => {
       expect(screen.getByTestId('phone-number')).toBeInTheDocument();
     });
@@ -134,11 +127,9 @@ describe('Create User Page', () => {
   it('should validate email field', async () => {
     render(<CreateUser />);
     const submitButton = screen.getByTestId('submit-button');
-
     await act(async () => {
       fireEvent.click(submitButton);
     });
-
     await waitFor(() => {
       expect(screen.getByTestId('email')).toBeInTheDocument();
     });
@@ -146,11 +137,9 @@ describe('Create User Page', () => {
   it('should validate location field', async () => {
     render(<CreateUser />);
     const submitButton = screen.getByTestId('submit-button');
-
     await act(async () => {
       fireEvent.click(submitButton);
     });
-
     await waitFor(() => {
       expect(screen.getByTestId('location')).toBeInTheDocument();
     });
@@ -158,11 +147,9 @@ describe('Create User Page', () => {
   it('should validate joining date field', async () => {
     render(<CreateUser />);
     const submitButton = screen.getByTestId('submit-button');
-
     await act(async () => {
       fireEvent.click(submitButton);
     });
-
     await waitFor(() => {
       expect(screen.getByTestId('joining-date')).toBeInTheDocument();
     });
