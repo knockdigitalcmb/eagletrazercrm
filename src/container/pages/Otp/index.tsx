@@ -16,12 +16,6 @@ interface OTPProps {
   onChange: React.Dispatch<React.SetStateAction<string>>;
 }
 
-interface Props {
-  name?: string;
-  email?: string;
-  body: string;
-  title?: string;
-}
 const InputElement = styled('input')(
   () => `
   width: 40px;
@@ -176,7 +170,6 @@ const OTPPage = () => {
   const navigate = useNavigate();
   const [otp, setOtp] = useState('');
   const [isButtonDisabled, setIsButtonDisabled] = useState(false);
-  const [getData, setGetData] = useState<Props | null>(null);
   //otp form validation
   useEffect(() => {
     if (otp && otp?.length === 6) {
@@ -184,20 +177,6 @@ const OTPPage = () => {
     } else setIsButtonDisabled(true);
   }, [otp]);
 
-  useEffect(() => {
-    api();
-  }, []);
-
-  const api = async () => {
-    const postapi = await CRMServiceAPI.OTPVerification({
-      name: 'vaisu',
-      email: 'vaisu@gmail.com',
-      body: 'jhgyvg',
-      title: 'nijbii',
-    });
-    setGetData(postapi);
-    console.log('API Response:', postapi);
-  };
   //on Handle Submit
   const onHandleSubmit = async () => {
     try {
@@ -254,24 +233,6 @@ const OTPPage = () => {
               >
                 {t('verify')}
               </Button>
-              {getData ? (
-                <div>
-                  <p>
-                    <strong>Name:</strong> {getData.name}
-                  </p>
-                  <p>
-                    <strong>Email:</strong> {getData.email}
-                  </p>
-                  <p>
-                    <strong>Body:</strong> {getData.body}
-                  </p>
-                  <p>
-                    <strong>Title:</strong> {getData.title}
-                  </p>
-                </div>
-              ) : (
-                <p>Loading data...</p>
-              )}
             </Box>
           </div>
         </Grid>
