@@ -208,7 +208,7 @@ const OTPPage = () => {
     }
   };
   return (
-    <Box data-testid='otpPage' className={styles.otppageContainer}>
+    <Box data-testid='otp-page' className={styles.otppageContainer}>
       <Grid
         container
         spacing={{ xs: 0, md: 2 }}

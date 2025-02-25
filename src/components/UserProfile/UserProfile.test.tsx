@@ -25,7 +25,7 @@ describe('UserProfile Page', () => {
     expect(screen.queryByText('logout')).not.toBeInTheDocument();
   });
 
-  it('should call onHandleLogOut when clicking "Logout"', () => {
+  it('should call on handle logout when clicking "logout"', () => {
     render(<UserProfile />);
     fireEvent.click(screen.getByAltText('User Profile'));
     fireEvent.click(screen.getByText('logout'));

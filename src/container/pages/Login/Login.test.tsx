@@ -3,13 +3,13 @@ import Login from './index';
 
 describe('Login Page', () => {
   afterEach(cleanup);
-  it('should Login page render', () => {
+  it('should login page render', () => {
     render(<Login />);
     const loginElement = screen.getByTestId('loginPage');
     expect(loginElement).toBeInTheDocument();
   });
 
-  it('should display error message when employee Id is empty', async () => {
+  it('should display error message when employee id is empty', async () => {
     render(<Login />);
     const submitButton = screen.getByTestId('login-submit');
     fireEvent.click(submitButton);

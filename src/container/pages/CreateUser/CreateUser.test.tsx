@@ -21,61 +21,70 @@ jest.mock('react-hook-form', () => ({
 
 describe('Create User Page', () => {
   afterEach(cleanup);
-  it('should render CreateUser component', () => {
+  it('should render create user component', () => {
     render(<CreateUser />);
     const createUserElement = screen.getByTestId('create-user-page');
     expect(createUserElement).toBeInTheDocument();
   });
 
-  it('should trigger Employee ID input change', () => {
+  it('should trigger employee id input change', () => {
     render(<CreateUser />);
+    const employeeIdInput=screen.getByTestId('employee-id')
     fireEvent.change(screen.getByTestId('employee-id'), {
-      target: { value: 'test' },
-    });
-  });
-  it('should trigger Username input change', () => {
-    fireEvent.change(screen.getByTestId('user-name'), {
-      target: { value: 'test' },
-    });
-  });
-  it('should trigger Password input change', () => {
-    fireEvent.change(screen.getByTestId('password'), {
-      target: { value: 'test123' },
-    });
-  });
+      target: { value: 'test' },});
+      expect(employeeIdInput).toHaveValue('test');
 
-  it('should trigger Phone Number input change', () => {
-    fireEvent.change(screen.getByTestId('phone-number'), {
-      target: { value: '1234567890' },
-    });
   });
-  it('should trigger Email input change', () => {
-    fireEvent.change(screen.getByTestId('email'), {
-      target: { value: 'test@gmail.com' },
-    });
-  });
-  it('should trigger Location input change', () => {
-    fireEvent.change(screen.getByTestId('location'), {
-      target: { value: 'test' },
-    });
-  });
-  it('should trigger Joining Date input change', () => {
-    fireEvent.change(screen.getByTestId('joining-date'), {
-      target: { value: '2025-02-20' },
-    });
-  });
-
-  it('should trigger form submission', async () => {
-    const submitButton = screen.getByTestId('submitButton');
-
-    await act(async () => {
-      fireEvent.click(submitButton);
-    });
-  });
-
-  it('should validate Employee ID field', async () => {
+  it('should trigger username input change', () => {
     render(<CreateUser />);
-    const submitButton = screen.getByTestId('submitButton');
+    const userNameInput = screen.getByTestId('user-name');
+    fireEvent.change(userNameInput, { target: { value: 'test' } });
+    expect(userNameInput).toHaveValue('test');
+  });
+
+ it('should trigger password input change', () => {
+    render(<CreateUser />);
+    const passwordInput = screen.getByTestId('password');
+    fireEvent.change(passwordInput, { target: { value: 'test123' } });
+    expect(passwordInput).toHaveValue('test123');
+  });
+
+  it('should trigger phone number input change', () => {
+    render(<CreateUser />);
+    const phoneNumberInput = screen.getByTestId('phone-number');
+    fireEvent.change(phoneNumberInput, { target: { value: '1234567890' } });
+    expect(phoneNumberInput).toHaveValue('1234567890');
+  });
+
+   it('should trigger email input change', () => {
+    render(<CreateUser />);
+    const emailInput = screen.getByTestId('email');
+    fireEvent.change(emailInput, { target: { value: 'test@gmail.com' } });
+    expect(emailInput).toHaveValue('test@gmail.com');
+  });
+  it('should trigger location input change', () => {
+    render(<CreateUser />);
+    const locationInput = screen.getByTestId('location');
+    fireEvent.change(locationInput, { target: { value: 'test' } });
+    expect(locationInput).toHaveValue('test');
+  });
+
+
+  it('should trigger joining date input change', () => {
+    render(<CreateUser />);
+    const joiningDateInput = screen.getByTestId('joining-date');
+    fireEvent.change(joiningDateInput, { target: { value: '20-02-2025' } });
+    expect(joiningDateInput).toHaveValue('20-02-2025');
+  });
+
+  it('should have submit button',() => {
+    const submitButton = screen.getByTestId('submit-button');
+    expect(submitButton).toBeInTheDocument;
+  });
+
+  it('should validate employee id field', async () => {
+    render(<CreateUser />);
+    const submitButton = screen.getByTestId('submit-button');
 
     await act(async () => {
       fireEvent.click(submitButton);
@@ -86,9 +95,9 @@ describe('Create User Page', () => {
     });
   });
 
-  it('should validate Username field', async () => {
+  it('should validate username field', async () => {
     render(<CreateUser />);
-    const submitButton = screen.getByTestId('submitButton');
+    const submitButton = screen.getByTestId('submit-button');
 
     await act(async () => {
       fireEvent.click(submitButton);
@@ -98,9 +107,9 @@ describe('Create User Page', () => {
       expect(screen.getByTestId('user-name')).toBeInTheDocument();
     });
   });
-  it('should validate Password field', async () => {
+  it('should validate password field', async () => {
     render(<CreateUser />);
-    const submitButton = screen.getByTestId('submitButton');
+    const submitButton = screen.getByTestId('submit-button');
 
     await act(async () => {
       fireEvent.click(submitButton);
@@ -110,9 +119,9 @@ describe('Create User Page', () => {
       expect(screen.getByTestId('password')).toBeInTheDocument();
     });
   });
-  it('should validate Phone Number field', async () => {
+  it('should validate phone number field', async () => {
     render(<CreateUser />);
-    const submitButton = screen.getByTestId('submitButton');
+    const submitButton = screen.getByTestId('submit-button');
 
     await act(async () => {
       fireEvent.click(submitButton);
@@ -122,9 +131,9 @@ describe('Create User Page', () => {
       expect(screen.getByTestId('phone-number')).toBeInTheDocument();
     });
   });
-  it('should validate Email field', async () => {
+  it('should validate email field', async () => {
     render(<CreateUser />);
-    const submitButton = screen.getByTestId('submitButton');
+    const submitButton = screen.getByTestId('submit-button');
 
     await act(async () => {
       fireEvent.click(submitButton);
@@ -134,9 +143,9 @@ describe('Create User Page', () => {
       expect(screen.getByTestId('email')).toBeInTheDocument();
     });
   });
-  it('should validate Location field', async () => {
+  it('should validate location field', async () => {
     render(<CreateUser />);
-    const submitButton = screen.getByTestId('submitButton');
+    const submitButton = screen.getByTestId('submit-button');
 
     await act(async () => {
       fireEvent.click(submitButton);
@@ -146,9 +155,9 @@ describe('Create User Page', () => {
       expect(screen.getByTestId('location')).toBeInTheDocument();
     });
   });
-  it('should validate Joining Date field', async () => {
+  it('should validate joining date field', async () => {
     render(<CreateUser />);
-    const submitButton = screen.getByTestId('submitButton');
+    const submitButton = screen.getByTestId('submit-button');
 
     await act(async () => {
       fireEvent.click(submitButton);
@@ -168,7 +177,7 @@ describe('Create User Page', () => {
     expect(screen.getByText(/Password is Invalid/i)).toBeInTheDocument();
   });
 
-  it('should valid PhoneNumber format', async () => {
+  it('should valid phone number format', async () => {
     render(<CreateUser />);
     const phoneNumberInput = screen.getByTestId('phone-number');
     await act(async () => {

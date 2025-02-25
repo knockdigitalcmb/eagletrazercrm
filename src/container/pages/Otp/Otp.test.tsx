@@ -1,15 +1,15 @@
 import { cleanup, fireEvent, render, screen, waitFor } from '@testing-library/react';
 import OTPPage from './index';
 
-describe('OTP page ', () => {
+describe('OTP Page ', () => {
   afterEach(cleanup);
-  it('should render OTP page', () => {
+  it('should render otp page', () => {
     render(<OTPPage />);
-    const otpPageElement = screen.getByTestId('otpPage');
+    const otpPageElement = screen.getByTestId('otp-page');
     expect(otpPageElement).toBeInTheDocument();
   });
 
-  it('should render OTP input fields', () => {
+  it('should render otp input fields', () => {
     render(<OTPPage />);
     const otpInputs = screen.getByRole('textBox');
     expect(otpInputs).toHaveLength(6);
