@@ -2,7 +2,7 @@ import { render, screen } from '@testing-library/react';
 import UserNotification from './index';
 
 describe('User Notification Component', () => {
-  it('should user notification Component render without error', () => {
+  it('should user notification component render without error', () => {
     render(<UserNotification />);
     const UserNotificationElement = screen.getByTestId(
       'user-notification-component'
