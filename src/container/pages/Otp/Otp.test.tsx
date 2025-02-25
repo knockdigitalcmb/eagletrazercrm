@@ -3,7 +3,7 @@ import OTPPage from './index';
 
 describe('OTP Page ', () => {
   afterEach(cleanup);
-  it('should render otp page', () => {
+  it('should render the otp page', () => {
     render(<OTPPage />);
     const otpPageElement = screen.getByTestId('otp-page');
     expect(otpPageElement).toBeInTheDocument();

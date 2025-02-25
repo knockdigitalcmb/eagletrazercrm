@@ -3,7 +3,7 @@ import Page404 from './index';
 
 describe('Page404 Page', () => {
   afterEach(cleanup);
-it('should  page404  render', () => {
+it('should render the page404', () => {
     render(<Page404 />);
     const page404Element = screen.getByTestId('page404');
     expect(page404Element).toBeInTheDocument();
