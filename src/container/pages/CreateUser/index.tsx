@@ -588,7 +588,7 @@ const CreateUser = () => {
         <Grid2>
           <Box className={styles.submitButton}>
             <Button
-              data-testid='submitButton'
+              data-testid='submit-button'
               variant='contained'
               color='primary'
               onClick={handleSubmit(onHandleUserSubmit)}

@@ -17,7 +17,7 @@ const Page404 = () => {
     navigate('/');
   };
   return (
-    <Box data-testid='Page404' className={styles.page404Container}>
+    <Box data-testid='page404' className={styles.page404Container}>
       <Grid container spacing={2}>
         <Grid size={7} className={styles.alignCenter}>
           <div className={styles.page404ImageWrapper}>

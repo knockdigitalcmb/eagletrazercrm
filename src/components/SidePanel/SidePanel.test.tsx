@@ -1,7 +1,7 @@
 import { fireEvent, render,screen } from "@testing-library/react";
 import SidePanel from "./index";
 
-describe('sidePanel component',()=>{
+describe('SidePanel Component',()=>{
   it('should render sidePanel component',()=>{
     render(<SidePanel menu="Dashboard"/>)
     const sidePanelElement=screen.getByTestId('dashboard-page')
@@ -15,7 +15,7 @@ describe('sidePanel component',()=>{
     expect(screen.getByTestId('dashboard-page')).toBeInTheDocument();                          
   })
 
-  it("should render the slideBar list items",()=>{
+  it("should render the slide bar list items",()=>{
     render(<SidePanel menu={"Dashboard"}/>)
     const menuItems=screen.getAllByTestId('list-item')
     expect(menuItems.length).toBeGreaterThan(0);
