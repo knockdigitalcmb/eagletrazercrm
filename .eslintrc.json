@@ -9,7 +9,11 @@
     "files": ["*.ts", "*.tsx"]
   },
   "root": true,
-  "extends": ["prettier", "react-app"],
+   "extends": [
+    "plugin:@typescript-eslint/recommended",
+    "prettier/@typescript-eslint",
+    "plugin:prettier/recommended"
+  ],
   "settings": {
     "react": {
       "version": "detect"

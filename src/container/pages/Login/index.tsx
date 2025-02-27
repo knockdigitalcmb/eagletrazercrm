@@ -20,6 +20,8 @@ import { defaultLoginProps } from '../../../constant/payload.const';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
 import { getInputFieldErrorMessage } from 'helper/formValidators';
 import ErrorOutlineIcon from '@mui/icons-material/ErrorOutline';
+import { setAuthToken } from '../../../features/common/commonSlice';
+import { useCRMAppDispatch } from '../../../store/config';
 
 import styles from './Login.module.scss';
 import { ReactComponent as LogInImage } from '../../../assets/images/login-bg.svg';
@@ -29,6 +31,7 @@ import { CRMServiceAPI } from 'services/CRMService';
 const Login = () => {
   const { t } = useTranslation();
   const navigate = useNavigate();
+  const dispatch = useCRMAppDispatch();
   const [isLoading, setIsLoading] = useState(false);
   const [isButtonDisabled, setIsButtonDisabled] = useState(true);
   const [isShowPassword, setIsShowPassword] = useState(false);
@@ -72,13 +75,25 @@ const Login = () => {
   const onSubmit = async (data: LoginForm) => {
     try {
       setIsLoading(true);
-      // await CRMServiceAPI.userLogin(data);
-      enqueueSnackbar(`${t('loginSuccess')}`, {
-        variant: 'success',
-        autoHideDuration: 3000,
-      });
-      setIsLoading(false);
-      navigate('/otp');
+      let formData = new FormData();
+      formData.append('user_id', data.employeeID);
+      formData.append('password', data.password);
+      let response = await CRMServiceAPI.userLogin(formData);
+      if (response?.status) {
+        enqueueSnackbar(`${t('loginSuccess')}`, {
+          variant: 'success',
+          autoHideDuration: 3000,
+        });
+        dispatch(setAuthToken(response?.token));
+        setIsLoading(false);
+        navigate('/otp');
+      } else {
+        setIsLoading(false);
+        enqueueSnackbar(`${response?.error}`, {
+          variant: 'error',
+          autoHideDuration: 3000,
+        });
+      }
     } catch (error) {
       console.error('Error during login:', error);
       setIsLoading(false);
