@@ -6,25 +6,25 @@ import {
 import { RootState } from '../../store';
 
 interface commonDataState {
-  data: any;
+  authToken: any;
 }
 
 const initialState: commonDataState = {
-  data: [],
+  authToken: '',
 };
 
 export const commonDataSlice = createSlice({
   name: 'commonData',
   initialState,
   reducers: {
-    setData: (state, action: PayloadAction<commonDataState>) => {
-      state.data = action.payload;
+    setAuthToken: (state, action: PayloadAction<commonDataState>) => {
+      state.authToken = action.payload;
     },
   },
 });
 
 export const commonData = (state: RootState) => state.commonData;
 
-export const { setData } = commonDataSlice.actions;
+export const { setAuthToken } = commonDataSlice.actions;
 
 export default commonDataSlice.reducer;

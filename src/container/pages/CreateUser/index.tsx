@@ -27,9 +27,7 @@ import {
   userPermissionOptions,
   userRoleOptions,
 } from '../../../constant/common.constant';
-import {
-  getInputFieldErrorMessage,
-} from '../../../helper/formValidators';
+import { getInputFieldErrorMessage } from '../../../helper/formValidators';
 import { capitalizeFirstLetter, getStringEclipse } from '../../../helper';
 
 import styles from './CreateUser.module.scss';

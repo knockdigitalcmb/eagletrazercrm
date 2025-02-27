@@ -1,11 +1,12 @@
 import { commonServiceAPI } from './API';
 
+const API_DOMAIN = process.env.REACT_APP_API_DOMAIN
 export class CRMServiceAPI {
   //Login API
   static userLogin = async (payload: any) => {
     try {
       const response = await commonServiceAPI.CRMAPICall({
-        url: 'https://jsonplaceholder.typicode.com/comments?postId=1',
+        url: `${API_DOMAIN}/wqBPlJJqwnPmxINapM/api/v1/login`,
         method: 'POST',
          data: payload,
       });

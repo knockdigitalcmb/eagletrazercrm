@@ -29,11 +29,11 @@ describe('Create User Page', () => {
 
   it('should trigger the employee id input on change', () => {
     render(<CreateUser />);
-    const employeeIdInput=screen.getByTestId('employee-id')
+    const employeeIdInput = screen.getByTestId('employee-id');
     fireEvent.change(screen.getByTestId('employee-id'), {
-      target: { value: 'test' },});
-      expect(employeeIdInput).toHaveValue('test');
-
+      target: { value: 'test' },
+    });
+    expect(employeeIdInput).toHaveValue('test');
   });
   it('should trigger the username input on change', () => {
     render(<CreateUser />);
@@ -42,7 +42,7 @@ describe('Create User Page', () => {
     expect(userNameInput).toHaveValue('test');
   });
 
- it('should trigger the password input on change', () => {
+  it('should trigger the password input on change', () => {
     render(<CreateUser />);
     const passwordInput = screen.getByTestId('password');
     fireEvent.change(passwordInput, { target: { value: 'test123' } });
@@ -56,7 +56,7 @@ describe('Create User Page', () => {
     expect(phoneNumberInput).toHaveValue('1234567890');
   });
 
-   it('should trigger the email input on change', () => {
+  it('should trigger the email input on change', () => {
     render(<CreateUser />);
     const emailInput = screen.getByTestId('email');
     fireEvent.change(emailInput, { target: { value: 'test@gmail.com' } });
@@ -69,7 +69,6 @@ describe('Create User Page', () => {
     expect(locationInput).toHaveValue('test');
   });
 
-
   it('should trigger the joining date input on change', () => {
     render(<CreateUser />);
     const joiningDateInput = screen.getByTestId('joining-date');
@@ -77,8 +76,8 @@ describe('Create User Page', () => {
     expect(joiningDateInput).toHaveValue('20-02-2025');
   });
 
-  it('should render the submit button',() => {
-     render(<CreateUser />);
+  it('should render the submit button', () => {
+    render(<CreateUser />);
     const submitButton = screen.getByTestId('submit-button');
     expect(submitButton).toBeInTheDocument;
   });
