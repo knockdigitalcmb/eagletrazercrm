@@ -22,3 +22,15 @@
     }
   }
 }
+.logout{
+   &:hover{
+    background-color: $primary-color;
+    color:$white-color;
+   }
+}
+.cancel{
+  &:hover{
+    background-color: $black-color;
+    color:$white-color;
+  }
+}

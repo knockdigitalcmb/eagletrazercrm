@@ -20,11 +20,14 @@ export const commonDataSlice = createSlice({
     setAuthToken: (state, action: PayloadAction<commonDataState>) => {
       state.authToken = action.payload;
     },
+    setClearAuthToken:((state)=>{
+       state.authToken = null;
+    })
   },
 });
 
 export const commonData = (state: RootState) => state.commonData;
 
-export const { setAuthToken } = commonDataSlice.actions;
+export const { setAuthToken,setClearAuthToken } = commonDataSlice.actions;
 
 export default commonDataSlice.reducer;
