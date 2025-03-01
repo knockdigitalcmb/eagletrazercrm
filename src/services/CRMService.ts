@@ -20,7 +20,7 @@ export class CRMServiceAPI {
   static OTPVerification = async (payload: any) => {
     try {
       const response = await commonServiceAPI.CRMAPICall({
-        url: 'https://jsonplaceholder.typicode.com/comments?postId=1',
+        url: `${API_DOMAIN}wqBPlJJqwnPmxINapM/api/v1/login-otp`,
         method: 'POST',
         data: payload,
       });
