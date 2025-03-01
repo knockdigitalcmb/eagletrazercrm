@@ -1,12 +1,14 @@
 import React from 'react';
 import { Box, Button } from '@mui/material';
 import { useTranslation } from 'react-i18next';
+import { useNavigate } from 'react-router-dom';
 import SidePanel from '../../../components/SidePanel';
 
 import styles from './User.module.scss';
 
 const User = () => {
   const { t } = useTranslation();
+  const navigate = useNavigate();
   return (
     <Box component='main' sx={{ flexGrow: 1, p: 3, marginTop: '70px' }}>
       <SidePanel menu={t('user')} />
@@ -17,7 +19,7 @@ const User = () => {
       >
         <Button
           data-testid='create-user-button'
-          onClick={() => window.open('/create-user', '_blank')}
+          onClick={() => navigate('/create-user')}
         >
           {t('Create User')}
         </Button>

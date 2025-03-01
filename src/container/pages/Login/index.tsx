@@ -49,7 +49,6 @@ const Login = () => {
   });
 
   useEffect(() => {
-    console.log(formData);
     if (formData?.employeeID.length > 0 && formData.password.length > 0) {
       setIsButtonDisabled(false);
     } else {
