@@ -5,8 +5,8 @@ import { enqueueSnackbar } from 'notistack';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import { CRMServiceAPI } from '../../../services/CRMService';
-import { useCRMAppDispatch } from '../../../store/config';
-import { setAuthToken } from '../../../features/common/commonSlice';
+import { RootState } from '../../../store/index';
+import { useSelector } from 'react-redux';
 import Loader from 'components/Loader';
 
 import styles from './Otp.module.scss';
@@ -171,18 +171,15 @@ const OTP = ({ separator, length, value, onChange }: OTPProps) => {
 const OTPPage = () => {
   const { t } = useTranslation();
   const navigate = useNavigate();
-  const dispatch = useCRMAppDispatch();
+  const token = useSelector((state: RootState) => state.commonData.authToken);
   const [otp, setOtp] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [isButtonDisabled, setIsButtonDisabled] = useState(false);
+
   //otp form validation
   useEffect(() => {
     if (otp && otp?.length === 6) {
       setIsButtonDisabled(false);
-      // enqueueSnackbar(`${t('loginSuccess')}`, {
-      //   variant: 'success',
-      //   autoHideDuration: 3000,
-      // });
     } else setIsButtonDisabled(true);
   }, [otp]);
 
@@ -192,27 +189,24 @@ const OTPPage = () => {
       setIsLoading(true);
       const formData = new FormData();
       formData.append('otp', otp);
+      formData.append('token', token);
       let response = await CRMServiceAPI.OTPVerification(formData);
       if (response?.status) {
-        enqueueSnackbar(`${t('OTP Success')}`, {
+        enqueueSnackbar(response?.message, {
           variant: 'success',
           autoHideDuration: 3000,
         });
-        dispatch(setAuthToken(response?.token));
         setIsLoading(false);
         navigate('/dashboard');
       } else {
         setIsLoading(false);
-        enqueueSnackbar(`${t('OTP Failed')}`, {
+        enqueueSnackbar(response?.error, {
           variant: 'error',
           autoHideDuration: 3000,
         });
       }
     } catch (error) {
       console.log('error while submitting otp verification', error);
-    }
-    finally{
-      setOtp('')
     }
   };
   return (

@@ -6,7 +6,7 @@ import {
 import { RootState } from '../../store';
 
 interface commonDataState {
-  authToken: any;
+  authToken: string;
 }
 
 const initialState: commonDataState = {
@@ -17,17 +17,14 @@ export const commonDataSlice = createSlice({
   name: 'commonData',
   initialState,
   reducers: {
-    setAuthToken: (state, action: PayloadAction<commonDataState>) => {
+    setAuthToken: (state, action: PayloadAction<any>) => {
       state.authToken = action.payload;
     },
-    setClearAuthToken:((state)=>{
-       state.authToken = null;
-    })
   },
 });
 
 export const commonData = (state: RootState) => state.commonData;
 
-export const { setAuthToken,setClearAuthToken } = commonDataSlice.actions;
+export const { setAuthToken } = commonDataSlice.actions;
 
 export default commonDataSlice.reducer;

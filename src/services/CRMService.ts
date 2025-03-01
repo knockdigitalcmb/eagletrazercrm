@@ -1,6 +1,6 @@
 import { commonServiceAPI } from './API';
 
-const API_DOMAIN = process.env.REACT_APP_API_DOMAIN
+const API_DOMAIN = process.env.REACT_APP_API_DOMAIN;
 export class CRMServiceAPI {
   //Login API
   static userLogin = async (payload: any) => {
@@ -8,7 +8,7 @@ export class CRMServiceAPI {
       const response = await commonServiceAPI.CRMAPICall({
         url: `${API_DOMAIN}/wqBPlJJqwnPmxINapM/api/v1/login`,
         method: 'POST',
-         data: payload,
+        data: payload,
       });
       return response?.data;
     } catch (error) {
@@ -20,7 +20,7 @@ export class CRMServiceAPI {
   static OTPVerification = async (payload: any) => {
     try {
       const response = await commonServiceAPI.CRMAPICall({
-        url: `${API_DOMAIN}wqBPlJJqwnPmxINapM/api/v1/login-otp`,
+        url: `${API_DOMAIN}/wqBPlJJqwnPmxINapM/api/v1/login-otp`,
         method: 'POST',
         data: payload,
       });
@@ -29,5 +29,4 @@ export class CRMServiceAPI {
       console.log('otp verification', error);
     }
   };
-  
 }

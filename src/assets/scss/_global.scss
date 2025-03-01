@@ -12,3 +12,10 @@
     border-bottom: none !important;
   }
 }
+
+//change width for logout modal
+#logout-modal {
+  .MuiPaper-root {
+    width: 800px;
+  }
+}

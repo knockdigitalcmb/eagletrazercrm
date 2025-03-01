@@ -1,37 +1,40 @@
 import React, { useState } from 'react';
-import { Box, Button, Menu, MenuItem } from '@mui/material';
+import { Box, Menu, MenuItem } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import styles from './UserProfile.module.scss';
-import userProfilePic from '../../../src/assets/images/userprofileimage.png';
-import LoginConfirmation from '../LogoutConfirmation/';
+import { setAuthToken } from '../../features/common/commonSlice';
 import { useCRMAppDispatch } from '../../store/config';
-import { setClearAuthToken } from 'features/common/commonSlice';
+import LogoutModal from '../LogoutModal';
+
+import userProfilePic from '../../../src/assets/images/userprofileimage.png';
+import styles from './UserProfile.module.scss';
 
 const UserProfile = () => {
   const { t } = useTranslation();
+  const dispatch = useCRMAppDispatch();
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const navigate = useNavigate();
-   const dispatch = useCRMAppDispatch();
-   const [open, setOpen] = React.useState(false);
-
-   const handleOpen = () => {
-     setOpen(true);
-   };
-
-   const handleClose = () => {
-     setOpen(false);
-   };
+  const [open, setOpen] = React.useState(false);
 
   const handleProfileMenuOpen = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
   };
 
   const onHandleUserMenu = () => setAnchorEl(null);
-  const onHandleLogOut = () =>{
-   dispatch(setClearAuthToken())
-   navigate('/');
-  }
+
+  const onHandleLogOut = () => {
+    setOpen(true);
+  };
+
+  const onHandleLogOutClose = () => {
+    setOpen(false);
+  };
+
+  const onHandleContinue = () => {
+    dispatch(setAuthToken(''));
+    navigate('/');
+  };
+
   const navigateTo = (path: string) => {
     navigate(path);
     onHandleUserMenu();
@@ -72,29 +75,14 @@ const UserProfile = () => {
         >
           {t('settings')}
         </MenuItem>
-        <MenuItem className={styles.menuItem} onClick={handleOpen}>
+        <MenuItem className={styles.menuItem} onClick={onHandleLogOut}>
           {t('logout')}
         </MenuItem>
       </Menu>
-      <LoginConfirmation
+      <LogoutModal
         open={open}
-        onClose={handleClose}
-        title={t('logout')}
-        content={t('confirmationLogout')}
-        actions={
-          <>
-            <Button onClick={onHandleLogOut} className={styles.logout}>
-              {t('logout')}
-            </Button>
-            <Button
-              onClick={handleClose}
-              color='secondary'
-              className={styles.cancel}
-            >
-              {t('cancel')}
-            </Button>
-          </>
-        }
+        onClose={onHandleLogOutClose}
+        onHandleContinue={onHandleContinue}
       />
     </Box>
   );
