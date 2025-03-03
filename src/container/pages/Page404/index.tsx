@@ -18,13 +18,17 @@ const Page404 = () => {
   };
   return (
     <Box data-testid='page404' className={styles.page404Container}>
-      <Grid container spacing={2}>
-        <Grid size={7} className={styles.alignCenter}>
+      <Grid
+        container
+        spacing={{ xs: 0, md: 2 }}
+        direction={{ xs: 'column', md: 'row' }}
+      >
+        <Grid size={{ md: 7, sm: 12 }} className={styles.alignCenter}>
           <div className={styles.page404ImageWrapper}>
             <Page404Image />
           </div>
         </Grid>
-        <Grid size={5} className={styles.alignCenter}>
+        <Grid size={{ md: 5, sm: 12 }} className={styles.alignCenter}>
           <div className={styles.page404Wrapper}>
             <div className={styles.eagleTrazer}>
               <img src={EagleTrazer} alt='eagle-logo' title='Eagle Trazer' />
