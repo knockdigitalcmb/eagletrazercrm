@@ -21,7 +21,7 @@ const User = () => {
           data-testid='create-user-button'
           onClick={() => navigate('/create-user')}
         >
-          {t('Create User')}
+          {t('createUser')}
         </Button>
       </Box>
     </Box>

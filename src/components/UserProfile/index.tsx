@@ -75,11 +75,16 @@ const UserProfile = () => {
         >
           {t('settings')}
         </MenuItem>
-        <MenuItem className={styles.menuItem} onClick={onHandleLogOut}>
+        <MenuItem
+          className={styles.menuItem}
+          onClick={onHandleLogOut}
+          data-testid='logout-btn'
+        >
           {t('logout')}
         </MenuItem>
       </Menu>
       <LogoutModal
+        data-testid='logout-modal'
         open={open}
         onClose={onHandleLogOutClose}
         onHandleContinue={onHandleContinue}

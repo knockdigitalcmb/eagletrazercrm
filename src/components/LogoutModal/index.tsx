@@ -8,7 +8,6 @@ import {
   DialogTitle,
 } from '@mui/material';
 import { useTranslation } from 'react-i18next';
-
 interface DraggableDialogProps {
   open: boolean;
   onClose: () => void;
@@ -28,17 +27,25 @@ const LogoutModal: React.FC<DraggableDialogProps> = ({
       aria-labelledby='logout-dialog-title'
       aria-describedby='logout-dialog-description'
       id='logout-modal'
+      data-testid='logout-modal'
     >
-      <DialogTitle id='logout-dialog-title'>{t('logout')}</DialogTitle>
+      <DialogTitle id='logout-dialog-title' data-testid='logout-dialog-title'>
+        {t('logout')}
+      </DialogTitle>
       <DialogContent>
-        <DialogContentText id='logout-dialog-description'>
+        <DialogContentText
+          id='logout-dialog-description'
+          data-testid='logout-dialog-description'
+        >
           {t('confirmationLogout')}
         </DialogContentText>
       </DialogContent>
       <DialogActions>
-        <Button onClick={onHandleContinue}>Yes, Continue</Button>
-        <Button onClick={onClose} autoFocus>
-          No, Cancel
+        <Button onClick={onHandleContinue} data-testid='logout-continue-btn'>
+          {t('yesContinue')}
+        </Button>
+        <Button onClick={onClose} autoFocus data-testid='logout-cancel-btn'>
+          {t('noCancel')}
         </Button>
       </DialogActions>
     </Dialog>
