@@ -13,6 +13,7 @@ import {
   styled,
 } from '@mui/material';
 import { useTranslation } from 'react-i18next';
+import { useNavigate } from 'react-router-dom';
 import { CreateUserType, IUserPermissionIndex } from '../../../models/type';
 import InputAdornment from '@mui/material/InputAdornment';
 import Visibility from '@mui/icons-material/Visibility';
@@ -56,6 +57,7 @@ const CreateUser = () => {
     register,
     getValues,
     handleSubmit,
+    setError,
     setValue,
     clearErrors,
   } = useForm<CreateUserType>({
@@ -71,10 +73,34 @@ const CreateUser = () => {
   ) => {
     event.preventDefault();
   };
-  const handleFileChange = (event: any) => {
-    const file = event.target.files[0];
-    if (file) setSelectedPicture(file.name);
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0]; 
+
+    if (file) {
+      const fileSizeMB = file.size / (1024 * 1024); 
+      const allowedTypes = ['image/jpeg', 'image/png']; 
+
+      if (!allowedTypes.includes(file.type)) {
+        setError('profileImage', {
+          type: 'manual',
+          message: 'Only JPEG and PNG files are allowed.',
+        });
+        return;
+      }
+
+      if (fileSizeMB > 2) {
+        setError('profileImage', {
+          type: 'manual',
+          message: 'File size should not exceed 2MB.',
+        });
+        return;
+      }
+
+      clearErrors('profileImage'); 
+      setSelectedPicture(file.name); 
+    }
   };
+
 
   //Handle checkbox change
   const onHandlePermissionChange = (
@@ -91,7 +117,7 @@ const CreateUser = () => {
   const onHandleUserSubmit = () => {
     console.log(getValues());
   };
-
+  const navigate = useNavigate();
   return (
     <Box data-testid='create-user-page' className={styles.dashboardContainer}>
       <SidePanel menu={t('user')} />
@@ -102,6 +128,16 @@ const CreateUser = () => {
           className={styles.createUserContainer}
           direction={'column'}
         >
+          <Grid2 container justifyContent='flex-end'>
+            <Button
+              variant='contained'
+              color='primary'
+              onClick={() => navigate('/user')}
+              className={styles.backButton}
+            >
+              Back to User
+            </Button>
+          </Grid2>
           <Grid2
             container
             spacing={{ md: 3, sm: 0 }}
@@ -366,17 +402,19 @@ const CreateUser = () => {
                         type='file'
                         accept='image/jpeg, image/png'
                         {...register('profileImage')}
-                        onChange={(e) => handleFileChange(e)}
+                        onChange={handleFileChange}
                       />
                     </Button>
                     <Typography variant='body2' className={styles.fileSize}>
                       {t('fileSize')}
                     </Typography>
+
                     {errors.profileImage && (
-                      <Typography variant='body2' color='error'>
+                      <Typography variant="caption"  color='error'>
                         {errors.profileImage.message}
                       </Typography>
                     )}
+
                     {selectedPicture && (
                       <Typography
                         variant='body2'
