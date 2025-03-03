@@ -62,3 +62,8 @@
 .formControlError {
   position: relative;
 }
+.backButton{
+  &:hover{
+    background-color: $primary-lightColor;
+  }
+}

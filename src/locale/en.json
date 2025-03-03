@@ -19,6 +19,7 @@
   "cancel":"Cancel",
   "confirmationLogout":"Are You sure want to log out?",
   "dashboard": "Dashboard",
+  "backtouser":"Back to User",
   "basicInformation": "Basic Information",
   "employeeIDPlaceholder": "Employee Id *",
   "employeeIDRequired": "Employee ID is required",
