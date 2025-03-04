@@ -1,19 +1,24 @@
 import React, { useState } from 'react';
-import { Box, Button, Popover, Typography } from '@mui/material';
+import { Box, Button, IconButton, Menu, MenuItem } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
-import { pageSizeOptions } from '../../../constant/common.constant';
+import {
+  pageSizeOptions,
+  kebabMenuOptions,
+} from '../../../constant/common.constant';
 import SidePanel from '../../../components/SidePanel';
 import CRMTable from '../../../components/CRMTable';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 
 import styles from './User.module.scss';
 
+const ITEM_HEIGHT = 48;
 const User = () => {
   const { t } = useTranslation();
   const navigate = useNavigate();
-  const [anchorEl, setAnchorEl] = useState(false);
   const [userLoader, setUserLoader] = useState(false);
+  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+  const open = Boolean(anchorEl);
 
   const columns: any = [
     { field: 'id', headerName: 'S.No' },
@@ -51,7 +56,43 @@ const User = () => {
       field: '',
       headerName: 'Action',
       renderCell: () => {
-        return <MoreVertIcon onClick={() => onHandleKebabMenu()} />;
+        return (
+          <>
+            <IconButton
+              aria-label='more'
+              id='action-button'
+              aria-controls={open ? 'action-menu' : undefined}
+              aria-expanded={open ? 'true' : undefined}
+              aria-haspopup='true'
+              onClick={handleClick}
+            >
+              <MoreVertIcon />
+            </IconButton>
+            <Menu
+              id='action-menu'
+              MenuListProps={{
+                'aria-labelledby': 'action-button',
+              }}
+              anchorEl={anchorEl}
+              open={open}
+              onClose={handleClose}
+              slotProps={{
+                paper: {
+                  style: {
+                    maxHeight: ITEM_HEIGHT * 4.5,
+                    width: '20ch',
+                  },
+                },
+              }}
+            >
+              {kebabMenuOptions.map((option) => (
+                <MenuItem key={option} onClick={handleClose}>
+                  {option}
+                </MenuItem>
+              ))}
+            </Menu>
+          </>
+        );
       },
     },
   ];
@@ -70,8 +111,11 @@ const User = () => {
     },
   ];
 
-  const onHandleKebabMenu = () => {
-    setAnchorEl(true);
+  const handleClick = (event: React.MouseEvent<HTMLElement>) => {
+    setAnchorEl(event.currentTarget);
+  };
+  const handleClose = () => {
+    setAnchorEl(null);
   };
 
   return (
@@ -97,18 +141,6 @@ const User = () => {
             loading={userLoader}
             checkboxSelection={false}
           />
-          <Popover
-            id={'id'}
-            open={anchorEl}
-            anchorOrigin={{
-              vertical: 'bottom',
-              horizontal: 'left',
-            }}
-          >
-            <Typography sx={{ p: 2 }}>View</Typography>
-            <Typography sx={{ p: 2 }}>Edit</Typography>
-            <Typography sx={{ p: 2 }}>Delete</Typography>
-          </Popover>
         </Box>
       </Box>
     </Box>
