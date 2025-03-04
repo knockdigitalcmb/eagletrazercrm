@@ -21,7 +21,8 @@ jest.mock('../../../services/CRMService', () => {
 jest.mock('notistack', () => ({
   enqueueSnackbar: jest.fn(),
 }));
-const renderPage = () => {
+
+const RenderLoginPage = () => {
   render(
     <Provider store={store}>
       <BrowserRouter>
@@ -34,13 +35,13 @@ const renderPage = () => {
 describe('Login Page', () => {
   afterEach(cleanup);
   it('should login page render', () => {
-    renderPage();
+    RenderLoginPage();
     const loginElement = screen.getByTestId('loginPage');
     expect(loginElement).toBeInTheDocument();
   });
 
   it('should display error message when employee id is empty', async () => {
-    renderPage();
+    RenderLoginPage();
     const submitButton = screen.getByTestId('login-submit');
     fireEvent.click(submitButton);
     expect(
@@ -49,7 +50,7 @@ describe('Login Page', () => {
   });
 
   it('should display error when password is empty', async () => {
-    renderPage();
+    RenderLoginPage();
     const submitButton = screen.getByTestId('login-submit');
     fireEvent.click(submitButton);
     expect(
@@ -58,7 +59,7 @@ describe('Login Page', () => {
   });
 
   it('should enable login button when employeeId and password are filled', () => {
-    renderPage();
+    RenderLoginPage();
     const employeeIdInput = screen.getByTestId('employee-id');
     const PasswordInput = screen.getByTestId('password');
     const submitButton = screen.getByTestId('login-submit');
@@ -68,7 +69,7 @@ describe('Login Page', () => {
   });
 
   it('should toggle password when visibility icon is clicked', () => {
-    renderPage();
+    RenderLoginPage();
     const passwordInput = screen.getByTestId('password');
     const togglePasswordIcon = screen.getByLabelText(
       'toggle password visibility'
@@ -83,14 +84,14 @@ describe('Login Page', () => {
   it('should handles login success and redirect to otp page', async () => {
     (CRMServiceAPI.userLogin as jest.Mock).mockResolvedValue({
       status: true,
-      token: 'mocked_token',
+      token: 'test_token',
     });
-    renderPage();
+    RenderLoginPage();
     const employeeIdInput = screen.getByTestId('employee-id');
     const passwordInput = screen.getByTestId('password');
     const submitButton = screen.getByTestId('login-submit');
-    fireEvent.change(employeeIdInput),{target: { value: 'testEmpId' },};
-    fireEvent.change(passwordInput),{target: { value: 'testPassword' },};
+    fireEvent.change(employeeIdInput), { target: { value: 'testEmpId' } };
+    fireEvent.change(passwordInput), { target: { value: 'testPassword' } };
     fireEvent.click(submitButton);
     await waitFor(() => {
       expect(enqueueSnackbar).toHaveBeenCalledWith('Login successful', {
@@ -98,26 +99,26 @@ describe('Login Page', () => {
         autoHideDuration: 3000,
       });
     });
-    expect(window.location.pathname).toBe('/otp')
+    expect(window.location.pathname).toBe('/otp');
   });
 
-  it('should display error when api request failed',async()=>{
-   (CRMServiceAPI.userLogin as jest.Mock).mockRejectedValue({
-    status:false,
-    error:"unauthorized"
-   })
-   renderPage();
-   const employeeIdInput = screen.getByTestId('employee-id');
-   const passwordInput = screen.getByTestId('password');
-   const submitButton = screen.getByTestId('login-submit');
-   fireEvent.change(employeeIdInput),{target: { value: 'testEmpId' },};
-   fireEvent.change(passwordInput),{target: { value: 'testPassword' },};
-   fireEvent.click(submitButton);
-     await waitFor(()=>{
-     expect(enqueueSnackbar).toHaveBeenCalledWith('unauthorized', {
-       variant: 'error',
-       autoHideDuration: 3000,
-     });
-     })
-  })
+  it('should display error when api request failed', async () => {
+    (CRMServiceAPI.userLogin as jest.Mock).mockRejectedValue({
+      status: false,
+      error: 'unauthorized',
+    });
+    RenderLoginPage();
+    const employeeIdInput = screen.getByTestId('employee-id');
+    const passwordInput = screen.getByTestId('password');
+    const submitButton = screen.getByTestId('login-submit');
+    fireEvent.change(employeeIdInput), { target: { value: 'testEmpId' } };
+    fireEvent.change(passwordInput), { target: { value: 'testPassword' } };
+    fireEvent.click(submitButton);
+    await waitFor(() => {
+      expect(enqueueSnackbar).toHaveBeenCalledWith('unauthorized', {
+        variant: 'error',
+        autoHideDuration: 3000,
+      });
+    });
+  });
 });
