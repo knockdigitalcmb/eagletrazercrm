@@ -6,7 +6,7 @@ import { Navigate, useLocation } from 'react-router';
 const ProtectedRoute = ({ children }: any) => {
   const token = useSelector((state: RootState) => state.commonData.authToken);
   let location = useLocation();
-  if (token) {
+  if (!token) {
     return <Navigate to='/' state={{ from: location }} replace />;
   } else {
     return children;
