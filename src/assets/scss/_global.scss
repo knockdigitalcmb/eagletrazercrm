@@ -19,3 +19,13 @@
     width: 800px;
   }
 }
+
+//Table
+#crm-table {
+  .MuiPaper-root {
+    height: auto;
+  }
+  .MuiDataGrid-menuIcon {
+    display: none !important;
+  }
+}
