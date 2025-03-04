@@ -9,7 +9,7 @@ jest.mock('../../features/common/commonSlice', () => ({
   setAuthToken: jest.fn(),
 }));
 
-const renderComponent = () => {
+const RenderUserProfile = () => {
   <Provider store={store}>
     <BrowserRouter>
       <UserProfile />
@@ -24,7 +24,7 @@ describe('User Profile Page', () => {
   });
 
   it('should open the menu when clicking the profile image', () => {
-    renderComponent();
+    RenderUserProfile();
     const profileImage = screen.getByAltText('User Profile');
     fireEvent.click(profileImage);
     expect(screen.getByText('profile')).toBeInTheDocument();
@@ -33,7 +33,7 @@ describe('User Profile Page', () => {
   });
 
   it('should close the menu when clicking outside', () => {
-    renderComponent();
+    RenderUserProfile();
     fireEvent.click(screen.getByAltText('User Profile'));
     fireEvent.click(document.body);
     expect(screen.queryByText('profile')).not.toBeInTheDocument();
@@ -42,7 +42,7 @@ describe('User Profile Page', () => {
   });
 
   it('should open logout modal when logout menu is clicked', () => {
-    renderComponent();
+    RenderUserProfile();
     const profileImage = screen.getByTestId('user-profile');
     fireEvent.click(profileImage);
     const logoutButton = screen.getByTestId('logout-btn');
@@ -51,8 +51,8 @@ describe('User Profile Page', () => {
     expect(logoutModal).toBeInTheDocument();
   });
 
-  it('should clear setAuthToken and navigate to login page on clicking Yes,continue',() => {
-    renderComponent();
+  it('should clear token and navigate to login page on clicking yes,continue', () => {
+    RenderUserProfile();
     const logoutButton = screen.getByTestId('logout-btn');
     fireEvent.click(logoutButton);
     const confirmButton = screen.getByText(/Yes, Continue/i);
@@ -61,8 +61,8 @@ describe('User Profile Page', () => {
     expect(window.location.pathname).toBe('/');
   });
 
-  it('should close logout modal on clicking No,Cancel', () => {
-    renderComponent();
+  it('should close logout modal on clicking no,cancel', () => {
+    RenderUserProfile();
     const logoutButton = screen.getByTestId('logout-btn');
     fireEvent.click(logoutButton);
     const cancelButton = screen.getByText(/No,Cancel/i);

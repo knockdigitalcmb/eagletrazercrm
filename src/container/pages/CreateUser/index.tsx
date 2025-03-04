@@ -47,11 +47,14 @@ const VisuallyHiddenInput = styled('input')({
 
 const CreateUser = () => {
   const { t } = useTranslation();
+  const navigate = useNavigate();
   const [isShowPassword, setIsShowPassword] = useState(false);
   const [selectedPicture, setSelectedPicture] = useState('');
   const [userPermissions, setUserPermissions] = useState<IUserPermissionIndex>(
     userPermissionOptions
   );
+  const [userRole, setUserRole] = useState<string>('');
+
   const {
     formState: { errors },
     register,
@@ -63,7 +66,7 @@ const CreateUser = () => {
   } = useForm<CreateUserType>({
     mode: 'onChange',
   });
-  const [userRole, setUserRole] = useState<string>('');
+
   const handleClickShowPassword = () => {
     setIsShowPassword((prev) => !prev);
   };
@@ -73,13 +76,12 @@ const CreateUser = () => {
   ) => {
     event.preventDefault();
   };
+
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0]; 
-
+    const file = e.target.files?.[0];
     if (file) {
-      const fileSizeMB = file.size / (1024 * 1024); 
-      const allowedTypes = ['image/jpeg', 'image/png']; 
-
+      const fileSizeInMB = file.size / (1024 * 1024);
+      const allowedTypes = ['image/jpeg', 'image/png'];
       if (!allowedTypes.includes(file.type)) {
         setError('profileImage', {
           type: 'manual',
@@ -87,20 +89,17 @@ const CreateUser = () => {
         });
         return;
       }
-
-      if (fileSizeMB > 2) {
+      if (fileSizeInMB > 2) {
         setError('profileImage', {
           type: 'manual',
           message: 'File size should not exceed 2MB.',
         });
         return;
       }
-
-      clearErrors('profileImage'); 
-      setSelectedPicture(file.name); 
+      clearErrors('profileImage');
+      setSelectedPicture(file.name);
     }
   };
-
 
   //Handle checkbox change
   const onHandlePermissionChange = (
@@ -117,7 +116,7 @@ const CreateUser = () => {
   const onHandleUserSubmit = () => {
     console.log(getValues());
   };
-  const navigate = useNavigate();
+
   return (
     <Box data-testid='create-user-page' className={styles.dashboardContainer}>
       <SidePanel menu={t('user')} />
@@ -410,7 +409,7 @@ const CreateUser = () => {
                     </Typography>
 
                     {errors.profileImage && (
-                      <Typography variant="caption"  color='error'>
+                      <Typography variant='caption' color='error'>
                         {errors.profileImage.message}
                       </Typography>
                     )}
