@@ -111,14 +111,14 @@ const CreateUser = () => {
       if (!allowedTypes.includes(file.type)) {
         setError('profileImage', {
           type: 'manual',
-          message: 'Only JPEG and PNG files are allowed.',
+          message: `${t('imgFormatValidation')}`,
         });
         return;
       }
       if (fileSizeInMB > 2) {
         setError('profileImage', {
           type: 'manual',
-          message: 'File size should not exceed 2MB.',
+          message: `${t('imgSizeValidation')}`,
         });
         return;
       }
@@ -185,7 +185,7 @@ const onHandleUserSubmit = (data: CreateUserType) => {
               onClick={() => navigate('/user')}
               className={styles.backButton}
             >
-              Back to User
+              {t('backToUser')}
             </Button>
           </Grid2>
           <Grid2

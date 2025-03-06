@@ -1,9 +1,11 @@
 import HomeOutlinedIcon from '@mui/icons-material/HomeOutlined';
 import GroupOutlinedIcon from '@mui/icons-material/GroupOutlined';
+import ManageAccountsOutlinedIcon from '@mui/icons-material/ManageAccountsOutlined';
 
 export const sideBarNavMenus = [
   { name: 'Dashboard', icon: <HomeOutlinedIcon /> },
   { name: 'User', icon: <GroupOutlinedIcon /> },
+  {name:'Role',icon:<ManageAccountsOutlinedIcon/>}
 ];
 
 export const userPermissionOptions = {
