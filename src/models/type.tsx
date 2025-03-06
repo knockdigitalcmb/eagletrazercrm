@@ -23,3 +23,14 @@ export interface CreateUserType {
 export interface IUserPermissionIndex {
   [key: string]: any;
 }
+
+export interface RoleProps {
+  id: number;
+  role: string;
+  permission: {
+    create: boolean;
+    edit: boolean;
+    view: boolean;
+    delete: boolean;
+  };
+}
