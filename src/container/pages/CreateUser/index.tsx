@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   Box,
   Typography,
@@ -13,7 +13,7 @@ import {
   styled,
 } from '@mui/material';
 import { useTranslation } from 'react-i18next';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { CreateUserType, IUserPermissionIndex } from '../../../models/type';
 import InputAdornment from '@mui/material/InputAdornment';
 import Visibility from '@mui/icons-material/Visibility';
@@ -55,18 +55,44 @@ const CreateUser = () => {
   );
   const [userRole, setUserRole] = useState<string>('');
 
-  const {
-    formState: { errors },
-    register,
-    getValues,
-    handleSubmit,
-    setError,
-    setValue,
-    clearErrors,
-  } = useForm<CreateUserType>({
-    mode: 'onChange',
-  });
+ const location = useLocation();
+ const userData = location.state?.user || {}; // Now it's defined first!
 
+ const {
+   formState: { errors },
+   register,
+   getValues,
+   handleSubmit,
+   setError,
+   setValue,
+   clearErrors,
+ } = useForm<CreateUserType>({
+   mode: 'onChange',
+   defaultValues: userData, // Now it knows what userData is!
+ });
+
+  const [formData, setFormData] = useState({
+    employeeId: '',
+    userName: '',
+    role: '',
+    phoneNumber: '',
+    email: '',
+    location: '',
+    address: '',
+    status: '',
+  });
+  useEffect(() => {
+    if (userData && Object.keys(userData).length > 0) {
+      Object.entries(userData).forEach(([key, value]) => {
+        setValue(key as keyof CreateUserType, value as string | number | null); // Ensure correct type
+      });
+    }
+  }, [userData, setValue]);
+ // Depend on `userData` and `setValue`
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
   const handleClickShowPassword = () => {
     setIsShowPassword((prev) => !prev);
   };
@@ -111,11 +137,36 @@ const CreateUser = () => {
     clonedPermissionProps[key].actions[action] = e.target.checked;
     setUserPermissions(clonedPermissionProps);
   };
+const onHandleUserSubmit = (data: CreateUserType) => {
+  console.log('Updated User Data:', data); // Debugging log
 
-  //on Handle User Submit
-  const onHandleUserSubmit = () => {
-    console.log(getValues());
+  // Ensure Employee ID is always present
+  const updatedData = {
+    ...data,
+    employeeID: data.employeeID || 'N/A', // ✅ Correct property name
   };
+
+  // Check if the user is being edited
+  if (userData?.id) {
+    let users = JSON.parse(localStorage.getItem('users') || '[]');
+
+    users = users.map((user: any) =>
+      user.id === userData.id ? { ...user, ...updatedData } : user
+    );
+
+    localStorage.setItem('users', JSON.stringify(users));
+  } else {
+    let users = JSON.parse(localStorage.getItem('users') || '[]');
+    const newUser = { ...updatedData, id: Date.now() }; // ✅ Ensure unique ID
+    users.push(newUser);
+    localStorage.setItem('users', JSON.stringify(users));
+  }
+
+  navigate('/user'); // Redirect back to the user list
+};
+
+
+
 
   return (
     <Box data-testid='create-user-page' className={styles.dashboardContainer}>
