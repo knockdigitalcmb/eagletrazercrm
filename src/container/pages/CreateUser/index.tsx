@@ -47,52 +47,24 @@ const VisuallyHiddenInput = styled('input')({
 
 const CreateUser = () => {
   const { t } = useTranslation();
-  const navigate = useNavigate();
   const [isShowPassword, setIsShowPassword] = useState(false);
   const [selectedPicture, setSelectedPicture] = useState('');
+  const [fileError, setFileError] = useState(false);
   const [userPermissions, setUserPermissions] = useState<IUserPermissionIndex>(
     userPermissionOptions
   );
-  const [userRole, setUserRole] = useState<string>('');
-
- const location = useLocation();
- const userData = location.state?.user || {}; // Now it's defined first!
-
- const {
-   formState: { errors },
-   register,
-   getValues,
-   handleSubmit,
-   setError,
-   setValue,
-   clearErrors,
- } = useForm<CreateUserType>({
-   mode: 'onChange',
-   defaultValues: userData, // Now it knows what userData is!
- });
-
-  const [formData, setFormData] = useState({
-    employeeId: '',
-    userName: '',
-    role: '',
-    phoneNumber: '',
-    email: '',
-    location: '',
-    address: '',
-    status: '',
+  const {
+    formState: { errors },
+    register,
+    getValues,
+    handleSubmit,
+    setError,
+    setValue,
+    clearErrors,
+  } = useForm<CreateUserType>({
+    mode: 'onChange',
   });
-  useEffect(() => {
-    if (userData && Object.keys(userData).length > 0) {
-      Object.entries(userData).forEach(([key, value]) => {
-        setValue(key as keyof CreateUserType, value as string | number | null); // Ensure correct type
-      });
-    }
-  }, [userData, setValue]);
- // Depend on `userData` and `setValue`
-
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
-  };
+  const [userRole, setUserRole] = useState<string>('');
   const handleClickShowPassword = () => {
     setIsShowPassword((prev) => !prev);
   };
@@ -102,27 +74,33 @@ const CreateUser = () => {
   ) => {
     event.preventDefault();
   };
-
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
+
     if (file) {
-      const fileSizeInMB = file.size / (1024 * 1024);
+      const fileSizeMB = file.size / (1024 * 1024);
       const allowedTypes = ['image/jpeg', 'image/png'];
+
       if (!allowedTypes.includes(file.type)) {
         setError('profileImage', {
           type: 'manual',
           message: `${t('imgFormatValidation')}`,
         });
+        setFileError(true);
         return;
       }
-      if (fileSizeInMB > 2) {
+
+      if (fileSizeMB > 2) {
         setError('profileImage', {
           type: 'manual',
           message: `${t('imgSizeValidation')}`,
         });
+        setFileError(true);
         return;
       }
+
       clearErrors('profileImage');
+      setFileError(false);
       setSelectedPicture(file.name);
     }
   };
@@ -145,29 +123,7 @@ const onHandleUserSubmit = (data: CreateUserType) => {
     ...data,
     employeeID: data.employeeID || 'N/A', // ✅ Correct property name
   };
-
-  // Check if the user is being edited
-  if (userData?.id) {
-    let users = JSON.parse(localStorage.getItem('users') || '[]');
-
-    users = users.map((user: any) =>
-      user.id === userData.id ? { ...user, ...updatedData } : user
-    );
-
-    localStorage.setItem('users', JSON.stringify(users));
-  } else {
-    let users = JSON.parse(localStorage.getItem('users') || '[]');
-    const newUser = { ...updatedData, id: Date.now() }; // ✅ Ensure unique ID
-    users.push(newUser);
-    localStorage.setItem('users', JSON.stringify(users));
-  }
-
-  navigate('/user'); // Redirect back to the user list
-};
-
-
-
-
+  const navigate = useNavigate();
   return (
     <Box data-testid='create-user-page' className={styles.dashboardContainer}>
       <SidePanel menu={t('user')} />
@@ -194,7 +150,8 @@ const onHandleUserSubmit = (data: CreateUserType) => {
             className={styles.leftSection}
             direction={{ md: 'row', sm: 'column' }}
             height={{
-              md: Object.keys(errors).length > 0 ? 'auto' : '350px',
+              md:
+                Object.keys(errors).length > 0 && !fileError ? 'auto' : '350px',
             }}
           >
             <Grid2
