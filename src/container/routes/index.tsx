@@ -6,7 +6,7 @@ import OTPPage from '../pages/Otp';
 import Dashboard from '../pages/Dashboard';
 import CreateUser from '../pages/CreateUser';
 import User from '../pages/User';
-import Role from '../pages/Role/index';
+import Roles from '../pages/Roles/index';
 import ProtectedRoute from './ProtectedRoute';
 
 const _Routes = () => {
@@ -51,11 +51,11 @@ const _Routes = () => {
         }
       />
       <Route
-        path='/role'
-        key='role'
+        path='/roles'
+        key='roles'
         element={
           <ProtectedRoute>
-            <Role />
+            <Roles />
           </ProtectedRoute>
         }
       />

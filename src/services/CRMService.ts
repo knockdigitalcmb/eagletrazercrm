@@ -29,15 +29,58 @@ export class CRMServiceAPI {
       console.log('otp verification', error);
     }
   };
-  static RoleData= async () => {
+
+  //get user role list
+  static getUserRoleList = async () => {
+    const rows = [
+      {
+        id: 1,
+        role: 'Admin',
+        permission: { create: true, edit: true, view: true, delete: true },
+      },
+      {
+        id: 2,
+        role: 'User',
+        permission: { create: false, edit: true, view: true, delete: false },
+      },
+    ];
     try {
-      const response = await commonServiceAPI.CRMAPICall({
-        url: `https://jsonplaceholder.typicode.com/posts/1`,
-        method: 'GET',
-      });
-      return response?.data;
+      // const response = await commonServiceAPI.CRMAPICall({
+      //   url: `${API_DOMAIN}/wqBPlJJqwnPmxINapM/api/v1/getuserList`,
+      //   method: 'GET',
+      // });
+      return rows;
     } catch (error) {
-      console.log('Role Data api', error);
+      console.log('get user list api', error);
+    }
+  };
+
+  //update user role list
+  static updateUserRole = async (payload: any) => {
+    try {
+      // const response = await commonServiceAPI.CRMAPICall({
+      //   url: `${API_DOMAIN}/wqBPlJJqwnPmxINapM/api/v1/updateUserRole`,
+      //   method: 'POST',
+      // data:payload
+      // });
+      // return response?.data;
+      return true;
+    } catch (error) {
+      console.log('update user role api', error);
+    }
+  };
+
+  static createUserRole = async (payload: any) => {
+    try {
+      // const response = await commonServiceAPI.CRMAPICall({
+      //   url: `${API_DOMAIN}/wqBPlJJqwnPmxINapM/api/v1/createUserRole`,
+      //   method: 'POST',
+      // data:payload
+      // });
+      // return response?.data;
+      return true;
+    } catch (error) {
+      console.log('create user role api', error);
     }
   };
 }

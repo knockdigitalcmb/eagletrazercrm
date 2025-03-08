@@ -1,0 +1,17 @@
+@import '../../../assets//scss//mixin';
+@import '../../../assets/scss/variable';
+.dashboardContainer {
+  display: flex;
+  .createRoleButton {
+    text-align: right;
+    width: 100%;
+    @include respond-to($md) {
+      display: flex;
+      justify-content: center;
+      min-width: 100vw;
+    }
+  }
+  .chipButton {
+    margin-right: 10px;
+  }
+}

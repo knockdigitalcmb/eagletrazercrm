@@ -5,7 +5,7 @@ import ManageAccountsOutlinedIcon from '@mui/icons-material/ManageAccountsOutlin
 export const sideBarNavMenus = [
   { name: 'Dashboard', icon: <HomeOutlinedIcon /> },
   { name: 'User', icon: <GroupOutlinedIcon /> },
-  {name:'Role',icon:<ManageAccountsOutlinedIcon/>}
+  { name: 'Roles', icon: <ManageAccountsOutlinedIcon /> },
 ];
 
 export const userPermissionOptions = {
