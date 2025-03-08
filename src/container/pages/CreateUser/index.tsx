@@ -30,6 +30,7 @@ import {
 } from '../../../constant/common.constant';
 import { getInputFieldErrorMessage } from '../../../helper/formValidators';
 import { capitalizeFirstLetter, getStringEclipse } from '../../../helper';
+import { UserProps } from '../../../models/type';
 
 import styles from './CreateUser.module.scss';
 
@@ -47,12 +48,20 @@ const VisuallyHiddenInput = styled('input')({
 
 const CreateUser = () => {
   const { t } = useTranslation();
+  const location = useLocation();
+  const navigate = useNavigate();
   const [isShowPassword, setIsShowPassword] = useState(false);
   const [selectedPicture, setSelectedPicture] = useState('');
   const [fileError, setFileError] = useState(false);
   const [userPermissions, setUserPermissions] = useState<IUserPermissionIndex>(
     userPermissionOptions
   );
+  const userData = location.state?.user || {};
+  console.log(userData);
+  console.log('User Role:', userData?.role);
+  const updateUser = (id: string, data: any) => {
+    console.log(`Updating user with ID: ${id}`, data);
+  };
   const {
     formState: { errors },
     register,
@@ -115,15 +124,21 @@ const CreateUser = () => {
     clonedPermissionProps[key].actions[action] = e.target.checked;
     setUserPermissions(clonedPermissionProps);
   };
-const onHandleUserSubmit = (data: CreateUserType) => {
-  console.log('Updated User Data:', data); // Debugging log
+  const onHandleUserSubmit = () => {
+    console.log(getValues());
+    const formData = getValues();
+    console.log('Form Data:', formData);
 
-  // Ensure Employee ID is always present
-  const updatedData = {
-    ...data,
-    employeeID: data.employeeID || 'N/A', // ✅ Correct property name
+    if (userData?.id) {
+      updateUser(userData.id, formData);
+      console.log('User updated successfully!');
+    } else {
+      console.log('Creating new user...');
+    }
+
+    navigate('/user');
   };
-  const navigate = useNavigate();
+
   return (
     <Box data-testid='create-user-page' className={styles.dashboardContainer}>
       <SidePanel menu={t('user')} />
@@ -173,6 +188,7 @@ const onHandleUserSubmit = (data: CreateUserType) => {
                       sx={{ position: 'relative' }}
                     >
                       <TextField
+                        defaultValue={userData?.employeeId || ''}
                         {...register('employeeID', {
                           required: `${t('employeeIDRequired')}`,
                         })}
@@ -202,6 +218,7 @@ const onHandleUserSubmit = (data: CreateUserType) => {
                       className={styles.formControlError}
                     >
                       <TextField
+                        defaultValue={userData?.userName || ''}
                         {...register('userName', {
                           required: `${t('userNameRequired')}`,
                         })}
@@ -287,6 +304,7 @@ const onHandleUserSubmit = (data: CreateUserType) => {
                       className={styles.formControlError}
                     >
                       <TextField
+                        defaultValue={userData?.email || ''}
                         {...register('email', {
                           required: `${t('emailRequired')}`,
                           pattern: {
@@ -323,6 +341,7 @@ const onHandleUserSubmit = (data: CreateUserType) => {
                       className={styles.formControlError}
                     >
                       <TextField
+                        defaultValue={userData?.phoneNumber || ''}
                         {...register('phoneNumber', {
                           required: `${t('phoneNumberRequired')} `,
                           pattern: {
@@ -355,6 +374,7 @@ const onHandleUserSubmit = (data: CreateUserType) => {
                       className={styles.formControlError}
                     >
                       <TextField
+                        defaultValue={userData?.location || ''}
                         {...register('location', {
                           required: `${t('locationRequired')}`,
                         })}
@@ -386,6 +406,7 @@ const onHandleUserSubmit = (data: CreateUserType) => {
                       className={styles.formControlError}
                     >
                       <TextField
+                        defaultValue={userData?.address || ''}
                         {...register('address')}
                         placeholder={t('addressPlaceholder')}
                         id='address'
@@ -449,6 +470,7 @@ const onHandleUserSubmit = (data: CreateUserType) => {
                   className={styles.formControlError}
                 >
                   <TextField
+                    defaultValue={userData?.dateOfJoining || ''}
                     {...register('joiningDate', {
                       required: `${t('joiningDateRequired')}`,
                     })}
@@ -634,7 +656,7 @@ const onHandleUserSubmit = (data: CreateUserType) => {
               data-testid='submit-button'
               variant='contained'
               color='primary'
-              onClick={handleSubmit(onHandleUserSubmit)}
+              onClick={() => handleSubmit(onHandleUserSubmit)()}
             >
               {t('submit')}
             </Button>
