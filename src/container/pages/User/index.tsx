@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   Box,
   Button,
@@ -33,52 +33,15 @@ import { UserProps } from '../../../models/type';
 import LogoutModal from '../../../components/LogoutModal';
 
 import styles from './User.module.scss';
+import { CRMServiceAPI } from 'services/CRMService';
 
 const ITEM_HEIGHT = 48;
-const rows = [
-  {
-    id: 1,
-    employeeId: 'E001',
-    userName: 'Test User',
-    role: 'Admin',
-    phoneNumber: '1234567890',
-    email: 'test@gmail.com',
-    location: 'Tamil Nadu',
-    address: 'Test Address',
-    status: 'active',
-    dateOfJoining: '2005-04-18',
-  },
-  {
-    id: 2,
-    employeeId: 'E002',
-    userName: 'John Doe',
-    role: 'Developer',
-    phoneNumber: '9876543210',
-    email: 'johndoe@gmail.com',
-    location: 'Chennai',
-    address: '123 Street',
-    status: 'inactive',
-    dateOfJoining: '2018-05-14',
-  },
-  {
-    id: 3,
-    employeeId: 'E003',
-    userName: 'Jane Smith',
-    role: 'Lead',
-    phoneNumber: '1112223333',
-    email: 'janesmith@gmail.com',
-    location: 'Bangalore',
-    address: 'XYZ Avenue',
-    status: 'active',
-    dateOfJoining: '2022-02-11',
-  },
-];
 
 const User = () => {
   const { t } = useTranslation();
   const navigate = useNavigate();
   const [userLoader, setUserLoader] = useState(false);
-  const [users, setUsers] = useState<UserProps[]>(rows);
+  const [users, setUsers] = useState<UserProps[]>([]);
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedStatuses, setSelectedStatuses] = useState<string[]>([
@@ -146,17 +109,38 @@ const User = () => {
     },
   ];
 
-  // Filter logic
-  const filteredRows = users.filter(
-    (row) =>
-      (row.employeeId.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        row.userName.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        row.phoneNumber.includes(searchTerm)) &&
-      selectedStatuses
-        .map((s) => s.toLowerCase())
-        .includes(row.status.toLowerCase())
-  );
+  useEffect(() => {
+    getUserList();
+  }, []);
 
+  const getUserList = async () => {
+    try {
+      setUserLoader(true);
+      let response = await CRMServiceAPI.getUserList();
+      if (response) {
+        setUserLoader(false);
+        setUsers(response);
+      }
+    } catch (error) {}
+  };
+
+  //search filter action
+  useEffect(() => {
+    if (searchTerm && searchTerm.length > 3) {
+      getSearchUserList();
+    }
+  }, [searchTerm]);
+
+  const getSearchUserList = async () => {
+    try {
+      setUserLoader(true);
+      let response = await CRMServiceAPI.searchUserList(searchTerm);
+      if (response) {
+        setUserLoader(false);
+        setUsers([]);
+      }
+    } catch (error) {}
+  };
   const handleClick = (event: React.MouseEvent<HTMLElement>, rowId: number) => {
     setMenuState({ anchorEl: event.currentTarget, rowId });
   };
@@ -174,7 +158,20 @@ const User = () => {
 
   const handleFilterClose = () => {
     setDrawerOpen(false);
+    getUserFilterList();
   };
+
+  const getUserFilterList = async () => {
+    try {
+      setUserLoader(true);
+      let response = await CRMServiceAPI.searchUserList(selectedStatuses);
+      if (response) {
+        setUserLoader(false);
+        setUsers([]);
+      }
+    } catch (error) {}
+  };
+
   const handleStatusChange = (status: string) => {
     setSelectedStatuses((prevStatuses) =>
       prevStatuses.includes(status)
@@ -245,7 +242,7 @@ const User = () => {
         {/* Table */}
         <Box>
           <CRMTable
-            rows={filteredRows}
+            rows={users}
             columns={columns}
             pageSizeOptions={pageSizeOptions}
             loading={userLoader}
