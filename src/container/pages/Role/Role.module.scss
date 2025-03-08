@@ -2,7 +2,7 @@
 @import '../../../assets/scss/variable';
 .dashboardContainer {
   display: flex;
-.createRoleBtn{
+.createRoleButton{
   text-align: right;
   width: 100%;
   @include respond-to($md){
@@ -11,24 +11,23 @@
     min-width: 100vw;
   }
 }
-.chipBtn{
+.chipButton{
     margin-right:10px;
   }
 }
-.createRoleModal,.viewModal{
+.modalStyle{
   position: absolute;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  width: 400px;
   background-color:$white-color;
   box-shadow: 0px 4px 24px rgba(0, 0, 0, 0.2);
   padding: 16px;
 }
 .createRoleModal{
     height: 400px;
+    width: 700px;
+  
 }
-.viewModal{
-  height: 250px;
-  width: 500px;
-}
+
+

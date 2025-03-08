@@ -6,8 +6,10 @@ const mockOnHandleContinue = jest.fn();
 
 const props = {
   open: true,
-  onClose:  mockOnClose ,
-  onHandleContinue:  mockOnHandleContinue 
+  onClose: mockOnClose,
+  onHandleContinue: mockOnHandleContinue,
+  title: 'Logout Confirmation',
+  titleDescription: 'Are you sure you want to log out?',
 };
 
 describe('Logout Modal Component',()=>{
