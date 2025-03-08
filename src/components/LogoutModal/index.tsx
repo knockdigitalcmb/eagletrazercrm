@@ -10,6 +10,8 @@ import {
 import { useTranslation } from 'react-i18next';
 interface DraggableDialogProps {
   open: boolean;
+  title: string;
+  titleDescription: string;
   onClose: () => void;
   onHandleContinue: () => void;
 }
@@ -18,6 +20,8 @@ const LogoutModal: React.FC<DraggableDialogProps> = ({
   open,
   onClose,
   onHandleContinue,
+  title,
+  titleDescription,
 }) => {
   const { t } = useTranslation();
   return (
@@ -30,14 +34,14 @@ const LogoutModal: React.FC<DraggableDialogProps> = ({
       data-testid='logout-modal'
     >
       <DialogTitle id='logout-dialog-title' data-testid='logout-dialog-title'>
-        {t('logout')}
+        { title}
       </DialogTitle>
       <DialogContent>
         <DialogContentText
           id='logout-dialog-description'
           data-testid='logout-dialog-description'
         >
-          {t('confirmationLogout')}
+          {titleDescription}
         </DialogContentText>
       </DialogContent>
       <DialogActions>

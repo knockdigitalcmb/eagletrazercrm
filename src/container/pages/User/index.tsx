@@ -1,141 +1,105 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import {
   Box,
   Button,
   IconButton,
   Menu,
   MenuItem,
+  TextField,
+  Drawer,
   Dialog,
   DialogTitle,
   DialogContent,
+  DialogActions,
+  Checkbox,
   Typography,
-  TextField,
-  Drawer,
   Divider,
+  Grid,
   ListItemIcon,
   ListItemText,
-  Checkbox,
-  MenuItem as SelectMenuItem,
+  Grid2,
 } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
-import MoreVertIcon from '@mui/icons-material/MoreVert';
-import FilterAltIcon from '@mui/icons-material/FilterAlt';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
-import { pageSizeOptions } from '../../../constant/common.constant';
+import {
+  pageSizeOptions,
+  kebabMenuOptions,
+} from '../../../constant/common.constant';
+import MoreVertIcon from '@mui/icons-material/MoreVert';
+import FilterAltIcon from '@mui/icons-material/FilterAlt';
 import SidePanel from '../../../components/SidePanel';
 import CRMTable from '../../../components/CRMTable';
+import { UserProps } from '../../../models/type';
+import LogoutModal from '../../../components/LogoutModal'; 
 
 import styles from './User.module.scss';
 
 const ITEM_HEIGHT = 48;
+const rows = [
+  {
+    id: 1,
+    employeeId: 'E001',
+    userName: 'Test User',
+    role: 'Admin',
+    phoneNumber: '1234567890',
+    email: 'test@gmail.com',
+    location: 'Tamil Nadu',
+    address: 'Test Address',
+    status: 'active',
+    dateOfJoining: '2005-04-18',
+  },
+  {
+    id: 2,
+    employeeId: 'E002',
+    userName: 'John Doe',
+    role: 'Developer',
+    phoneNumber: '9876543210',
+    email: 'johndoe@gmail.com',
+    location: 'Chennai',
+    address: '123 Street',
+    status: 'inactive',
+    dateOfJoining: '2018-05-14',
+  },
+  {
+    id: 3,
+    employeeId: 'E003',
+    userName: 'Jane Smith',
+    role: 'Lead',
+    phoneNumber: '1112223333',
+    email: 'janesmith@gmail.com',
+    location: 'Bangalore',
+    address: 'XYZ Avenue',
+    status: 'active',
+    dateOfJoining: '2022-02-11',
+  },
+];
 
 const User = () => {
   const { t } = useTranslation();
   const navigate = useNavigate();
   const [userLoader, setUserLoader] = useState(false);
+  const [users, setUsers] = useState<UserProps[]>(rows);
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const [searchTerm, setSearchTerm] = useState('');
-  const [statusFilter, setStatusFilter] = useState<string>('Active');
-  const [isFilterOpen, setIsFilterOpen] = useState(false);
-  const [selectedStatus, setSelectedStatus] = useState<string>('Active');
+  const [selectedStatuses, setSelectedStatuses] = useState<string[]>([
+    'active',
+  ]);
   const [selectedUser, setSelectedUser] = useState<any>(null);
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [users, setUsers] = useState<any[]>([]);
-  const open = Boolean(anchorEl);
-
-  const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setSearchTerm(event.target.value);
-  };
-
-  const handleClick = (event: React.MouseEvent<HTMLElement>, user: any) => {
-    setAnchorEl(event.currentTarget);
-    setSelectedUser(user);
-  };
-
-  const handleClose = () => {
-    setAnchorEl(null);
-  };
-
-  const handleView = () => {
-    setIsModalOpen(true);
-    handleClose();
-  };
-
-  const handleCloseModal = () => {
-    setIsModalOpen(false);
-  };
-
-  const handleEdit = () => {
-    if (selectedUser) {
-      navigate('/create-user', { state: { user: { ...selectedUser } } });
-    }
-    handleClose();
-  };
-
-  const handleFilterOpen = () => {
-    setIsFilterOpen(true);
-  };
-  const handleReset = () => {
-    setSelectedStatus('Active');
-    setStatusFilter('Active');
-  };
-  // Apply filter
-  const handleSubmit = () => {
-    setStatusFilter(selectedStatus);
-    setIsFilterOpen(false);
-  };
-
-  const handleFilterClose = () => {
-    setIsFilterOpen(false);
-  };
-
-  // Update to use SelectChangeEvent
-  const handleStatusChange = (status: string) => {
-    setStatusFilter(status);
-    setSelectedStatus(status);
-  };
-
-  useEffect(() => {
-    const storedUsers = JSON.parse(localStorage.getItem('users') || '[]');
-    setUsers(storedUsers);
-  }, []);
-
-  useEffect(() => {
-    if (users.length) {
-      localStorage.setItem('users', JSON.stringify(users));
-    }
-  }, [users]);
-
-  const filteredUsers = users.filter((user) => {
-    const search = searchTerm.trim().toLowerCase();
-
-    if (!user) return false;
-
-    const matchesSearchTerm =
-      (user.employeeId?.toLowerCase().includes(search) ?? false) ||
-      (user.userName?.toLowerCase().includes(search) ?? false) ||
-      (user.phoneNumber?.toLowerCase().includes(search) ?? false);
-
-    const matchesStatusFilter = !statusFilter || user.status === statusFilter;
-
-    return matchesSearchTerm && matchesStatusFilter;
+  const [modalOpen, setModalOpen] = useState(false);
+  const [menuState, setMenuState] = useState<{
+    anchorEl: null | HTMLElement;
+    rowId: number | null;
+  }>({
+    anchorEl: null,
+    rowId: null,
   });
-
-  const rows = filteredUsers.map((user, index) => ({
-    id: index + 1,
-    employeeId: user.employeeId,
-    userName: user.userName,
-    role: user.role,
-    phoneNumber: user.phoneNumber,
-    email: user.email,
-    location: user.location,
-    address: user.address,
-    status: user.status || 'Active',
-  }));
+  const [drawerOpen, setDrawerOpen] = useState(false);
+  const open = Boolean(anchorEl);
+  const [deleteModal, setDeleteModal] = useState(false);
 
   const columns: any = [
-    { field: 'id', headerName: 'S.No', width: 80 },
+    { field: 'id', headerName: 'S.No' },
     { field: 'employeeId', headerName: 'Employee ID' },
     { field: 'userName', headerName: 'User Name' },
     { field: 'role', headerName: 'Role' },
@@ -144,6 +108,7 @@ const User = () => {
     { field: 'location', headerName: 'Location', width: 120 },
     { field: 'address', headerName: 'Address', width: 120 },
     { field: 'status', headerName: 'Status' },
+    { field: 'dateOfJoining', headerName: 'Date of Joining' },
     {
       field: '',
       headerName: 'Action',
@@ -153,38 +118,116 @@ const User = () => {
             aria-label='more'
             id='action-button'
             aria-controls={open ? 'action-menu' : undefined}
+            aria-expanded={open ? 'true' : undefined}
             aria-haspopup='true'
-            onClick={(event) => handleClick(event, params.row)}
+            onClick={(event) => handleClick(event, params.row.id)}
           >
             <MoreVertIcon />
           </IconButton>
+
           <Menu
             id='action-menu'
-            anchorEl={anchorEl}
-            open={open}
+            MenuListProps={{
+              'aria-labelledby': `action-button-${params.row.id}`,
+            }}
+            anchorEl={menuState.anchorEl}
+            open={
+              menuState.anchorEl !== null && menuState.rowId === params.row.id
+            }
             onClose={handleClose}
-            sx={{
-              '& .MuiPaper-root': {
-                maxHeight: ITEM_HEIGHT * 4.5,
-                width: '20ch',
+            slotProps={{
+              paper: {
+                style: {
+                  maxHeight: ITEM_HEIGHT * 4.5,
+                  width: '20ch',
+                },
               },
             }}
           >
-            <MenuItem onClick={handleView}>View</MenuItem>
-            <MenuItem onClick={handleEdit}>Edit</MenuItem>
-            <MenuItem onClick={handleClose}>Delete</MenuItem>
+            <MenuItem onClick={() => handleView(params.row)}>View</MenuItem>
+            <MenuItem onClick={() => handleEdit(params.row)}>Edit</MenuItem>
+
+            <MenuItem onClick={() => handleDelete(params.row)}>Delete</MenuItem>
           </Menu>
         </>
       ),
     },
   ];
 
+  // Filter logic
+  const filteredRows = users.filter(
+    (row) =>
+      (row.employeeId.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        row.userName.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        row.phoneNumber.includes(searchTerm)) &&
+      selectedStatuses
+        .map((s) => s.toLowerCase())
+        .includes(row.status.toLowerCase()) 
+  );
+
+  const handleClick = (event: React.MouseEvent<HTMLElement>, rowId: number) => {
+    setMenuState({ anchorEl: event.currentTarget, rowId });
+  };
+
+  const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchTerm(event.target.value);
+  };
+  const handleClose = (id: number) => {
+    setAnchorEl(null); 
+  };
+
+  const handleFilterOpen = () => {
+    setDrawerOpen(true);
+  };
+
+  const handleFilterClose = () => {
+    setDrawerOpen(false);
+  };
+  const handleStatusChange = (status: string) => {
+    setSelectedStatuses((prevStatuses) =>
+      prevStatuses.includes(status)
+        ? prevStatuses.filter((s) => s !== status)
+        : [...prevStatuses, status]
+    );
+  };
+
+  const handleReset = () => {
+    setSelectedStatuses(['active']);
+    setSearchTerm('');
+  };
+  const handleView = (user: any) => {
+    setSelectedUser(user);
+    setModalOpen(true);
+  };
+
+  const handleEdit = (user: any) => {
+    navigate('/create-user', { state: { user } });
+  };
+  const handleDelete = (user: any) => {
+    setSelectedUser(user);
+    setDeleteModal(true);
+  };
+
+  const onDeleteModalClose = () => {
+    setDeleteModal(false);
+  };
+
+
+
+  const onDeleteModalContinue = () => {
+    if (selectedUser) {
+      setUsers((prev) => prev.filter((user) => user.id !== selectedUser.id));
+      setDeleteModal(false);
+      setSelectedUser(null);
+    }
+  };
   return (
     <Box data-testid='create-user' className={styles.dashboardContainer}>
       <SidePanel menu={t('user')} />
       <Box component='main' sx={{ flexGrow: 1, p: 3, marginTop: '70px' }}>
         <Box className={styles.createUserButton}>
           <Button
+            data-testid='create-user-button'
             onClick={() => navigate('/create-user')}
             variant='contained'
             color='primary'
@@ -192,6 +235,7 @@ const User = () => {
             {t('createUser')}
           </Button>
         </Box>
+        {/* Search & Filter Buttons */}
         <Box sx={{ display: 'flex', gap: 2, marginBottom: 2 }}>
           <TextField
             placeholder='Search by Employee ID, Name, or Phone Number'
@@ -199,7 +243,6 @@ const User = () => {
             onChange={handleSearchChange}
             fullWidth
           />
-
           <Button
             variant='contained'
             color='primary'
@@ -208,128 +251,163 @@ const User = () => {
           >
             Filter
           </Button>
-
-          <Drawer
-            anchor='right'
-            open={isFilterOpen}
-            onClose={handleFilterClose}
-          >
-            <Box
-              sx={{
-                display: 'flex',
-                flexDirection: 'column',
-                width: 250,
-                height: '100vh',
-                p: 2,
-              }}
-            >
-              <Typography variant='h6'>Filter</Typography>
-              <Divider />
-              <Box sx={{ flexGrow: 1 }}>
-                <MenuItem onClick={() => handleStatusChange('Active')}>
-                  <ListItemIcon>
-                    <Checkbox checked={selectedStatus === 'Active'} />
-                  </ListItemIcon>
-                  <ListItemText primary='Active' />
-                </MenuItem>
-
-                <MenuItem onClick={() => handleStatusChange('Inactive')}>
-                  <ListItemIcon>
-                    <Checkbox checked={selectedStatus === 'Inactive'} />
-                  </ListItemIcon>
-                  <ListItemText primary='Inactive' />
-                </MenuItem>
-              </Box>
-
-              <Divider />
-              <Box
-                sx={{
-                  display: 'flex',
-                  justifyContent: 'space-between',
-                  mt: 'auto',
-                  pb: 2,
-                }}
-              >
-                <Button variant='outlined' onClick={handleReset}>
-                  Reset
-                </Button>
-                <Button
-                  variant='contained'
-                  color='primary'
-                  onClick={handleSubmit}
-                >
-                  Submit
-                </Button>
-              </Box>
-            </Box>
-          </Drawer>
         </Box>
 
+        {/* Table */}
         <Box>
           <CRMTable
-            rows={users}
+            rows={filteredRows}
             columns={columns}
             pageSizeOptions={pageSizeOptions}
             loading={userLoader}
             checkboxSelection={false}
           />
         </Box>
-
-        {/* Modal for Basic Information */}
-        <Dialog
-          open={isModalOpen}
-          onClose={handleCloseModal}
-          fullWidth
-          maxWidth='sm'
-        >
-          <DialogTitle>
-            Basic Information
-            <IconButton
-              aria-label='close'
-              onClick={handleCloseModal}
-              sx={{
-                position: 'absolute',
-                right: 8,
-                top: 8,
-                color: (theme) => theme.palette.grey[500],
-              }}
-            >
-              <CloseIcon />
-            </IconButton>
-          </DialogTitle>
-          <DialogContent>
-            {selectedUser ? (
-              <Box>
-                <Typography>Employee ID:</Typography>
-                <Typography>{selectedUser.employeeId}</Typography>
-
-                <Typography sx={{ mt: 2 }}>User Name:</Typography>
-                <Typography>{selectedUser.userName}</Typography>
-
-                <Typography sx={{ mt: 2 }}>Role:</Typography>
-                <Typography>{selectedUser.role}</Typography>
-
-                <Typography sx={{ mt: 2 }}>Phone Number:</Typography>
-                <Typography>{selectedUser.phoneNumber}</Typography>
-
-                <Typography sx={{ mt: 2 }}>Email:</Typography>
-                <Typography>{selectedUser.email}</Typography>
-
-                <Typography sx={{ mt: 2 }}>Location:</Typography>
-                <Typography>{selectedUser.location}</Typography>
-
-                <Typography sx={{ mt: 2 }}>Address:</Typography>
-                <Typography>{selectedUser.address}</Typography>
-
-                <Typography sx={{ mt: 2 }}>Status:</Typography>
-                <Typography>{selectedUser.status}</Typography>
-              </Box>
-            ) : (
-              <Typography>No user selected</Typography>
-            )}
-          </DialogContent>
-        </Dialog>
       </Box>
+      {/* Filter Drawer */}
+      <Drawer anchor='right' open={drawerOpen} onClose={handleFilterClose}>
+        <Box
+          sx={{
+            display: 'flex',
+            flexDirection: 'column',
+            width: 350,
+            height: '100vh',
+            p: 2,
+          }}
+        >
+          <Typography variant='h6'>Filter</Typography>
+          <Divider />
+          <Box sx={{ flexGrow: 1 }}>
+            <MenuItem onClick={() => handleStatusChange('active')}>
+              <ListItemIcon>
+                <Checkbox checked={selectedStatuses.includes('active')} />
+              </ListItemIcon>
+              <ListItemText primary='Active' />
+            </MenuItem>
+
+            <MenuItem onClick={() => handleStatusChange('inactive')}>
+              <ListItemIcon>
+                <Checkbox checked={selectedStatuses.includes('inactive')} />
+              </ListItemIcon>
+              <ListItemText primary='Inactive' />
+            </MenuItem>
+          </Box>
+          <Box
+            sx={{
+              display: 'flex',
+              justifyContent: 'space-between',
+              mt: 'auto',
+              pb: 2,
+            }}
+          >
+            <Button variant='outlined' onClick={handleReset}>
+              Reset
+            </Button>
+            <Button
+              variant='contained'
+              color='primary'
+              onClick={handleFilterClose}
+            >
+              Submit
+            </Button>
+          </Box>
+        </Box>
+      </Drawer>
+      <Dialog
+        open={modalOpen}
+        onClose={() => setModalOpen(false)}
+        fullWidth
+        maxWidth='sm'
+        PaperProps={{
+          sx: {
+            boxShadow: 5,
+            borderRadius: 2,
+            fontFamily: 'Lato, sans-serif',
+          },
+        }}
+      >
+        <DialogTitle
+          sx={{
+            display: 'flex',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+          }}
+        >
+          <span>User Details</span>
+          <IconButton
+            onClick={() => setModalOpen(false)}
+            sx={{ color: 'gray' }}
+          >
+            <CloseIcon />
+          </IconButton>
+        </DialogTitle>
+
+        <DialogContent>
+          {!selectedUser ? (
+            <Typography variant='body1'>No user selected.</Typography>
+          ) : (
+            <>
+              <Grid2 container spacing={2}>
+                <Grid2 size={{ xs: 12, sm: 6, md: 7 }}>
+                  <Typography variant='h6' gutterBottom>
+                    Basic Information
+                  </Typography>
+                  <Typography sx={{ mt: 1 }}>
+                    <strong>ID:</strong> {selectedUser.employeeId}
+                  </Typography>
+                  <Typography sx={{ mt: 1 }}>
+                    <strong>Name:</strong> {selectedUser.userName}
+                  </Typography>
+                  <Typography sx={{ mt: 1 }}>
+                    <strong>Email:</strong> {selectedUser.email}
+                  </Typography>
+                  <Typography sx={{ mt: 1 }}>
+                    <strong>Phone:</strong> {selectedUser.phoneNumber}
+                  </Typography>
+                  <Typography sx={{ mt: 1 }}>
+                    <strong>Location:</strong> {selectedUser.location}
+                  </Typography>
+                  <Typography sx={{ mt: 1 }}>
+                    <strong>Address:</strong> {selectedUser.address}
+                  </Typography>
+                </Grid2>
+                <Grid2 size={{ xs: 12, sm: 6, md: 5 }}>
+                  <Typography variant='h6' gutterBottom>
+                    Experience
+                  </Typography>
+                  <Typography sx={{ mt: 1 }}>
+                    <Typography sx={{ mt: 1 }}>
+                      <strong>Joining Date:</strong>{' '}
+                      {selectedUser.dateOfJoining}
+                    </Typography>
+                  </Typography>
+                </Grid2>
+              </Grid2>
+              <Grid2 container spacing={2} sx={{ mt: 2 }}>
+                <Grid2 size={{ xs: 12 }}>
+                  <Typography variant='h6' gutterBottom>
+                    User Role
+                  </Typography>
+                  <Typography>
+                    <strong>Role:</strong> {selectedUser.role}
+                  </Typography>
+                  <Typography>
+                    <strong>Status:</strong> {selectedUser.status}
+                  </Typography>
+                </Grid2>
+              </Grid2>
+            </>
+          )}
+        </DialogContent>
+      </Dialog>
+      <LogoutModal
+        data-testid='delete-modal'
+        open={deleteModal}
+        onClose={onDeleteModalClose}
+        onHandleContinue={onDeleteModalContinue}
+        title={t('delete')}
+        titleDescription={t('deleteConfirmation')}
+      />
     </Box>
   );
 };

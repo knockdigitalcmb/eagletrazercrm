@@ -23,3 +23,16 @@ export interface CreateUserType {
 export interface IUserPermissionIndex {
   [key: string]: any;
 }
+
+export interface UserProps {
+  id: number;
+  employeeId: string;
+  userName: string;
+  role: string;
+  phoneNumber: string;
+  email: string;
+  location: string;
+  address: string;
+  status: string;
+  dateOfJoining: string;
+};
