@@ -30,6 +30,7 @@ import {
 } from '../../../constant/common.constant';
 import { getInputFieldErrorMessage } from '../../../helper/formValidators';
 import { capitalizeFirstLetter, getStringEclipse } from '../../../helper';
+import { UserProps } from '../../../models/type';
 
 import styles from './CreateUser.module.scss';
 
@@ -47,52 +48,32 @@ const VisuallyHiddenInput = styled('input')({
 
 const CreateUser = () => {
   const { t } = useTranslation();
+  const location = useLocation();
   const navigate = useNavigate();
   const [isShowPassword, setIsShowPassword] = useState(false);
   const [selectedPicture, setSelectedPicture] = useState('');
+  const [fileError, setFileError] = useState(false);
   const [userPermissions, setUserPermissions] = useState<IUserPermissionIndex>(
     userPermissionOptions
   );
-  const [userRole, setUserRole] = useState<string>('');
-
- const location = useLocation();
- const userData = location.state?.user || {}; // Now it's defined first!
-
- const {
-   formState: { errors },
-   register,
-   getValues,
-   handleSubmit,
-   setError,
-   setValue,
-   clearErrors,
- } = useForm<CreateUserType>({
-   mode: 'onChange',
-   defaultValues: userData, // Now it knows what userData is!
- });
-
-  const [formData, setFormData] = useState({
-    employeeId: '',
-    userName: '',
-    role: '',
-    phoneNumber: '',
-    email: '',
-    location: '',
-    address: '',
-    status: '',
-  });
-  useEffect(() => {
-    if (userData && Object.keys(userData).length > 0) {
-      Object.entries(userData).forEach(([key, value]) => {
-        setValue(key as keyof CreateUserType, value as string | number | null); // Ensure correct type
-      });
-    }
-  }, [userData, setValue]);
- // Depend on `userData` and `setValue`
-
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
+  const userData = location.state?.user || {};
+  console.log(userData);
+  console.log('User Role:', userData?.role);
+  const updateUser = (id: string, data: any) => {
+    console.log(`Updating user with ID: ${id}`, data);
   };
+  const {
+    formState: { errors },
+    register,
+    getValues,
+    handleSubmit,
+    setError,
+    setValue,
+    clearErrors,
+  } = useForm<CreateUserType>({
+    mode: 'onChange',
+  });
+  const [userRole, setUserRole] = useState<string>('');
   const handleClickShowPassword = () => {
     setIsShowPassword((prev) => !prev);
   };
@@ -102,27 +83,33 @@ const CreateUser = () => {
   ) => {
     event.preventDefault();
   };
-
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
+
     if (file) {
-      const fileSizeInMB = file.size / (1024 * 1024);
+      const fileSizeMB = file.size / (1024 * 1024);
       const allowedTypes = ['image/jpeg', 'image/png'];
+
       if (!allowedTypes.includes(file.type)) {
         setError('profileImage', {
           type: 'manual',
           message: `${t('imgFormatValidation')}`,
         });
+        setFileError(true);
         return;
       }
-      if (fileSizeInMB > 2) {
+
+      if (fileSizeMB > 2) {
         setError('profileImage', {
           type: 'manual',
           message: `${t('imgSizeValidation')}`,
         });
+        setFileError(true);
         return;
       }
+
       clearErrors('profileImage');
+      setFileError(false);
       setSelectedPicture(file.name);
     }
   };
@@ -137,36 +124,20 @@ const CreateUser = () => {
     clonedPermissionProps[key].actions[action] = e.target.checked;
     setUserPermissions(clonedPermissionProps);
   };
-const onHandleUserSubmit = (data: CreateUserType) => {
-  console.log('Updated User Data:', data); // Debugging log
+  const onHandleUserSubmit = () => {
+    console.log(getValues());
+    const formData = getValues();
+    console.log('Form Data:', formData);
 
-  // Ensure Employee ID is always present
-  const updatedData = {
-    ...data,
-    employeeID: data.employeeID || 'N/A', // ✅ Correct property name
+    if (userData?.id) {
+      updateUser(userData.id, formData);
+      console.log('User updated successfully!');
+    } else {
+      console.log('Creating new user...');
+    }
+
+    navigate('/user');
   };
-
-  // Check if the user is being edited
-  if (userData?.id) {
-    let users = JSON.parse(localStorage.getItem('users') || '[]');
-
-    users = users.map((user: any) =>
-      user.id === userData.id ? { ...user, ...updatedData } : user
-    );
-
-    localStorage.setItem('users', JSON.stringify(users));
-  } else {
-    let users = JSON.parse(localStorage.getItem('users') || '[]');
-    const newUser = { ...updatedData, id: Date.now() }; // ✅ Ensure unique ID
-    users.push(newUser);
-    localStorage.setItem('users', JSON.stringify(users));
-  }
-
-  navigate('/user'); // Redirect back to the user list
-};
-
-
-
 
   return (
     <Box data-testid='create-user-page' className={styles.dashboardContainer}>
@@ -194,7 +165,8 @@ const onHandleUserSubmit = (data: CreateUserType) => {
             className={styles.leftSection}
             direction={{ md: 'row', sm: 'column' }}
             height={{
-              md: Object.keys(errors).length > 0 ? 'auto' : '350px',
+              md:
+                Object.keys(errors).length > 0 && !fileError ? 'auto' : '350px',
             }}
           >
             <Grid2
@@ -216,6 +188,7 @@ const onHandleUserSubmit = (data: CreateUserType) => {
                       sx={{ position: 'relative' }}
                     >
                       <TextField
+                        defaultValue={userData?.employeeId || ''}
                         {...register('employeeID', {
                           required: `${t('employeeIDRequired')}`,
                         })}
@@ -245,6 +218,7 @@ const onHandleUserSubmit = (data: CreateUserType) => {
                       className={styles.formControlError}
                     >
                       <TextField
+                        defaultValue={userData?.userName || ''}
                         {...register('userName', {
                           required: `${t('userNameRequired')}`,
                         })}
@@ -330,6 +304,7 @@ const onHandleUserSubmit = (data: CreateUserType) => {
                       className={styles.formControlError}
                     >
                       <TextField
+                        defaultValue={userData?.email || ''}
                         {...register('email', {
                           required: `${t('emailRequired')}`,
                           pattern: {
@@ -366,6 +341,7 @@ const onHandleUserSubmit = (data: CreateUserType) => {
                       className={styles.formControlError}
                     >
                       <TextField
+                        defaultValue={userData?.phoneNumber || ''}
                         {...register('phoneNumber', {
                           required: `${t('phoneNumberRequired')} `,
                           pattern: {
@@ -398,6 +374,7 @@ const onHandleUserSubmit = (data: CreateUserType) => {
                       className={styles.formControlError}
                     >
                       <TextField
+                        defaultValue={userData?.location || ''}
                         {...register('location', {
                           required: `${t('locationRequired')}`,
                         })}
@@ -429,6 +406,7 @@ const onHandleUserSubmit = (data: CreateUserType) => {
                       className={styles.formControlError}
                     >
                       <TextField
+                        defaultValue={userData?.address || ''}
                         {...register('address')}
                         placeholder={t('addressPlaceholder')}
                         id='address'
@@ -492,6 +470,7 @@ const onHandleUserSubmit = (data: CreateUserType) => {
                   className={styles.formControlError}
                 >
                   <TextField
+                    defaultValue={userData?.dateOfJoining || ''}
                     {...register('joiningDate', {
                       required: `${t('joiningDateRequired')}`,
                     })}
@@ -677,7 +656,7 @@ const onHandleUserSubmit = (data: CreateUserType) => {
               data-testid='submit-button'
               variant='contained'
               color='primary'
-              onClick={handleSubmit(onHandleUserSubmit)}
+              onClick={() => handleSubmit(onHandleUserSubmit)()}
             >
               {t('submit')}
             </Button>
