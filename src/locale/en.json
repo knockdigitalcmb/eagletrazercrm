@@ -68,5 +68,6 @@
   "viewRole":"View Role",
   "roleHeading":"Role:",
   "permissionHeading":" Permissions:",
-  "noPermissionSelected":"No permissions selected"
+  "noPermissionSelected":"No permissions selected",
+  "deleteConfirmation":"Are you sure want to delete ?"
 }

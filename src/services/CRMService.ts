@@ -29,4 +29,15 @@ export class CRMServiceAPI {
       console.log('otp verification', error);
     }
   };
+  static RoleData= async () => {
+    try {
+      const response = await commonServiceAPI.CRMAPICall({
+        url: `https://jsonplaceholder.typicode.com/posts/1`,
+        method: 'GET',
+      });
+      return response?.data;
+    } catch (error) {
+      console.log('Role Data api', error);
+    }
+  };
 }

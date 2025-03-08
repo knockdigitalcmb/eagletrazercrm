@@ -88,6 +88,8 @@ const UserProfile = () => {
         open={open}
         onClose={onHandleLogOutClose}
         onHandleContinue={onHandleContinue}
+        title={t('logout')}
+        titleDescription={t('confirmationLogout')}
       />
     </Box>
   );

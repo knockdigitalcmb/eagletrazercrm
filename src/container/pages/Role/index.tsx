@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   Box,
   Button,
@@ -21,10 +21,24 @@ import { pageSizeOptions } from '../../../constant/common.constant';
 import { RoleProps } from '../../../models/type';
 import CRMTable from '../../../components/CRMTable/index';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
+import LogoutModal from '../../../components/LogoutModal/index';
+import { CRMServiceAPI } from '../../../services/CRMService';
 
 import styles from './Role.module.scss';
 import { useForm } from 'react-hook-form';
 
+const rows = [
+  {
+    id: 1,
+    role: 'Admin',
+    permission: { create: true, edit: true, view: true, delete: true },
+  },
+  {
+    id: 2,
+    role: 'User',
+    permission: { create: false, edit: true, view: true, delete: false },
+  },
+];
 const ITEM_HEIGHT = 48;
 const Role = () => {
   const { t } = useTranslation();
@@ -38,41 +52,122 @@ const Role = () => {
   } = useForm<RoleProps>({
     mode: 'onChange',
   });
-  const [userLoader, setUserLoader] = useState(false);
-  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
-  const open = Boolean(anchorEl);
-  const [isCreateRoleModalOpen, setIsCreateRoleModalOpen] =
-    React.useState(false);
-  const [viewModal, setViewModal] = React.useState(false);
 
-  const handleCreateRoleModalOpen = () => setIsCreateRoleModalOpen(true);
-  const handleCreateRoleModalClose = () => setIsCreateRoleModalOpen(false);
+  const [userLoader, setUserLoader] = useState(false);
+  const [menuState, setMenuState] = useState<{
+    anchorEl: null | HTMLElement;
+    rowId: number | null;
+  }>({
+    anchorEl: null,
+    rowId: null,
+  });
+
+  const open = Boolean(menuState);
+  const [isCreateRoleModalOpen, setIsCreateRoleModalOpen] = useState(false);
+  const [viewModal, setViewModal] = useState(false);
+  const [deleteModal, setDeleteModal] = useState(false);
+
+  useEffect(() => {
+    getRoleList();
+  }, []);
+
+  const getRoleList = async () => {
+    try {
+      const response = await CRMServiceAPI.RoleData();
+      if (response) {
+        setRoles(rows);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const handleClick = (event: React.MouseEvent<HTMLElement>, rowId: number) => {
+    setMenuState({ anchorEl: event.currentTarget, rowId });
+  };
+
+  const handleClose = () => {
+    setMenuState({ anchorEl: null, rowId: null });
+  };
+  const onHandleCreateRoleModalOpen = () => setIsCreateRoleModalOpen(true);
+
+  const onHandleCreateRoleModalClose = () => {
+    setIsCreateRoleModalOpen(false);
+    setSelectedRole(null);
+  };
 
   const onHandleViewModalOpen = (role: RoleProps) => {
-    setViewModal(true);
     setSelectedRole(role);
+    setViewModal(true);
   };
-  const onHandleViewModalClose = () => setViewModal(false);
+  const onHandleViewModalClose = () => {
+    setViewModal(false);
+    setSelectedRole(null);
+  };
+
+  const onHandleEditModal = (role: RoleProps) => {
+    setSelectedRole(role);
+    setIsCreateRoleModalOpen(true);
+    handleClose();
+  };
+
+  const onHandleDeleteModal = (role: RoleProps) => {
+    setSelectedRole(role);
+    setDeleteModal(true);
+  };
+
+  const OnDeleteModalClose = () => {
+    setDeleteModal(false);
+  };
+
+  const onDeleteModalContinue = () => {
+    if (selectedRole) {
+      setRoles((prev) => prev.filter((role) => role.id !== selectedRole.id));
+      setDeleteModal(false);
+      setSelectedRole(null);
+    }
+  };
 
   const renderPermissions = (params: any) => {
     const { edit, delete: del, view, create } = params.value;
     return (
       <>
         {create && (
-          <Chip label='Create' color='primary' className={styles.chipBtn} />
+          <Chip
+            label={t(`create`)}
+            color='primary'
+            size='small'
+            className={styles.chipButton}
+          />
         )}
         {edit && (
-          <Chip label='Edit' color='primary' className={styles.chipBtn} />
+          <Chip
+            label={t(`edit`)}
+            color='primary'
+            size='small'
+            className={styles.chipButton}
+          />
         )}
         {view && (
-          <Chip label='View' color='primary' className={styles.chipBtn} />
+          <Chip
+            label={t(`view`)}
+            color='primary'
+            size='small'
+            className={styles.chipButton}
+          />
         )}
         {del && (
-          <Chip label='Delete' color='primary' className={styles.chipBtn} />
+          <Chip
+            label={t(`delete`)}
+            color='primary'
+            size='small'
+            className={styles.chipButton}
+          />
         )}
       </>
     );
   };
+
   const columns: any = [
     { field: 'id', headerName: 'S.No', width: 100 },
     { field: 'role', headerName: 'Role', width: 150 },
@@ -86,26 +181,28 @@ const Role = () => {
       field: '',
       headerName: 'Actions',
       width: 130,
-      renderCell: (params:any) => {
+      renderCell: (params: any) => {
         return (
           <>
             <IconButton
               aria-label='more'
-              id='action-button'
-              aria-controls={open ? 'action-menu' : undefined}
-              aria-expanded={open ? 'true' : undefined}
+              id={`action-button-${params.row.id}`}
+              aria-controls={menuState.anchorEl ? 'action-menu' : undefined}
+              aria-expanded={menuState.anchorEl ? 'true' : undefined}
               aria-haspopup='true'
-              onClick={handleClick}
+              onClick={(event) => handleClick(event, params.row.id)}
             >
               <MoreVertIcon />
             </IconButton>
             <Menu
               id='action-menu'
               MenuListProps={{
-                'aria-labelledby': 'action-button',
+                'aria-labelledby': `action-button-${params.row.id}`,
               }}
-              anchorEl={anchorEl}
-              open={open}
+              anchorEl={menuState.anchorEl}
+              open={
+                menuState.anchorEl !== null && menuState.rowId === params.row.id
+              }
               onClose={handleClose}
               slotProps={{
                 paper: {
@@ -119,43 +216,46 @@ const Role = () => {
               <MenuItem onClick={() => onHandleViewModalOpen(params.row)}>
                 {t('view')}
               </MenuItem>
-              <MenuItem>{t('edit')}</MenuItem>
-              <MenuItem>{t('delete')}</MenuItem>
+              <MenuItem onClick={() => onHandleEditModal(params.row)}>
+                {t('edit')}
+              </MenuItem>
+              <MenuItem onClick={() => onHandleDeleteModal(params.row)}>
+                {t('delete')}
+              </MenuItem>
             </Menu>
           </>
         );
       },
     },
   ];
-
-  const handleClick = (event: React.MouseEvent<HTMLElement>) => {
-    setAnchorEl(event.currentTarget);
-  };
-
-  const handleClose = () => {
-    setAnchorEl(null);
-  };
-
-  const onHandleRole = (data: RoleProps) => {
-    console.log(data);
-    const newRole = {
-      id: roles.length + 1,
-      role: data.role,
-      permission: { ...data.permission },
-    };
-    setRoles([...roles, newRole]);
+  const onHandleRole = (updatedRole: RoleProps) => {
+    if (selectedRole) {
+      setRoles((prev) =>
+        prev.map((role) =>
+          role.id === selectedRole.id
+            ? {
+                ...role,
+                role: updatedRole.role,
+                permission: { ...updatedRole.permission },
+              }
+            : role
+        )
+      );
+    }
     setIsCreateRoleModalOpen(false);
+    setSelectedRole(null);
     reset();
   };
+
   return (
     <Box data-testid='dashboard-page' className={styles.dashboardContainer}>
       <SidePanel menu={t('role')} />
       <Box component='main' sx={{ flexGrow: 1, p: 3, marginTop: '70px' }}>
-        <Box className={styles.createRoleBtn}>
+        <Box className={styles.createRoleButton}>
           <Button
             variant='contained'
             sx={{ marginBottom: '20px' }}
-            onClick={handleCreateRoleModalOpen}
+            onClick={onHandleCreateRoleModalOpen}
           >
             {t('createRole')}
           </Button>
@@ -174,11 +274,16 @@ const Role = () => {
         {/* Create role modal */}
         <Modal
           open={isCreateRoleModalOpen}
-          onClose={handleCreateRoleModalClose}
+          onClose={() => {
+            onHandleCreateRoleModalClose();
+            setSelectedRole(null);
+            reset();
+          }}
           aria-labelledby='modal-modal-title'
           aria-describedby='modal-modal-description'
         >
-          <Box className={styles.createRoleModal}>
+          <Box className={`${styles.modalStyle} createRoleModal`}>
+            {' '}
             <Grid2
               container
               display='flex'
@@ -187,47 +292,74 @@ const Role = () => {
             >
               <Grid2>
                 <Typography id='modal-modal-title' variant='h6' component='h2'>
-                  {t('createRole')}
+                  {selectedRole ? 'Edit Role' : t('createRole')}
                 </Typography>
               </Grid2>
               <Grid2>
                 <IconButton>
-                  <CloseIcon onClick={handleCreateRoleModalClose} />
+                  <CloseIcon onClick={onHandleCreateRoleModalClose} />
                 </IconButton>
               </Grid2>
             </Grid2>
-
             <Box id='modal-modal-description' sx={{ mt: 2 }}>
               <TextField
                 placeholder={t('rolePlaceholder')}
+                defaultValue={selectedRole?.role || ''}
                 {...register('role', { required: `${t('roleRequired')}` })}
                 error={!!errors.role}
                 helperText={errors.role?.message}
               ></TextField>
               <FormGroup sx={{ mt: 2 }}>
-                <FormControlLabel
-                  control={<Checkbox {...register('permission.create')} />}
-                  label='Create'
-                />
-                <FormControlLabel
-                  control={<Checkbox {...register('permission.edit')} />}
-                  label='Edit'
-                />
-                <FormControlLabel
-                  control={<Checkbox {...register('permission.view')} />}
-                  label='View'
-                />
-                <FormControlLabel
-                  control={<Checkbox {...register('permission.delete')} />}
-                  label='Delete'
-                />
+                <Typography sx={{ mr: 2 }}>Permission:</Typography>
+                <Box sx={{ display: 'flex', gap: 2, flexWrap: 'wrap' }}>
+                  <FormControlLabel
+                    control={
+                      <Checkbox
+                        defaultChecked={
+                          selectedRole?.permission.create || false
+                        }
+                        {...register('permission.create')}
+                      />
+                    }
+                    label='Create'
+                  />
+                  <FormControlLabel
+                    control={
+                      <Checkbox
+                        defaultChecked={selectedRole?.permission.edit || false}
+                        {...register('permission.edit')}
+                      />
+                    }
+                    label='Edit'
+                  />
+                  <FormControlLabel
+                    control={
+                      <Checkbox
+                        defaultChecked={selectedRole?.permission.view || false}
+                        {...register('permission.view')}
+                      />
+                    }
+                    label='View'
+                  />
+                  <FormControlLabel
+                    control={
+                      <Checkbox
+                        defaultChecked={
+                          selectedRole?.permission.delete || false
+                        }
+                        {...register('permission.delete')}
+                      />
+                    }
+                    label='Delete'
+                  />
+                </Box>
               </FormGroup>
               <Box sx={{ display: 'flex', justifyContent: 'flex-end', mt: 5 }}>
                 <Button
                   variant='contained'
                   onClick={handleSubmit(onHandleRole)}
                 >
-                  {t('submit')}
+                  {selectedRole ? 'Save Change' : t('submit')}
                 </Button>
               </Box>
             </Box>
@@ -240,7 +372,11 @@ const Role = () => {
           aria-labelledby='modal-modal-title'
           aria-describedby='modal-modal-description'
         >
-          <Box className={styles.viewModal}>
+          <Box
+            className={styles.modalStyle}
+            sx={{ width: '400px', height: '250px' }}
+          >
+            {' '}
             <Grid2
               container
               display='flex'
@@ -294,6 +430,15 @@ const Role = () => {
             )}
           </Box>
         </Modal>
+        {/* delete modal */}
+        <LogoutModal
+          data-testid='delete-modal'
+          open={deleteModal}
+          onClose={OnDeleteModalClose}
+          onHandleContinue={onDeleteModalContinue}
+          title={t('delete')}
+          titleDescription={t('deleteConfirmation')}
+        />
       </Box>
     </Box>
   );
