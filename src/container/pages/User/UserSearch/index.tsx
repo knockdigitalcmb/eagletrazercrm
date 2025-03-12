@@ -17,16 +17,23 @@ const UserSearch: React.FC<UserSearchProps> = ({
   const { t } = useTranslation();
 
   return (
-    <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 2 }}>
+    <Box
+      sx={{
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+        marginBottom: 2,
+      }}
+    >
       <TextField
         placeholder={t('searchPlaceholder')}
         value={searchTerm}
         onChange={handleSearchChange}
-        sx={{ width: '30%', minWidth: 50 }}
+        sx={{ width: '30%' }}
       />
       <Button
-        variant="contained"
-        color="primary"
+        variant='contained'
+        color='primary'
         onClick={handleFilterOpen}
         endIcon={<FilterAltIcon />}
         sx={{ whiteSpace: 'nowrap', borderRadius: 2, marginLeft: 2 }}

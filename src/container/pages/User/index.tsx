@@ -44,7 +44,31 @@ const User = () => {
 
   useEffect(() => {
     getUserList();
-  }, [searchTerm, selectedStatuses]);
+  }, [selectedStatuses]);
+
+  //search user
+  useEffect(() => {
+    if (searchTerm) {
+      let payload = {
+        search: searchTerm,
+      };
+      getSearchUserList(payload);
+    }
+  }, [searchTerm]);
+
+  const getSearchUserList = async (payload: any) => {
+    try {
+      setUserLoader(true);
+      let response = await CRMServiceAPI.getSearchUserList(payload);
+      if (response) {
+        setUsers([]);
+      }
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setUserLoader(false);
+    }
+  };
 
   const getUserList = async () => {
     try {
@@ -77,7 +101,11 @@ const User = () => {
   };
 
   const handleFilterClose = () => {
+    let payload = {
+      filter: selectedStatuses,
+    };
     setDrawerOpen(false);
+    getSearchUserList(payload);
   };
 
   const handleStatusChange = (status: string) => {
@@ -90,7 +118,6 @@ const User = () => {
 
   const handleReset = () => {
     setSelectedStatuses(['active']);
-    setSearchTerm('');
   };
 
   const handleView = (user: any) => {
@@ -100,32 +127,7 @@ const User = () => {
   };
 
   const handleEdit = async (user: any) => {
-    if (!user) {
-      console.warn('No user selected for editing.');
-      return;
-    }
-
-    try {
-      console.log('Editing user:', user);
-      setUserLoader(true);
-      setSelectedUser(user);
-
-      let response = await CRMServiceAPI.editUser(user);
-
-      if (response) {
-        console.log('User updated successfully:', response);
-        // setSelectedUser(response);
-        navigate('/create-user', { state: { user: response } });
-      } else {
-        console.warn('Edit API did not return a valid response.');
-        navigate('/create-user', { state: { user } });
-      }
-    } catch (error) {
-      console.error('Error editing user:', error);
-      navigate('/create-user', { state: { user } });
-    } finally {
-      setUserLoader(false);
-    }
+    navigate('/create-user', { state: { user, isEditAction: true } });
   };
 
   const handleDelete = (user: UserProps) => {
@@ -154,20 +156,20 @@ const User = () => {
   };
 
   const columns = [
-    { field: 'id', headerName: 'S.No', width: 90 },
-    { field: 'employeeId', headerName: 'Employee ID', width: 150 },
-    { field: 'userName', headerName: 'User Name', width: 200 },
-    { field: 'role', headerName: 'Role', width: 150 },
-    { field: 'phoneNumber', headerName: 'Phone Number', width: 180 },
-    { field: 'email', headerName: 'Email', width: 250 },
-    { field: 'location', headerName: 'Location', width: 150 },
-    { field: 'address', headerName: 'Address', width: 200 },
-    { field: 'status', headerName: 'Status', width: 120 },
-    { field: 'dateOfJoining', headerName: 'Date of Joining', width: 160 },
+    { field: 'id', headerName: 'S.No', width: 30 },
+    { field: 'employeeId', headerName: 'Employee ID', width: 100 },
+    { field: 'userName', headerName: 'User Name', width: 120 },
+    { field: 'role', headerName: 'Role', width: 100 },
+    { field: 'phoneNumber', headerName: 'Phone Number', width: 120 },
+    { field: 'email', headerName: 'Email', width: 160 },
+    { field: 'location', headerName: 'Location', width: 120 },
+    { field: 'address', headerName: 'Address', width: 90 },
+    { field: 'status', headerName: 'Status', width: 90 },
+    { field: 'dateOfJoining', headerName: 'Date of Joining', width: 90 },
     {
       field: 'actions',
       headerName: 'Action',
-      width: 130,
+      width: 90,
       renderCell: (params: any) => (
         <>
           <IconButton

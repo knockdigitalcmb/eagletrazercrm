@@ -47,3 +47,4 @@ export const userPermissionOptions = {
 export const userRoleOptions = ['Admin', 'Lead', 'User', 'Developer'];
 export const pageSizeOptions = [10, 25, 50, 100];
 export const kebabMenuOptions = ['View', 'Edit', 'Delete'];
+export const filterStatus = ['Active', 'InActive'];
