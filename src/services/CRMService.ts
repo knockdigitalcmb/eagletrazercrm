@@ -113,6 +113,7 @@ export class CRMServiceAPI {
           address: 'Test Address',
           status: 'active',
           dateOfJoining: '2005-04-18',
+          otpPage: 1,
         },
         {
           id: 2,
@@ -125,6 +126,7 @@ export class CRMServiceAPI {
           address: '123 Street',
           status: 'inactive',
           dateOfJoining: '2018-05-14',
+          otpPage: 0,
         },
         {
           id: 3,
@@ -150,32 +152,58 @@ export class CRMServiceAPI {
     }
   };
 
-  static editUser = async (payload: any) => {
+  static updateUser = async (payload: any) => {
     try {
       const response = await commonServiceAPI.CRMAPICall({
-        url: `${API_DOMAIN}/wqBPlJJqwnPmxINapM/api/v1/editUser`, 
-        method: 'POST', 
+        url: `${API_DOMAIN}/wqBPlJJqwnPmxINapM/api/v1/updateUser`,
+        method: 'POST',
         data: payload,
       });
 
-      return true; 
+      return true;
     } catch (error) {
-      console.log('Error in editUser API:', error);
+      console.log('error in update api:', error);
     }
   };
-  
-  static deleteUser = async (payload:any) => {
+  static createUser = async (payload: any) => {
+    try {
+      const response = await commonServiceAPI.CRMAPICall({
+        url: `${API_DOMAIN}/wqBPlJJqwnPmxINapM/api/v1/createuser`,
+        method: 'POST',
+        data: payload,
+      });
+
+      return true;
+    } catch (error) {
+      console.log('error create user api:', error);
+    }
+  };
+
+  static getSearchUserList = async (payload: any) => {
+    try {
+      const response = await commonServiceAPI.CRMAPICall({
+        url: `${API_DOMAIN}/wqBPlJJqwnPmxINapM/api/v1/searchUser`,
+        method: 'POST',
+        data: payload,
+      });
+
+      return true;
+    } catch (error) {
+      console.log('search user list api:', error);
+    }
+  };
+
+  static deleteUser = async (payload: any) => {
     try {
       // const response = await commonServiceAPI.CRMAPICall({
-      //   url: `${API_DOMAIN}wqBPlJJqwnPmxINapM/api/v1/deleteUser`, 
-      //   method: 'DELETE', 
+      //   url: `${API_DOMAIN}wqBPlJJqwnPmxINapM/api/v1/deleteUser`,
+      //   method: 'DELETE',
       //   data:payload
       // });
-  
-      return true; 
+
+      return true;
     } catch (error) {
-      console.error('Error in deleteUser API:', error);
+      console.error('error in delete user api:', error);
     }
   };
-  
 }

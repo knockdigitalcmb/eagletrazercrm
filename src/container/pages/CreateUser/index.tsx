@@ -30,6 +30,7 @@ import {
 } from '../../../constant/common.constant';
 import { getInputFieldErrorMessage } from '../../../helper/formValidators';
 import { capitalizeFirstLetter, getStringEclipse } from '../../../helper';
+import { CRMServiceAPI } from 'services/CRMService';
 import { UserProps } from '../../../models/type';
 
 import styles from './CreateUser.module.scss';
@@ -56,12 +57,16 @@ const CreateUser = () => {
   const [userPermissions, setUserPermissions] = useState<IUserPermissionIndex>(
     userPermissionOptions
   );
-  const userData = location.state?.user || {};
-  console.log(userData);
-  console.log('User Role:', userData?.role);
-  const updateUser = (id: string, data: any) => {
-    console.log(`Updating user with ID: ${id}`, data);
+  let userData = location.state?.user || { employeeId: '' };
+  userData = {
+    ...userData,
+    userPermissions: {
+      otpPage: {
+        actions: userData?.otpPage === 0 ? false : true,
+      },
+    },
   };
+
   const {
     formState: { errors },
     register,
@@ -124,19 +129,28 @@ const CreateUser = () => {
     clonedPermissionProps[key].actions[action] = e.target.checked;
     setUserPermissions(clonedPermissionProps);
   };
-  const onHandleUserSubmit = () => {
-    console.log(getValues());
-    const formData = getValues();
-    console.log('Form Data:', formData);
 
-    if (userData?.id) {
-      updateUser(userData.id, formData);
-      console.log('User updated successfully!');
-    } else {
-      console.log('Creating new user...');
+  const onHandleUserSubmit = async () => {
+    try {
+      if (userData?.isEditAction) {
+        //update API
+        const formData = getValues();
+        let response = await CRMServiceAPI.updateUser(formData);
+        if (response) {
+          //redirect to user page
+        }
+      } else {
+        //create API
+        const formData = getValues();
+        let response = await CRMServiceAPI.createUser(formData);
+        if (response) {
+          //redirect to user page
+        }
+      }
+      navigate('/user');
+    } catch (error) {
+      console.log('error in create or update api', error);
     }
-
-    navigate('/user');
   };
 
   return (
@@ -575,7 +589,7 @@ const CreateUser = () => {
                   select
                   fullWidth
                   error={Boolean(errors.role)}
-                  value={userRole || ''}
+                  value={userData?.role || ''}
                   onChange={(e) => {
                     clearErrors('role');
                     setUserRole(e.target.value);
@@ -606,7 +620,7 @@ const CreateUser = () => {
               </Typography>
               <Box className={styles.permissionGroup}>
                 <FormGroup className={styles.permissionFormGroup}>
-                  {Object.keys(userPermissions).map((keys, i) => {
+                  {Object.keys(userData?.userPermissions).map((keys, i) => {
                     const permissionActions = Object.keys(
                       userPermissions[keys]?.actions
                     ).map((action, i) => {
