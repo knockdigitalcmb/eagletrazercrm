@@ -149,4 +149,33 @@ export class CRMServiceAPI {
       console.log('get the user list api', error);
     }
   };
+
+  static editUser = async (payload: any) => {
+    try {
+      const response = await commonServiceAPI.CRMAPICall({
+        url: `${API_DOMAIN}/wqBPlJJqwnPmxINapM/api/v1/editUser`, 
+        method: 'POST', 
+        data: payload,
+      });
+
+      return true; 
+    } catch (error) {
+      console.log('Error in editUser API:', error);
+    }
+  };
+  
+  static deleteUser = async (payload:any) => {
+    try {
+      // const response = await commonServiceAPI.CRMAPICall({
+      //   url: `${API_DOMAIN}wqBPlJJqwnPmxINapM/api/v1/deleteUser`, 
+      //   method: 'DELETE', 
+      //   data:payload
+      // });
+  
+      return true; 
+    } catch (error) {
+      console.error('Error in deleteUser API:', error);
+    }
+  };
+  
 }
