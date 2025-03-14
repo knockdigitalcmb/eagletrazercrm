@@ -44,6 +44,7 @@ const CreateAndEditRoles = ({
   ];
   return (
     <Modal
+      data-testid='create-edit-modal'
       open={open}
       onClose={() => {
         onHandleCloseCreateRoleModal();
@@ -60,12 +61,16 @@ const CreateAndEditRoles = ({
           justifyContent='space-between'
           alignItems='center'
         >
-          <Typography id='modal-modal-title' variant='h6' component='h2'>
+          <Typography
+            id='modal-modal-title'
+            variant='h6'
+            component='h2'
+          >
             {row ? `${t('editRole')}` : t('createRole')}
           </Typography>
 
           <IconButton>
-            <CloseIcon onClick={onHandleCloseCreateRoleModal} />
+            <CloseIcon onClick={onHandleCloseCreateRoleModal}  data-testid='close-button'/>
           </IconButton>
         </Grid2>
         <div className={styles.borderLine} />
@@ -97,7 +102,7 @@ const CreateAndEditRoles = ({
             </Box>
           </FormGroup>
           <Box sx={{ display: 'flex', justifyContent: 'flex-end', mt: 5 }}>
-            <Button variant='contained' onClick={onHandleRoleSubmit}>
+            <Button variant='contained' onClick={onHandleRoleSubmit} data-testid="submit-button">
               {t('submit')}
             </Button>
           </Box>

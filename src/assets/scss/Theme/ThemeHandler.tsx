@@ -31,7 +31,7 @@ const ThemeHandler = ({ children }: ThemeHandlerProps) => {
           },
           MuiTypography: {
             defaultProps: {
-              fontFamily: 'Montserrat, sans-serif', // ✅ Ensure Montserrat in Typography
+              fontFamily: 'Montserrat, sans-serif', 
               fontWeight: 400,
             },
           },

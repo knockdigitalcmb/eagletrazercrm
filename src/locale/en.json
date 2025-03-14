@@ -76,7 +76,7 @@
   "noPermissionSelected": "No permissions selected",
   "deleteConfirmation": "Are you sure you want to delete {{user}} ({{email}})?",
   "deleteRole": "Delete Role",
-  "deleteConfirmation": "Are you sure want to delete the role {{role}}?",
+  "deleteConfirmationRole": "Are you sure want to delete the role {{role}}?",
   "id": "ID:",
   "name": "Name:",
   "email": "Email:",

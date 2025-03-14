@@ -1,0 +1,6 @@
+@import '../../assets//scss/variable';
+.conformButton {
+  &:hover {
+    background-color:$primary-color;
+    color:$black-color;  }
+}

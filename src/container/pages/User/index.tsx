@@ -14,7 +14,7 @@ import CRMTable from '../../../components/CRMTable';
 import SidePanel from '../../../components/SidePanel';
 import UserFilter from './UserFilter';
 import ViewUserDetails from '../../pages/User/ViewUserDetails.tsx';
-import LogoutModal from '../../../components/LogoutModal';
+import LogoutModal from '../../../components/ConfirmationModal/index';
 import { UserProps } from '../../../models/type';
 import { CRMServiceAPI } from 'services/CRMService';
 import styles from './User.module.scss';

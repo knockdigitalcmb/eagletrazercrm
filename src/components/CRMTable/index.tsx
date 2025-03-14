@@ -21,6 +21,7 @@ const CRMTable = ({
     <Box data-testid='crm-table-component' id='crm-table'>
       <Paper sx={{ height: 400, width: '100%' }}>
         <DataGrid
+          data-testid='crm-table'
           rows={rows}
           columns={columns}
           loading={loading}

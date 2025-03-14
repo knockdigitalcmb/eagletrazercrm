@@ -199,7 +199,8 @@ const Roles = () => {
             variant='contained'
             sx={{ marginBottom: '20px' }}
             onClick={onHandleCreateRoleModal}
-            data-testId='create-role-button'          >
+            data-testId='create-role-button'
+          >
             {t('createRole')}
           </Button>
         </Box>
@@ -235,7 +236,7 @@ const Roles = () => {
           onClose={OnDeleteModalClose}
           onHandleContinue={onDeleteModalContinue}
           title={t('deleteRole')}
-          titleDescription={t('deleteConfirmation', {
+          titleDescription={t('deleteConfirmationRole', {
             role: selectedRole?.role || '',
           })}
         />

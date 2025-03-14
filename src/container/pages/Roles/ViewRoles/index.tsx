@@ -14,6 +14,7 @@ const ViewRoles = ({ open, onHandleCloseViewModal, row }: Props) => {
   const { t } = useTranslation();
   return (
     <Modal
+      data-testid='view-role'
       open={open}
       onClose={onHandleCloseViewModal}
       aria-labelledby='modal-modal-title'
@@ -30,17 +31,20 @@ const ViewRoles = ({ open, onHandleCloseViewModal, row }: Props) => {
             {t('viewRole')}
           </Typography>
           <IconButton>
-            <CloseIcon onClick={onHandleCloseViewModal} />
+            <CloseIcon onClick={onHandleCloseViewModal}  data-testid='view-close-button'/>
           </IconButton>
         </Grid2>
         <div className={styles.borderLine} />
         {row && (
           <div className={styles.modalBody}>
-            <Typography className={styles.modalBody}>
+            <Typography className={styles.modalBody} data-testid='role-name'>
               <b>{t('roleHeading')}</b>{' '}
               <span className={styles.roleValues}>{row.role}</span>
             </Typography>
-            <Typography className={styles.modalBody}>
+            <Typography
+              className={styles.modalBody}
+              data-testid='role-permissions'
+            >
               <b>{t('permissionHeading')}</b>{' '}
               {Object.keys(row.permission)
                 .filter(
