@@ -69,7 +69,7 @@ export class CRMServiceAPI {
       console.log('update user role api', error);
     }
   };
-
+  // create user role list
   static createUserRole = async (payload: any) => {
     try {
       // const response = await commonServiceAPI.CRMAPICall({
@@ -83,6 +83,22 @@ export class CRMServiceAPI {
       console.log('create user role api', error);
     }
   };
+
+  // delete user role list
+  static deleteUserRole = async (payload: any) => {
+    try {
+      // const response = await commonServiceAPI.CRMAPICall({
+      //   url: `${API_DOMAIN}/wqBPlJJqwnPmxINapM/api/v1/deleteUserRole`,
+      //   method: 'POST',
+      // data:payload
+      // });
+      // return response?.data;
+      return true;
+    } catch (error) {
+      console.log('delete user role api', error);
+    }
+  };
+  
   // user search filter action
   static searchUserList = async (payload: any) => {
     try {

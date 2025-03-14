@@ -48,3 +48,31 @@ export interface UserProps {
   status: string;
   dateOfJoining: string;
 };
+
+export interface DraggableDialogProps {
+  open: boolean;
+  onClose: () => void;
+  onHandleContinue: () => void;
+  title: string;
+  titleDescription: string;
+}
+export interface PermissionProps {
+  create: boolean;
+  edit: boolean;
+  delete: boolean;
+  view: boolean;
+}
+
+export interface MenuProps{
+    anchorEl: null | HTMLElement;
+    rowId: number | null;
+}
+export interface ActionMenuProps {
+  row: any;
+  menuState: MenuProps;
+  handleClick: (event: React.MouseEvent<HTMLElement>, rowId: number) => void;
+  handleClose: () => void;
+  onHandleViewModalOpen: (role: any) => void;
+  onHandleEditModal: (role: any) => void;
+  onHandleDeleteModal: (role: any) => void;
+}
