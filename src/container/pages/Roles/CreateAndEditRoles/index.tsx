@@ -12,7 +12,7 @@ import {
   Button,
 } from '@mui/material';
 import { useTranslation } from 'react-i18next';
-import {PermissionProps} from '../../../../models/type';
+import { PermissionProps } from '../../../../models/type';
 import CloseIcon from '@mui/icons-material/Close';
 
 import styles from './CreateAndEditRoles.module.scss';
@@ -44,6 +44,7 @@ const CreateAndEditRoles = ({
   ];
   return (
     <Modal
+      data-testid='create-edit-modal'
       open={open}
       onClose={() => {
         onHandleCloseCreateRoleModal();
@@ -65,7 +66,10 @@ const CreateAndEditRoles = ({
           </Typography>
 
           <IconButton>
-            <CloseIcon onClick={onHandleCloseCreateRoleModal} />
+            <CloseIcon
+              onClick={onHandleCloseCreateRoleModal}
+              data-testid='close-button '
+            />
           </IconButton>
         </Grid2>
         <div className={styles.borderLine} />
@@ -97,7 +101,11 @@ const CreateAndEditRoles = ({
             </Box>
           </FormGroup>
           <Box sx={{ display: 'flex', justifyContent: 'flex-end', mt: 5 }}>
-            <Button variant='contained' onClick={onHandleRoleSubmit}>
+            <Button
+              variant='contained'
+              onClick={onHandleRoleSubmit}
+              data-testid='submit-button'
+            >
               {t('submit')}
             </Button>
           </Box>

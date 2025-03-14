@@ -13,16 +13,9 @@ import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import CRMTable from '../../../components/CRMTable';
 import SidePanel from '../../../components/SidePanel';
-import CRMTable from '../../../components/CRMTable';
-import MoreVertIcon from '@mui/icons-material/MoreVert';
-import FilterAltIcon from '@mui/icons-material/FilterAlt';
-import { UserProps } from '../../../models/type';
-import LogoutModal from '../../../components/ConfirmationModal';
-
-import styles from './User.module.scss';
 import UserFilter from './UserFilter';
 import ViewUserDetails from './ViewUserDetails';
-import LogoutModal from '../../../components/LogoutModal';
+import ConfirmationModal from '../../../components/ConfirmationModal/index';
 import { UserProps } from '../../../models/type';
 import { CRMServiceAPI } from 'services/CRMService';
 import styles from './User.module.scss';
@@ -276,7 +269,7 @@ const User = () => {
           onHandleStatusChange={onHandleStatusChange}
           onHandleReset={onHandleReset}
         />
-        <LogoutModal
+        <ConfirmationModal
           open={deleteModal}
           onClose={onDeleteModalClose}
           onHandleContinue={onDeleteModalContinue}

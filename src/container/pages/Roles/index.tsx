@@ -10,7 +10,7 @@ import { CRMServiceAPI } from '../../../services/CRMService';
 import ViewRoles from './ViewRoles';
 import CreateAndEditRoles from './CreateAndEditRoles';
 import { useForm } from 'react-hook-form';
-import CRMTableActions from '../../../components/CRMTableActions/index';
+import CRMTableActions from '../../../components/CRMTableAction/index';
 
 import styles from './Roles.module.scss';
 
@@ -199,7 +199,8 @@ const Roles = () => {
             variant='contained'
             sx={{ marginBottom: '20px' }}
             onClick={onHandleCreateRoleModal}
-            data-testId='create-role-button'          >
+            data-testid='create-role-button'
+          >
             {t('createRole')}
           </Button>
         </Box>
@@ -235,7 +236,7 @@ const Roles = () => {
           onClose={OnDeleteModalClose}
           onHandleContinue={onDeleteModalContinue}
           title={t('deleteRole')}
-          titleDescription={t('deleteConfirmation', {
+          titleDescription={t('deleteConfirmationRole', {
             role: selectedRole?.role || '',
           })}
         />
