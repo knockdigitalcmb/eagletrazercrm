@@ -28,4 +28,11 @@
   .MuiDataGrid-menuIcon {
     display: none !important;
   }
+  .MuiDataGrid-cell:focus,
+  .MuiDataGrid-cell:focus-within {
+    outline: none;
+  }
+  .MuiDataGrid-columnHeader:focus {
+    outline: none;
+  }
 }

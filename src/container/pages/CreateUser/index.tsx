@@ -620,7 +620,7 @@ const CreateUser = () => {
               </Typography>
               <Box className={styles.permissionGroup}>
                 <FormGroup className={styles.permissionFormGroup}>
-                  {Object.keys(userData?.userPermissions).map((keys, i) => {
+                  {Object.keys(userPermissions).map((keys, i) => {
                     const permissionActions = Object.keys(
                       userPermissions[keys]?.actions
                     ).map((action, i) => {

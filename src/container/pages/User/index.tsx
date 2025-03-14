@@ -43,10 +43,79 @@ const User = () => {
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [deleteModal, setDeleteModal] = useState(false);
 
+  const columns = [
+    { field: 'id', headerName: 'S.No', width: 30, sortable: false },
+    { field: 'employeeId', headerName: 'Employee ID', width: 100 },
+    { field: 'userName', headerName: 'User Name', width: 120 },
+    { field: 'role', headerName: 'Role', width: 100 },
+    {
+      field: 'phoneNumber',
+      headerName: 'Phone Number',
+      width: 120,
+      sortable: false,
+    },
+    { field: 'email', headerName: 'Email', width: 160 },
+    { field: 'location', headerName: 'Location', width: 120, sortable: false },
+    { field: 'address', headerName: 'Address', width: 90, sortable: false },
+    { field: 'status', headerName: 'Status', width: 90 },
+    {
+      field: 'dateOfJoining',
+      headerName: 'Date of Joining',
+      width: 90,
+      sortable: false,
+    },
+    {
+      field: 'actions',
+      headerName: 'Action',
+      width: 90,
+      sortable: false,
+      renderCell: (params: any) => (
+        <>
+          <IconButton
+            aria-label='more'
+            id='action-button'
+            aria-controls={menuState.anchorEl ? 'action-menu' : undefined}
+            aria-expanded={menuState.anchorEl ? 'true' : undefined}
+            aria-haspopup='true'
+            onClick={(event) => onHandleClick(event, params.row.id)}
+          >
+            <MoreVertIcon />
+          </IconButton>
+
+          <Menu
+            anchorEl={menuState.anchorEl}
+            open={
+              Boolean(menuState.anchorEl) && menuState.rowId === params.row.id
+            }
+            onClose={onHandleClose}
+          >
+            <MenuItem
+              sx={{ minWidth: 180 }}
+              onClick={() => onHandleView(params.row)}
+            >
+              {t('view')}
+            </MenuItem>
+            <MenuItem
+              sx={{ minWidth: 180 }}
+              onClick={() => onHandleEdit(params.row)}
+            >
+              {t('edit')}
+            </MenuItem>
+            <MenuItem
+              sx={{ minWidth: 180 }}
+              onClick={() => onHandleDelete(params.row)}
+            >
+              {t('delete')}
+            </MenuItem>
+          </Menu>
+        </>
+      ),
+    },
+  ];
+
   useEffect(() => {
     getUserList();
-  }, [selectedStatuses]);
-  9;
+  }, []);
 
   //search user
   useEffect(() => {
@@ -57,34 +126,6 @@ const User = () => {
       getSearchUserList(payload);
     }
   }, [searchTerm]);
-
-  const getSearchUserList = async (payload: any) => {
-    try {
-      setUserLoader(true);
-      let response = await CRMServiceAPI.getSearchUserList(payload);
-      if (response) {
-        setUsers([]);
-      }
-    } catch (error) {
-      console.error(error);
-    } finally {
-      setUserLoader(false);
-    }
-  };
-
-  const getUserList = async () => {
-    try {
-      setUserLoader(true);
-      let response = await CRMServiceAPI.getUserList();
-      if (response) {
-        setUsers(response);
-      }
-    } catch (error) {
-      console.error(error);
-    } finally {
-      setUserLoader(false);
-    }
-  };
 
   const onHandleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setSearchTerm(event.target.value);
@@ -144,6 +185,34 @@ const User = () => {
     setDeleteModal(false);
   };
 
+  const getSearchUserList = async (payload: any) => {
+    try {
+      setUserLoader(true);
+      let response = await CRMServiceAPI.getSearchUserList(payload);
+      if (response) {
+        setUsers([]);
+      }
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setUserLoader(false);
+    }
+  };
+
+  const getUserList = async () => {
+    try {
+      setUserLoader(true);
+      let response = await CRMServiceAPI.getUserList();
+      if (response) {
+        setUsers(response);
+      }
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setUserLoader(false);
+    }
+  };
+
   const onDeleteModalContinue = async () => {
     try {
       setUserLoader(true);
@@ -159,65 +228,6 @@ const User = () => {
       setUserLoader(false);
     }
   };
-
-  const columns = [
-    { field: 'id', headerName: 'S.No', width: 30 },
-    { field: 'employeeId', headerName: 'Employee ID', width: 100 },
-    { field: 'userName', headerName: 'User Name', width: 120 },
-    { field: 'role', headerName: 'Role', width: 100 },
-    { field: 'phoneNumber', headerName: 'Phone Number', width: 120 },
-    { field: 'email', headerName: 'Email', width: 160 },
-    { field: 'location', headerName: 'Location', width: 120 },
-    { field: 'address', headerName: 'Address', width: 90 },
-    { field: 'status', headerName: 'Status', width: 90 },
-    { field: 'dateOfJoining', headerName: 'Date of Joining', width: 90 },
-    {
-      field: 'actions',
-      headerName: 'Action',
-      width: 90,
-      renderCell: (params: any) => (
-        <>
-          <IconButton
-            aria-label='more'
-            id='action-button'
-            aria-controls={menuState.anchorEl ? 'action-menu' : undefined}
-            aria-expanded={menuState.anchorEl ? 'true' : undefined}
-            aria-haspopup='true'
-            onClick={(event) => onHandleClick(event, params.row.id)}
-          >
-            <MoreVertIcon />
-          </IconButton>
-
-          <Menu
-            anchorEl={menuState.anchorEl}
-            open={
-              Boolean(menuState.anchorEl) && menuState.rowId === params.row.id
-            }
-            onClose={onHandleClose}
-          >
-            <MenuItem
-              sx={{ minWidth: 180 }}
-              onClick={() => onHandleView(params.row)}
-            >
-              {t('view')}
-            </MenuItem>
-            <MenuItem
-              sx={{ minWidth: 180 }}
-              onClick={() => onHandleEdit(params.row)}
-            >
-              {t('edit')}
-            </MenuItem>
-            <MenuItem
-              sx={{ minWidth: 180 }}
-              onClick={() => onHandleDelete(params.row)}
-            >
-              {t('delete')}
-            </MenuItem>
-          </Menu>
-        </>
-      ),
-    },
-  ];
 
   return (
     <Box className={styles.dashboardContainer}>
@@ -254,7 +264,6 @@ const User = () => {
             {t('filter')}
           </Button>
         </Box>
-
         <CRMTable
           rows={users}
           columns={columns}
