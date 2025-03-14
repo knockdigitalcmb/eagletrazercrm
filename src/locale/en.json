@@ -69,13 +69,13 @@
   "filter": "Filter",
   "viewRole": "View Roles",
   "reset": "Reset",
-  "userDetails":"User Details",
-  "userDelete":" Delete User",
+  "userDetails": "User Details",
+  "userDelete": " Delete User?",
   "roleHeading": "Role Name:",
   "permissionHeading": "Role Permissions:",
   "noPermissionSelected": "No permissions selected",
   "deleteConfirmation": "Are you sure you want to delete {{user}} ({{email}})?",
-  "deleteRole": "Delete Role",
+  "deleteRole": "Delete Role?",
   "deleteConfirmationRole": "Are you sure want to delete the role {{role}}?",
   "id": "ID:",
   "name": "Name:",
@@ -86,5 +86,6 @@
   "joiningDate": "Joining Date:",
   "roleTitle": "Role:",
   "status": "Status:",
-  "editRole": "Edit Role"
+  "editRole": "Edit Role",
+  "permissions": "Permissions"
 }

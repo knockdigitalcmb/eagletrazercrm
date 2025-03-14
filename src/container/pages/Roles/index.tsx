@@ -13,7 +13,6 @@ import { useForm } from 'react-hook-form';
 import CRMTableActions from '../../../components/CRMTableAction/index';
 
 import styles from './Roles.module.scss';
-
 const Roles = () => {
   const { t } = useTranslation();
   const [roles, setRoles] = useState<RoleProps[]>([]);
@@ -37,22 +36,75 @@ const Roles = () => {
     mode: 'onChange',
   });
 
+  const columns: any = [
+    {
+      field: 'id',
+      headerName: 'S.No',
+      flex: 0.5,
+      minWidth: 100,
+      sortable: false,
+    },
+    { field: 'role', headerName: 'Role', flex: 1, minWidth: 150 },
+    {
+      field: 'permission',
+      headerName: `${t('permission')}`,
+      flex: 2,
+      minWidth: 250,
+      sortable: false,
+      renderCell: (rows: any) => renderPermissions(rows),
+    },
+    {
+      field: 'action',
+      headerName: 'Actions',
+      flex: 1,
+      minWidth: 200,
+      sortable: false,
+      renderCell: (rows: any) => renderCRMTableActions(rows),
+    },
+  ];
+
   useEffect(() => {
     getUserRoleList();
   }, []);
 
-  const getUserRoleList = async () => {
-    try {
-      setRoleLoader(true);
-      const response = await CRMServiceAPI.getUserRoleList();
-      if (response) {
-        setRoles(response);
-      }
-      setRoleLoader(false);
-    } catch (error) {
-      console.log(error);
-    }
+  const renderPermissions = (params: any) => {
+    const { t } = useTranslation();
+    const permissions = params.value;
+    const permissionLabels: { [key: string]: string } = {
+      create: t('create'),
+      edit: t('edit'),
+      view: t('view'),
+      delete: t('delete'),
+    };
+    return (
+      <>
+        {Object.entries(permissions).map(([key, value]) =>
+          value ? (
+            <Chip
+              key={key}
+              label={permissionLabels[key]}
+              color='primary'
+              size='small'
+              className={styles.chipButton}
+            />
+          ) : null
+        )}
+      </>
+    );
   };
+
+  const renderCRMTableActions = (params: any) => (
+    <CRMTableActions
+      row={params.row}
+      menuState={menuState}
+      handleClick={handleClick}
+      handleClose={handleClose}
+      onHandleViewModalOpen={onHandleViewModalOpen}
+      onHandleEditModal={onHandleEditModal}
+      onHandleDeleteModal={onHandleDeleteModal}
+    />
+  );
+
   const handleClick = (event: React.MouseEvent<HTMLElement>, rowId: number) => {
     setMenuState({ anchorEl: event.currentTarget, rowId });
   };
@@ -91,6 +143,21 @@ const Roles = () => {
     setDeleteModal(false);
   };
 
+  const getUserRoleList = async () => {
+    try {
+      setRoleLoader(true);
+      const response = await CRMServiceAPI.getUserRoleList();
+      if (response) {
+        setRoles(response);
+      } else {
+        setRoles([]);
+      }
+      setRoleLoader(false);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   const onDeleteModalContinue = async () => {
     try {
       if (selectedRole) {
@@ -107,64 +174,6 @@ const Roles = () => {
       console.log(error);
     }
   };
-
-  const renderPermissions = (params: any) => {
-    const permissions = params.value;
-
-    const permissionLabels: { [key: string]: string } = {
-      create: t('create'),
-      edit: t('edit'),
-      view: t('view'),
-      delete: t('delete'),
-    };
-
-    return (
-      <>
-        {Object.entries(permissions).map(([key, value]) =>
-          value ? (
-            <Chip
-              key={key}
-              label={permissionLabels[key]}
-              color='primary'
-              size='small'
-              className={styles.chipButton}
-            />
-          ) : null
-        )}
-      </>
-    );
-  };
-
-  const renderCRMTableActions = (params: any) => (
-    <CRMTableActions
-      row={params.row}
-      menuState={menuState}
-      handleClick={handleClick}
-      handleClose={handleClose}
-      onHandleViewModalOpen={onHandleViewModalOpen}
-      onHandleEditModal={onHandleEditModal}
-      onHandleDeleteModal={onHandleDeleteModal}
-    />
-  );
-
-  const columns: any = [
-    { field: 'id', headerName: 'S.No', flex: 0.5, minWidth: 100 },
-    { field: 'role', headerName: 'Role', flex: 1, minWidth: 150 },
-    {
-      field: 'permission',
-      headerName: 'Permissions',
-      flex: 2,
-      minWidth: 250,
-      renderCell: renderPermissions,
-    },
-    {
-      field: '',
-      headerName: 'Actions',
-      flex: 1,
-      minWidth: 200,
-      renderCell: renderCRMTableActions,
-    },
-  ];
 
   const onHandleRoleSubmit = async () => {
     try {
@@ -204,17 +213,13 @@ const Roles = () => {
             {t('createRole')}
           </Button>
         </Box>
-        <Box>
-          {roles.length > 0 && (
-            <CRMTable
-              rows={roles}
-              columns={columns}
-              pageSizeOptions={pageSizeOptions}
-              loading={roleLoader}
-              checkboxSelection={false}
-            />
-          )}
-        </Box>
+        <CRMTable
+          rows={roles}
+          columns={columns}
+          pageSizeOptions={pageSizeOptions}
+          loading={roleLoader}
+          checkboxSelection={false}
+        />
         <ViewRoles
           data-testid='view-modal'
           open={viewRoleModal}

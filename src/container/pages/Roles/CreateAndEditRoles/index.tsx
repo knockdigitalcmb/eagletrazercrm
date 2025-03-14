@@ -48,8 +48,6 @@ const CreateAndEditRoles = ({
       open={open}
       onClose={() => {
         onHandleCloseCreateRoleModal();
-        // setSelectedRole(null);
-        // reset();
       }}
       aria-labelledby='modal-modal-title'
       aria-describedby='modal-modal-description'
