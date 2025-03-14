@@ -7,13 +7,14 @@ import {
   MenuItem,
   Typography,
 } from '@mui/material';
+import FilterAltIcon from '@mui/icons-material/FilterAlt';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import CRMTable from '../../../components/CRMTable';
 import SidePanel from '../../../components/SidePanel';
 import UserFilter from './UserFilter';
-import ViewUserDetails from '../../pages/User/ViewUserDetails.tsx';
+import ViewUserDetails from './ViewUserDetails';
 import LogoutModal from '../../../components/LogoutModal';
 import { UserProps } from '../../../models/type';
 import { CRMServiceAPI } from 'services/CRMService';
@@ -45,6 +46,7 @@ const User = () => {
   useEffect(() => {
     getUserList();
   }, [selectedStatuses]);
+  9;
 
   //search user
   useEffect(() => {
@@ -84,23 +86,26 @@ const User = () => {
     }
   };
 
-  const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const onHandleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setSearchTerm(event.target.value);
   };
 
-  const handleClick = (event: React.MouseEvent<HTMLElement>, rowId: number) => {
+  const onHandleClick = (
+    event: React.MouseEvent<HTMLElement>,
+    rowId: number
+  ) => {
     setMenuState({ anchorEl: event.currentTarget, rowId });
   };
 
-  const handleClose = () => {
+  const onHandleClose = () => {
     setMenuState({ anchorEl: null, rowId: null });
   };
 
-  const handleFilterOpen = () => {
+  const onHandleFilterOpen = () => {
     setDrawerOpen(true);
   };
 
-  const handleFilterClose = () => {
+  const onHandleFilterClose = () => {
     let payload = {
       filter: selectedStatuses,
     };
@@ -108,7 +113,7 @@ const User = () => {
     getSearchUserList(payload);
   };
 
-  const handleStatusChange = (status: string) => {
+  const onHandleStatusChange = (status: string) => {
     setSelectedStatuses((prevStatuses) =>
       prevStatuses.includes(status)
         ? prevStatuses.filter((s) => s !== status)
@@ -116,21 +121,21 @@ const User = () => {
     );
   };
 
-  const handleReset = () => {
+  const onHandleReset = () => {
     setSelectedStatuses(['active']);
   };
 
-  const handleView = (user: any) => {
+  const onHandleView = (user: any) => {
     setSelectedUser(user);
     setModalOpen(true);
-    handleClose();
+    onHandleClose();
   };
 
-  const handleEdit = async (user: any) => {
+  const onHandleEdit = async (user: any) => {
     navigate('/create-user', { state: { user, isEditAction: true } });
   };
 
-  const handleDelete = (user: UserProps) => {
+  const onHandleDelete = (user: UserProps) => {
     setSelectedUser(user);
     setDeleteModal(true);
   };
@@ -178,7 +183,7 @@ const User = () => {
             aria-controls={menuState.anchorEl ? 'action-menu' : undefined}
             aria-expanded={menuState.anchorEl ? 'true' : undefined}
             aria-haspopup='true'
-            onClick={(event) => handleClick(event, params.row.id)}
+            onClick={(event) => onHandleClick(event, params.row.id)}
           >
             <MoreVertIcon />
           </IconButton>
@@ -188,23 +193,23 @@ const User = () => {
             open={
               Boolean(menuState.anchorEl) && menuState.rowId === params.row.id
             }
-            onClose={handleClose}
+            onClose={onHandleClose}
           >
             <MenuItem
               sx={{ minWidth: 180 }}
-              onClick={() => handleView(params.row)}
+              onClick={() => onHandleView(params.row)}
             >
               {t('view')}
             </MenuItem>
             <MenuItem
               sx={{ minWidth: 180 }}
-              onClick={() => handleEdit(params.row)}
+              onClick={() => onHandleEdit(params.row)}
             >
               {t('edit')}
             </MenuItem>
             <MenuItem
               sx={{ minWidth: 180 }}
-              onClick={() => handleDelete(params.row)}
+              onClick={() => onHandleDelete(params.row)}
             >
               {t('delete')}
             </MenuItem>
@@ -218,7 +223,6 @@ const User = () => {
     <Box className={styles.dashboardContainer}>
       <SidePanel menu={t('user')} />
       <Box component='main' sx={{ flexGrow: 1, p: 3, marginTop: '70px' }}>
-        {/* Create User Button */}
         <Box className={styles.createUserButton}>
           <Button
             variant='contained'
@@ -228,11 +232,29 @@ const User = () => {
             {t('createUser')}
           </Button>
         </Box>
-        <UserSearch
-          searchTerm={searchTerm}
-          handleSearchChange={handleSearchChange}
-          handleFilterOpen={handleFilterOpen}
-        />
+        <Box
+          sx={{
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+            marginBottom: 2,
+          }}
+        >
+          <UserSearch
+            searchTerm={searchTerm}
+            onHandleSearchChange={onHandleSearchChange}
+          />
+          <Button
+            variant='contained'
+            color='primary'
+            onClick={onHandleFilterOpen}
+            endIcon={<FilterAltIcon />}
+            sx={{ whiteSpace: 'nowrap', borderRadius: 2, marginLeft: 2 }}
+          >
+            {t('filter')}
+          </Button>
+        </Box>
+
         <CRMTable
           rows={users}
           columns={columns}
@@ -243,9 +265,9 @@ const User = () => {
         <UserFilter
           drawerOpen={drawerOpen}
           selectedStatuses={selectedStatuses}
-          handleFilterClose={handleFilterClose}
-          handleStatusChange={handleStatusChange}
-          handleReset={handleReset}
+          onHandleFilterClose={onHandleFilterClose}
+          onHandleStatusChange={onHandleStatusChange}
+          onHandleReset={onHandleReset}
         />
         <LogoutModal
           open={deleteModal}
