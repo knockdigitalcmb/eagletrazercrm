@@ -52,7 +52,7 @@ const ViewUserDetails: React.FC<ViewUserDetailsProps> = ({
           <Typography variant="h6"  color="text.primary">
             {t('userDetails')}
           </Typography>
-          <IconButton onClick={onClose} sx={{ color: 'gray' }}>
+          <IconButton data-testid="close-button" onClick={onClose} sx={{ color: 'gray' }}>
             <CloseIcon />
           </IconButton>
         </Box>
@@ -70,7 +70,6 @@ const ViewUserDetails: React.FC<ViewUserDetailsProps> = ({
                   gutterBottom
                   sx={{
                     fontFamily: 'Montserrat, sans-serif',
-                    // fontWeight: 'bold',
                   }}
                 >
                   Basic Information
@@ -104,7 +103,6 @@ const ViewUserDetails: React.FC<ViewUserDetailsProps> = ({
                   gutterBottom
                   sx={{
                     fontFamily: 'Montserrat, sans-serif',
-                    // fontWeight: 'bold',
                   }}
                 >
                   {t('experience')}
@@ -120,7 +118,6 @@ const ViewUserDetails: React.FC<ViewUserDetailsProps> = ({
                   sx={{
                     fontFamily: 'Montserrat, sans-serif',
                     mt: 1,
-                    // fontWeight: 'bold',
                   }}
                 >
                   {t('userRole')}

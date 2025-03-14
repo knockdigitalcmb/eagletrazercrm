@@ -14,20 +14,21 @@ import { filterStatus } from '../../../../constant/common.constant';
 interface UserFilterProps {
   drawerOpen: boolean;
   selectedStatuses: string[];
-  handleFilterClose: () => void;
-  handleStatusChange: (status: string) => void;
-  handleReset: () => void;
+  onHandleFilterClose: () => void;
+  onHandleStatusChange: (status: string) => void;
+  onHandleReset: () => void;
+   
 }
 
 const UserFilter: React.FC<UserFilterProps> = ({
   drawerOpen,
   selectedStatuses,
-  handleFilterClose,
-  handleStatusChange,
-  handleReset,
+  onHandleFilterClose,
+  onHandleStatusChange,
+  onHandleReset,
 }) => {
   return (
-    <Drawer anchor='right' open={drawerOpen} onClose={handleFilterClose}>
+    <Drawer anchor='right' open={drawerOpen} onClose={onHandleFilterClose}>
       <Box
         sx={{
           display: 'flex',
@@ -50,7 +51,7 @@ const UserFilter: React.FC<UserFilterProps> = ({
           {filterStatus.map((item) => {
             return (
               <MenuItem
-                onClick={() => handleStatusChange(`${item.toLowerCase()}`)}
+                onClick={() => onHandleStatusChange(`${item.toLowerCase()}`)}
                 sx={{ paddingY: 0.5 }}
               >
                 <ListItemIcon>
@@ -73,7 +74,7 @@ const UserFilter: React.FC<UserFilterProps> = ({
         >
           <Button
             variant='outlined'
-            onClick={handleReset}
+            onClick={onHandleReset}
             sx={{
               marginRight: '15px',
             }}
@@ -83,7 +84,7 @@ const UserFilter: React.FC<UserFilterProps> = ({
           <Button
             variant='contained'
             color='primary'
-            onClick={handleFilterClose}
+            onClick={onHandleFilterClose}
           >
             Submit
           </Button>
