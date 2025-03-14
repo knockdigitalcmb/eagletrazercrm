@@ -42,15 +42,16 @@ const ViewRoles = ({ open, onHandleCloseViewModal, row }: Props) => {
             </Typography>
             <Typography className={styles.modalBody}>
               <b>{t('permissionHeading')}</b>{' '}
-              {Object.keys(row.permission).map(
-                (key: any, index: number) =>
-                  row.permission[key as keyof typeof row.permission] && (
-                    <span key={`${key}-${index}`} className={styles.roleText}>
-                      {' '}
-                      {key} {`-`}
-                    </span>
-                  )
-              )}
+              {Object.keys(row.permission)
+                .filter(
+                  (key) => row.permission[key as keyof typeof row.permission]
+                )
+                .map((key, index, array) => (
+                  <span key={`${key}-${index}`} className={styles.roleText}>
+                    {key}
+                    {index !== array.length - 1 ? ' - ' : ''}
+                  </span>
+                ))}
             </Typography>
           </div>
         )}

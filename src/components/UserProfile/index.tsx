@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { setAuthToken } from '../../features/common/commonSlice';
 import { useCRMAppDispatch } from '../../store/config';
-import LogoutModal from '../LogoutModal';
+import ConfirmationModal from '../ConfirmationModal/index';
 
 import userProfilePic from '../../../src/assets/images/userprofileimage.png';
 import styles from './UserProfile.module.scss';
@@ -78,12 +78,12 @@ const UserProfile = () => {
         <MenuItem
           className={styles.menuItem}
           onClick={onHandleLogOut}
-          data-testid='logout-btn'
+          data-testid='logout-button'
         >
           {t('logout')}
         </MenuItem>
       </Menu>
-      <LogoutModal
+      <ConfirmationModal
         data-testid='logout-modal'
         open={open}
         onClose={onHandleLogOutClose}

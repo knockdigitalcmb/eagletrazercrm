@@ -15,7 +15,7 @@ import CRMTable from '../../../components/CRMTable';
 import SidePanel from '../../../components/SidePanel';
 import UserFilter from './UserFilter';
 import ViewUserDetails from './ViewUserDetails';
-import LogoutModal from '../../../components/LogoutModal';
+import ConfirmationModal from '../../../components/ConfirmationModal/index';
 import { UserProps } from '../../../models/type';
 import { CRMServiceAPI } from 'services/CRMService';
 import styles from './User.module.scss';
@@ -269,7 +269,7 @@ const User = () => {
           onHandleStatusChange={onHandleStatusChange}
           onHandleReset={onHandleReset}
         />
-        <LogoutModal
+        <ConfirmationModal
           open={deleteModal}
           onClose={onDeleteModalClose}
           onHandleContinue={onDeleteModalContinue}

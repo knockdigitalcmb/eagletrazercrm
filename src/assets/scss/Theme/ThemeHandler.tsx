@@ -35,6 +35,13 @@ const ThemeHandler = ({ children }: ThemeHandlerProps) => {
               fontWeight: 400,
             },
           },
+          MuiFormHelperText: {
+            styleOverrides: {
+              root: {
+              marginLeft:0
+              },
+            },
+          },
         },
       }),
     []

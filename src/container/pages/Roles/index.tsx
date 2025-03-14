@@ -1,28 +1,25 @@
 import React, { useEffect, useState } from 'react';
-import { Box, Button, Chip, IconButton, Menu, MenuItem } from '@mui/material';
+import { Box, Button, Chip } from '@mui/material';
 import SidePanel from '../../../components/SidePanel/index';
 import { useTranslation } from 'react-i18next';
 import { pageSizeOptions } from '../../../constant/common.constant';
-import { RoleProps } from '../../../models/type';
+import { RoleProps, MenuProps } from '../../../models/type';
 import CRMTable from '../../../components/CRMTable/index';
-import MoreVertIcon from '@mui/icons-material/MoreVert';
-import LogoutModal from '../../../components/LogoutModal/index';
+import ConfirmationModal from '../../../components/ConfirmationModal/index';
 import { CRMServiceAPI } from '../../../services/CRMService';
 import ViewRoles from './ViewRoles';
 import CreateAndEditRoles from './CreateAndEditRoles';
 import { useForm } from 'react-hook-form';
+import CRMTableActions from '../../../components/CRMTableAction/index';
 
 import styles from './Roles.module.scss';
-const ITEM_HEIGHT = 48;
+
 const Roles = () => {
   const { t } = useTranslation();
   const [roles, setRoles] = useState<RoleProps[]>([]);
   const [selectedRole, setSelectedRole] = useState<RoleProps | null>(null);
   const [roleLoader, setRoleLoader] = useState(false);
-  const [menuState, setMenuState] = useState<{
-    anchorEl: null | HTMLElement;
-    rowId: number | null;
-  }>({
+  const [menuState, setMenuState] = useState<MenuProps>({
     anchorEl: null,
     rowId: null,
   });
@@ -56,7 +53,6 @@ const Roles = () => {
       console.log(error);
     }
   };
-
   const handleClick = (event: React.MouseEvent<HTMLElement>, rowId: number) => {
     setMenuState({ anchorEl: event.currentTarget, rowId });
   };
@@ -96,113 +92,80 @@ const Roles = () => {
   };
 
   const onDeleteModalContinue = async () => {
-    if (selectedRole) {
-      setRoles((prev) => prev.filter((role) => role.id !== selectedRole.id));
-      setDeleteModal(false);
-      setSelectedRole(null);
+    try {
+      if (selectedRole) {
+        setRoleLoader(true);
+        const response = await CRMServiceAPI.deleteUserRole(selectedRole);
+        if (response) {
+          getUserRoleList();
+          setDeleteModal(false);
+          setSelectedRole(null);
+        }
+        setRoleLoader(false);
+      }
+    } catch (error) {
+      console.log(error);
     }
   };
 
   const renderPermissions = (params: any) => {
-    const { edit, delete: del, view, create } = params.value;
+    const permissions = params.value;
+
+    const permissionLabels: { [key: string]: string } = {
+      create: t('create'),
+      edit: t('edit'),
+      view: t('view'),
+      delete: t('delete'),
+    };
+
     return (
       <>
-        {create && (
-          <Chip
-            label={t(`create`)}
-            color='primary'
-            size='small'
-            className={styles.chipButton}
-          />
-        )}
-        {edit && (
-          <Chip
-            label={t(`edit`)}
-            color='primary'
-            size='small'
-            className={styles.chipButton}
-          />
-        )}
-        {view && (
-          <Chip
-            label={t(`view`)}
-            color='primary'
-            size='small'
-            className={styles.chipButton}
-          />
-        )}
-        {del && (
-          <Chip
-            label={t(`delete`)}
-            color='primary'
-            size='small'
-            className={styles.chipButton}
-          />
+        {Object.entries(permissions).map(([key, value]) =>
+          value ? (
+            <Chip
+              key={key}
+              label={permissionLabels[key]}
+              color='primary'
+              size='small'
+              className={styles.chipButton}
+            />
+          ) : null
         )}
       </>
     );
   };
 
+  const renderCRMTableActions = (params: any) => (
+    <CRMTableActions
+      row={params.row}
+      menuState={menuState}
+      handleClick={handleClick}
+      handleClose={handleClose}
+      onHandleViewModalOpen={onHandleViewModalOpen}
+      onHandleEditModal={onHandleEditModal}
+      onHandleDeleteModal={onHandleDeleteModal}
+    />
+  );
+
   const columns: any = [
-    { field: 'id', headerName: 'S.No', width: 100 },
-    { field: 'role', headerName: 'Role', width: 150 },
+    { field: 'id', headerName: 'S.No', flex: 0.5, minWidth: 100 },
+    { field: 'role', headerName: 'Role', flex: 1, minWidth: 150 },
     {
       field: 'permission',
       headerName: 'Permissions',
-      width: 350,
+      flex: 2,
+      minWidth: 250,
       renderCell: renderPermissions,
     },
     {
       field: '',
       headerName: 'Actions',
-      width: 130,
-      renderCell: (params: any) => {
-        return (
-          <>
-            <IconButton
-              aria-label='more'
-              id={`action-button-${params.row.id}`}
-              aria-controls={menuState.anchorEl ? 'action-menu' : undefined}
-              aria-expanded={menuState.anchorEl ? 'true' : undefined}
-              aria-haspopup='true'
-              onClick={(event) => handleClick(event, params.row.id)}
-            >
-              <MoreVertIcon />
-            </IconButton>
-            <Menu
-              id='action-menu'
-              MenuListProps={{
-                'aria-labelledby': `action-button-${params.row.id}`,
-              }}
-              anchorEl={menuState.anchorEl}
-              open={
-                menuState.anchorEl !== null && menuState.rowId === params.row.id
-              }
-              onClose={handleClose}
-              slotProps={{
-                paper: {
-                  style: {
-                    maxHeight: ITEM_HEIGHT * 4.5,
-                    width: '20ch',
-                  },
-                },
-              }}
-            >
-              <MenuItem onClick={() => onHandleViewModalOpen(params.row)}>
-                {t('view')}
-              </MenuItem>
-              <MenuItem onClick={() => onHandleEditModal(params.row)}>
-                {t('edit')}
-              </MenuItem>
-              <MenuItem onClick={() => onHandleDeleteModal(params.row)}>
-                {t('delete')}
-              </MenuItem>
-            </Menu>
-          </>
-        );
-      },
+      flex: 1,
+      minWidth: 200,
+      renderCell: renderCRMTableActions,
     },
   ];
+
   const onHandleRoleSubmit = async () => {
     try {
       //update role
@@ -211,6 +174,7 @@ const Roles = () => {
         if (response) {
           getUserRoleList();
         }
+        setIsCreateRoleModalOpen(false);
       }
       //create role
       if (!selectedRole) {
@@ -219,18 +183,23 @@ const Roles = () => {
           getUserRoleList();
         }
       }
+      setSelectedRole(null);
     } catch (error) {}
   };
-
   return (
     <Box data-testid='dashboard-page' className={styles.dashboardContainer}>
       <SidePanel menu={t('role')} />
-      <Box component='main' sx={{ flexGrow: 1, p: 3, marginTop: '70px' }}>
+      <Box
+        component='main'
+        sx={{ flexGrow: 1, p: 3, marginTop: '70px' }}
+        data-testid='roles-page'
+      >
         <Box className={styles.createRoleButton}>
           <Button
             variant='contained'
             sx={{ marginBottom: '20px' }}
             onClick={onHandleCreateRoleModal}
+            data-testid='create-role-button'
           >
             {t('createRole')}
           </Button>
@@ -247,11 +216,13 @@ const Roles = () => {
           )}
         </Box>
         <ViewRoles
+          data-testid='view-modal'
           open={viewRoleModal}
           onHandleCloseViewModal={onHandleCloseViewModal}
           row={selectedRole}
         />
         <CreateAndEditRoles
+          data-testid='create-modal'
           open={isCreateRoleModalOpen}
           row={selectedRole}
           onHandleCloseCreateRoleModal={onHandleCloseCreateRoleModal}
@@ -259,13 +230,15 @@ const Roles = () => {
           errors={errors}
           onHandleRoleSubmit={onHandleRoleSubmit}
         />
-        <LogoutModal
+        <ConfirmationModal
           data-testid='delete-modal'
           open={deleteModal}
           onClose={OnDeleteModalClose}
           onHandleContinue={onDeleteModalContinue}
-          title={t('delete')}
-          titleDescription={t('deleteConfirmation')}
+          title={t('deleteRole')}
+          titleDescription={t('deleteConfirmationRole', {
+            role: selectedRole?.role || '',
+          })}
         />
       </Box>
     </Box>
