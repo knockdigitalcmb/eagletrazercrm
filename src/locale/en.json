@@ -75,13 +75,16 @@
   "permissionHeading": "Role Permissions:",
   "noPermissionSelected": "No permissions selected",
   "deleteConfirmation": "Are you sure you want to delete {{user}} ({{email}})?",
+  "deleteRole": "Delete Role",
+  "deleteConfirmation": "Are you sure want to delete the role {{role}}?",
   "id": "ID:",
   "name": "Name:",
   "email": "Email:",
   "phone": "Phone:",
   "location": "Location:",
   "address": "Address",
-  "joiningDate":"Joining Date:",
-  "roleTitle":"Role:",
-  "status":"Status:"
+  "joiningDate": "Joining Date:",
+  "roleTitle": "Role:",
+  "status": "Status:",
+  "editRole": "Edit Role"
 }

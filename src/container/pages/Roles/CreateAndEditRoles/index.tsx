@@ -12,6 +12,7 @@ import {
   Button,
 } from '@mui/material';
 import { useTranslation } from 'react-i18next';
+import {PermissionProps} from '../../../../models/type';
 import CloseIcon from '@mui/icons-material/Close';
 
 import styles from './CreateAndEditRoles.module.scss';
@@ -35,6 +36,12 @@ const CreateAndEditRoles = ({
 }: Props) => {
   const { t } = useTranslation();
   console.log(row);
+  const permission: (keyof PermissionProps)[] = [
+    'create',
+    'edit',
+    'view',
+    'delete',
+  ];
   return (
     <Modal
       open={open}
@@ -54,7 +61,7 @@ const CreateAndEditRoles = ({
           alignItems='center'
         >
           <Typography id='modal-modal-title' variant='h6' component='h2'>
-            {row ? 'Edit Role' : t('createRole')}
+            {row ? `${t('editRole')}` : t('createRole')}
           </Typography>
 
           <IconButton>
@@ -67,48 +74,26 @@ const CreateAndEditRoles = ({
             placeholder={t('rolePlaceholder')}
             defaultValue={row?.role || ''}
             {...register('role', { required: `${t('roleRequired')}` })}
-            error={!!errors.role}
-            helperText={errors.role?.message}
+            error={Boolean(errors.role)}
+            helperText={errors.role ? errors.role.message : ''}
           ></TextField>
           <FormGroup sx={{ mt: 2 }}>
             <Typography sx={{ mr: 2 }}>Permissions:</Typography>
             <Box sx={{ display: 'flex', gap: 2, flexWrap: 'wrap' }}>
-              <FormControlLabel
-                control={
-                  <Checkbox
-                    defaultChecked={row?.permission.create || false}
-                    {...register('permission.create')}
-                  />
-                }
-                label='Create'
-              />
-              <FormControlLabel
-                control={
-                  <Checkbox
-                    defaultChecked={row?.permission.edit || false}
-                    {...register('permission.edit')}
-                  />
-                }
-                label='Edit'
-              />
-              <FormControlLabel
-                control={
-                  <Checkbox
-                    defaultChecked={row?.permission.view || false}
-                    {...register('permission.view')}
-                  />
-                }
-                label='View'
-              />
-              <FormControlLabel
-                control={
-                  <Checkbox
-                    defaultChecked={row?.permission.delete || false}
-                    {...register('permission.delete')}
-                  />
-                }
-                label='Delete'
-              />
+              {permission.map((permission) => (
+                <FormControlLabel
+                  key={permission}
+                  control={
+                    <Checkbox
+                      defaultChecked={row?.permission?.[permission] || false}
+                      {...register(`permission.${permission}`)}
+                    />
+                  }
+                  label={
+                    permission.charAt(0).toUpperCase() + permission.slice(1)
+                  }
+                ></FormControlLabel>
+              ))}
             </Box>
           </FormGroup>
           <Box sx={{ display: 'flex', justifyContent: 'flex-end', mt: 5 }}>
