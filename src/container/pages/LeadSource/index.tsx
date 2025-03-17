@@ -18,23 +18,24 @@ const LeadSource = () => {
     anchorEl: null,
     rowId: null,
   });
- useEffect(()=>{
-  getLeadSourceList()
- },[])
- useEffect(() => {
-  if(searchTerm){
-    let payload = {
-      search: searchTerm,
-  }
-  loadLeadSources(payload);
-}}, [searchTerm]);
+  useEffect(() => {
+    getLeadSourceList();
+  }, []);
+  useEffect(() => {
+    if (searchTerm) {
+      let payload = {
+        search: searchTerm,
+      };
+      loadLeadSources(payload);
+    }
+  }, [searchTerm]);
 
-  const loadLeadSources = async (payload:any) => {
+  const loadLeadSources = async (payload: any) => {
     try {
       setLoading(true);
       const response = await CRMServiceAPI.searchLeadSourceList(payload);
       if (response) {
-       setLeadSources([]); 
+        setLeadSources([]);
       }
     } catch (error) {
       console.error('Failed to load lead sources:', error);
@@ -60,21 +61,18 @@ const LeadSource = () => {
   const onHandleEditModal = () => console.log('Edit Modal Open');
   const onHandleDeleteModal = () => console.log('Delete Modal Open');
 
-  
-  const getLeadSourceList=async()=>{
-    try{
-     let response= await CRMServiceAPI.leadSourceList()
-     if(response){
-      setLeadSources(response)
-     }
-     else{
-      setLeadSources([])
-     }
+  const getLeadSourceList = async () => {
+    try {
+      let response = await CRMServiceAPI.leadSourceList();
+      if (response) {
+        setLeadSources(response);
+      } else {
+        setLeadSources([]);
+      }
+    } catch (error) {
+      console.log(error);
     }
-    catch(error){
-      console.log(error)
-    }
-  }
+  };
 
   const renderCRMTableActions = (params: any) => (
     <CRMTableActions
@@ -89,7 +87,7 @@ const LeadSource = () => {
       edit={true}
       delete={true}
     />
-  )
+  );
 
   const renderCRMStatus = (params: any) => {
     const status = params.value;
@@ -97,27 +95,25 @@ const LeadSource = () => {
       active: t('Active'),
       inactive: t('Inactive'),
     };
-  
+
     return (
       <>
         {Object.entries(status).map(([key, value]) =>
-          value ? (
-            <Typography
-              key={key}
-            >
-              {statusLabels[key]}
-            </Typography>
-          ) : null
+          value ? <Typography key={key}>{statusLabels[key]}</Typography> : null
         )}
       </>
     );
   };
-  
+
   const columns = [
-    { field: 'id', headerName: 'S.No', flex: 1 },
+    { field: 'id', headerName: 'S.No' },
     { field: 'name', headerName: 'Name', flex: 1 },
-    { field: 'status', headerName: 'Status', flex: 1,
-      renderCell:(rows:any)=>renderCRMStatus(rows) },
+    {
+      field: 'status',
+      headerName: 'Status',
+      flex: 1,
+      renderCell: (rows: any) => renderCRMStatus(rows),
+    },
     {
       field: 'actions',
       headerName: 'Action',
@@ -165,7 +161,6 @@ const LeadSource = () => {
           pageSizeOptions={[5, 10, 20]}
           loading={loading}
           checkboxSelection={false}
-          
         />
       </Box>
     </Box>
