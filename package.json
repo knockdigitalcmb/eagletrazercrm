@@ -89,6 +89,12 @@
     "sass-loader": "^16.0.4",
     "web-vitals": "^4.2.4"
   },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged",
+      "pre-push": "npm test"
+    }
+  },
   "lint-staged": {
     "*.@(ts|tsx)": [
       "npm run lint:fix",
