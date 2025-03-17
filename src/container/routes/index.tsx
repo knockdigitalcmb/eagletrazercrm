@@ -8,6 +8,7 @@ import CreateUser from '../pages/CreateUser';
 import User from '../pages/User';
 import Roles from '../pages/Roles/index';
 import Leads from '../pages/Leads/index';
+import LeadSource from '../pages/LeadSource';
 import ProtectedRoute from './ProtectedRoute';
 
 const _Routes = () => {
@@ -69,7 +70,18 @@ const _Routes = () => {
         </ProtectedRoute>
       }
       />
+       <Route
+    path='/lead-source'  
+    key='lead-source'
+    element={
+      <ProtectedRoute>
+        <LeadSource />
+      </ProtectedRoute>
+    }
+  />
     </Routes>
+    
+   
   );
 };
 

@@ -13,14 +13,23 @@ import {
   ListItemIcon,
   ListItemText,
   useMediaQuery,
+  Collapse,
 } from '@mui/material';
 import MuiDrawer from '@mui/material/Drawer';
 import MuiAppBar, { AppBarProps as MuiAppBarProps } from '@mui/material/AppBar';
-import { sideBarNavMenus } from '../../constant/common.constant';
 import MenuIcon from '@mui/icons-material/Menu';
 import CloseIcon from '@mui/icons-material/Close';
-import SearchBar from '../SearchBar/index';
 import SearchIcon from '@mui/icons-material/Search';
+import ExpandLessIcon from '@mui/icons-material/ExpandLess';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+
+import HomeOutlinedIcon from '@mui/icons-material/HomeOutlined';
+import GroupOutlinedIcon from '@mui/icons-material/GroupOutlined';
+import ManageAccountsOutlinedIcon from '@mui/icons-material/ManageAccountsOutlined';
+import Diversity3Icon from '@mui/icons-material/Diversity3';
+import SourceIcon from '@mui/icons-material/Source';
+
+import SearchBar from '../SearchBar/index';
 import UserNotification from '../UserNotification';
 import UserProfile from '../UserProfile';
 import { useTranslation } from 'react-i18next';
@@ -31,6 +40,18 @@ import EagleTrazer from '../../assets/images/eagle-trazer.png';
 
 const drawerWidth = 260;
 
+// Sidebar menu with submenu under Leads
+const sideBarNavMenus = [
+  { name: 'Dashboard', icon: <HomeOutlinedIcon /> },
+  { name: 'User', icon: <GroupOutlinedIcon /> },
+  { name: 'Roles', icon: <ManageAccountsOutlinedIcon /> },
+  {
+    name: 'Leads',
+    icon: <Diversity3Icon />,
+    children: [{ name: 'Lead-source', icon: <SourceIcon /> }],
+  },
+];
+
 const openedMixin = (theme: Theme): CSSObject => ({
   width: drawerWidth,
   transition: theme.transitions.create('width', {
@@ -40,10 +61,9 @@ const openedMixin = (theme: Theme): CSSObject => ({
   overflowX: 'hidden',
   background: '#fff',
   borderRight: '1px solid #dee2e6',
-  boxShadow:
-    '0 2px 6px 0 rgba(0, 0, 0, 0.044), 0 2px 6px 0 rgba(0, 0, 0, 0.049)',
+  boxShadow: '0 2px 6px 0 rgba(0, 0, 0, 0.044), 0 2px 6px 0 rgba(0, 0, 0, 0.049)',
   [theme.breakpoints.down('md')]: {
-    width: 0, // Hide sidebar on tablets and mobile
+    width: 0,
     display: 'none',
   },
 });
@@ -56,8 +76,7 @@ const closedMixin = (theme: Theme): CSSObject => ({
   overflowX: 'hidden',
   background: '#fff',
   borderRight: '1px solid #dee2e6',
-  boxShadow:
-    '0 2px 6px 0 rgba(0, 0, 0, 0.044), 0 2px 6px 0 rgba(0, 0, 0, 0.049)',
+  boxShadow: '0 2px 6px 0 rgba(0, 0, 0, 0.044), 0 2px 6px 0 rgba(0, 0, 0, 0.049)',
   width: `calc(${theme.spacing(7)} + 1px)`,
   cursor: 'pointer',
   [theme.breakpoints.up('sm')]: {
@@ -68,6 +87,7 @@ const closedMixin = (theme: Theme): CSSObject => ({
     display: 'none',
   },
 });
+
 interface AppBarProps extends MuiAppBarProps {
   open?: boolean;
 }
@@ -78,8 +98,7 @@ const AppBar = styled(MuiAppBar, {
   zIndex: theme.zIndex.drawer,
   height: '70px',
   background: '#fff',
-  boxShadow:
-    '0 2px 6px 0 rgba(0, 0, 0, 0.044), 0 2px 6px 0 rgba(0, 0, 0, 0.049)',
+  boxShadow: '0 2px 6px 0 rgba(0, 0, 0, 0.044), 0 2px 6px 0 rgba(0, 0, 0, 0.049)',
   transition: theme.transitions.create(['width', 'margin'], {
     easing: theme.transitions.easing.sharp,
     duration: theme.transitions.duration.leavingScreen,
@@ -99,7 +118,7 @@ const AppBar = styled(MuiAppBar, {
     {
       props: ({ open }) => !open,
       style: {
-        width: `calc(100% - 65px)`, //65px total width for side menu
+        width: `calc(100% - 65px)`,
         transition: theme.transitions.create(['width', 'margin'], {
           easing: theme.transitions.easing.sharp,
           duration: theme.transitions.duration.enteringScreen,
@@ -112,6 +131,7 @@ const AppBar = styled(MuiAppBar, {
     marginLeft: 0,
   },
 }));
+
 const Drawer = styled(MuiDrawer, {
   shouldForwardProp: (prop) => prop !== 'open',
 })(({ theme }) => ({
@@ -161,25 +181,19 @@ const SidePanel = ({ menu }: Props) => {
   const [open, setOpen] = React.useState(true);
   const [activeItem, setActiveItem] = React.useState<string>(menu);
   const [search, setSearch] = React.useState(false);
+  const [openSubMenus, setOpenSubMenus] = React.useState<{ [key: string]: boolean }>({});
 
   const handleDrawerOpen = () => {
     setOpen(!open);
   };
-  //handleItemClick
+
   const handleItemClick = (item: string) => {
     navigate(`/${item.toLowerCase()}`);
     setActiveItem(item);
   };
-  //handleDrawerClose
-  const handleDrawerClose = () => {
-    setOpen(true);
-  }; // On Handle Search
-  const onHandleSearch = () => {
-    setSearch(true);
-  };
-  //on Handle Close Search
-  const onHandleCloseSearch = () => {
-    setSearch(false);
+
+  const toggleSubMenu = (name: string) => {
+    setOpenSubMenus((prev) => ({ ...prev, [name]: !prev[name] }));
   };
 
   const isMediumScreen = useMediaQuery('(max-width:768px)');
@@ -193,30 +207,23 @@ const SidePanel = ({ menu }: Props) => {
       <AppBar position='fixed' open={open} className={styles.appHeader}>
         <Toolbar className={styles.toolbar}>
           <Box className={styles.headerIcon}>
-            <IconButton
-              color='inherit'
-              aria-label='open drawer'
-              onClick={handleDrawerOpen}
-              edge='start'
-              data-testid="menu-icon"
-            >
+            <IconButton color='inherit' aria-label='open drawer' onClick={handleDrawerOpen} edge='start'>
               <MenuIcon />
             </IconButton>
           </Box>
-          <Box className={styles.headerSearchBar} onClick={onHandleSearch}>
+          <Box className={styles.headerSearchBar} onClick={() => setSearch(true)}>
             {isMediumScreen ? (
-              <IconButton data-testid="search-button">
-                {' '}
-                <SearchIcon />{' '}
+              <IconButton>
+                <SearchIcon />
               </IconButton>
             ) : (
               <SearchBar />
             )}
           </Box>
           {search && (
-            <Box className={styles.searchBarPosition} data-testid="search-input">
+            <Box className={styles.searchBarPosition}>
               <SearchBar />
-              <CloseIcon onClick={onHandleCloseSearch} />
+              <CloseIcon onClick={() => setSearch(false)} />
             </Box>
           )}
           <Box className={styles.headerRightSection}>
@@ -225,71 +232,61 @@ const SidePanel = ({ menu }: Props) => {
           </Box>
         </Toolbar>
       </AppBar>
+
       <Drawer variant='permanent' open={open} anchor='left'>
         <Divider />
-        <Box
-          sx={{
-            display: 'flex',
-            alignItems: 'center',
-            gap: 1,
-            marginTop: '10px',
-          }}
-        >
-          <img
-            src={EagleTrazer}
-            alt='eagle-logo'
-            title='Eagle Trazer'
-            className={styles.dashboardCompanyLogo}
-          />
-          <Typography
-            variant='h6'
-            component='div'
-            sx={{ fontWeight: 500, color: 'rgb(71, 71, 71)' }}
-          >
+        <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, marginTop: '10px' }}>
+          <img src={EagleTrazer} alt='eagle-logo' title='Eagle Trazer' className={styles.dashboardCompanyLogo} />
+          <Typography variant='h6' component='div' sx={{ fontWeight: 500, color: 'rgb(71, 71, 71)' }}>
             {t('companyName')}
           </Typography>
           {!open && (
-            <IconButton className='close-icon' onClick={handleDrawerClose}>
+            <IconButton className='close-icon' onClick={() => setOpen(true)}>
               <CloseIcon />
             </IconButton>
           )}
         </Box>
         <List>
           {sideBarNavMenus.map((item) => (
-            <ListItem
-              key={item.name}
-              disablePadding
-              data-testid="list-item"
-              className={`${styles.listItem} ${activeItem === item.name ? styles.active : ''}`}
-            >
-              <ListItemButton
-                sx={[
-                  { minHeight: 48, px: 2.5 },
-                  open
-                    ? { justifyContent: 'initial' }
-                    : { justifyContent: 'center' },
-                ]}
-                onClick={() => handleItemClick(item.name)}
-                data-testid={`menu-${item.name.toLowerCase()}`}
-              >
-                <ListItemIcon
-                  sx={[
-                    { minWidth: 0, justifyContent: 'center' },
-                    open ? { mr: 3 } : { mr: 'auto' },
-                  ]}
-                >
-                  {item.icon}
-                </ListItemIcon>
-                <ListItemText
-                  primary={item.name}
-                  className='listItemText'
-                  sx={{
-                    display: open ? 'block' : 'none',
-                    '.MuiDrawer-root:hover &': { display: 'block' },
+            <React.Fragment key={item.name}>
+              <ListItem disablePadding className={`${styles.listItem} ${activeItem === item.name ? styles.active : ''}`}>
+                <ListItemButton
+                  sx={[{ minHeight: 48, px: 2.5 }, open ? { justifyContent: 'initial' } : { justifyContent: 'center' }]}
+                  onClick={() => {
+                    handleItemClick(item.name);
+                    if (item.children) toggleSubMenu(item.name);
                   }}
-                />
-              </ListItemButton>
-            </ListItem>
+                >
+                  <ListItemIcon sx={[{ minWidth: 0, justifyContent: 'center' }, open ? { mr: 3 } : { mr: 'auto' }]}>
+                    {item.icon}
+                  </ListItemIcon>
+                  <ListItemText
+                    primary={item.name}
+                    sx={{ display: open ? 'block' : 'none', '.MuiDrawer-root:hover &': { display: 'block' } }}
+                  />
+                  {item.children && open && (openSubMenus[item.name] ? <ExpandLessIcon /> : <ExpandMoreIcon />)}
+                </ListItemButton>
+              </ListItem>
+
+              {item.children && (
+                <Collapse in={openSubMenus[item.name]} timeout="auto" unmountOnExit>
+                  <List component="div" disablePadding>
+                    {item.children.map((child) => (
+                      <ListItem
+                        key={child.name}
+                        disablePadding
+                        className={`${styles.listItem} ${activeItem === child.name ? styles.active : ''}`}
+                      >
+                        <ListItemButton sx={{ pl: 4 }} onClick={() => handleItemClick(child.name)}>
+                          <ListItemIcon>{child.icon}</ListItemIcon>
+                          <ListItemText primary={child.name} />
+                        </ListItemButton>
+                      </ListItem>
+                    ))}
+                  </List>
+                </Collapse>
+              )}
+            </React.Fragment>
           ))}
         </List>
       </Drawer>

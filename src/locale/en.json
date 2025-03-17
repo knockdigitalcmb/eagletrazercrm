@@ -96,5 +96,9 @@
   "toDate": "To Date",
   "leadSource": "Lead Source",
   "leadStatus": "Lead Status",
-  "leadFollower": "Lead Follower"
+  "leadFollower": "Lead Follower",
+  "addLeadSource": "Add Lead Source",
+  "leadSourcestatus": "Status",
+  "sourceName": "Source Name",
+  "leadSearchPlaceholder": "Search by Name"
 }

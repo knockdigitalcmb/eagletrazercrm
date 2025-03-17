@@ -99,6 +99,9 @@ const Leads = () => {
         onHandleViewModalOpen={onHandleViewModal}
         onHandleEditModal={onHandleEditModal}
         onHandleDeleteModal={onHandleDeleteModal}
+        view={false}
+        edit={true}
+        delete={true}
       />
     );
   };

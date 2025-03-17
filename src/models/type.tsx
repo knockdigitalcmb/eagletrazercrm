@@ -86,8 +86,19 @@ export interface ActionMenuProps {
   onHandleViewModalOpen: (role: any) => void;
   onHandleEditModal: (role: any) => void;
   onHandleDeleteModal: (role: any) => void;
+  edit:Boolean;
+  view:Boolean;
+  delete:Boolean;
 }
 export interface LeadsSearchProps {
   searchLeads: string;
   onHandleLeadsSearch: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
+
+export interface LeadSourceType {
+  id: number;
+  name: string;
+  status: {
+    active:boolean,
+    inactive:boolean
+  } }
