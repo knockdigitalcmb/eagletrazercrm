@@ -19,7 +19,7 @@ const Leads = () => {
   });
   const [leads, setLeads] = useState<LeadsProps[]>([]);
   const [searchLeads, setSearchLeads] = useState('');
-  const[leadsLoader,setLeadsLoader]=useState(false)
+  const [leadsLoader, setLeadsLoader] = useState(false);
 
   useEffect(() => {
     getLeadsList();
@@ -62,7 +62,7 @@ const Leads = () => {
   const onHandleDeleteModal = () => {};
 
   const getLeadsList = async () => {
-    setLeadsLoader(true)
+    setLeadsLoader(true);
     try {
       const response = await CRMServiceAPI.leadsList();
       if (response) {
@@ -70,20 +70,20 @@ const Leads = () => {
       } else {
         setLeads([]);
       }
-      setLeadsLoader(false)
+      setLeadsLoader(false);
     } catch (error) {
       console.log('Lead list error', error);
     }
   };
 
   const getSearchLeadsList = async (payload: any) => {
-    setLeadsLoader(true)
+    setLeadsLoader(true);
     try {
       let response = await CRMServiceAPI.searchLeads(payload);
       if (response) {
         setLeads([]);
       }
-      setLeadsLoader(false)
+      setLeadsLoader(false);
     } catch (error) {
       console.log('search leads:', error);
     }
@@ -108,7 +108,7 @@ const Leads = () => {
 
   const columns: any = [
     { field: 'id', headerName: 'S.No', sortable: false, width: 80 },
-    { field: 'date', headerName: 'Date', sortable: false, width: 130 },
+    { field: 'date', headerName: 'Date', sortable: false, width: 80 },
     {
       field: 'customerName',
       headerName: 'Customer Name',
@@ -121,7 +121,7 @@ const Leads = () => {
       sortable: false,
       width: 150,
     },
-    { field: 'email', headerName: 'Email', sortable: false, width: 180 },
+    { field: 'email', headerName: 'Email', sortable: false, width: 130 },
     { field: 'location', headerName: 'Location', sortable: false, width: 130 },
     { field: 'follower', headerName: 'Follower', sortable: false, width: 130 },
     {
@@ -130,7 +130,7 @@ const Leads = () => {
       sortable: false,
       width: 130,
     },
-    { field: 'nextDate', headerName: 'Next Date', sortable: false, width: 130 },
+    { field: 'nextDate', headerName: 'Next Date', sortable: false, width: 80 },
     {
       field: 'action',
       headerName: 'Action',
