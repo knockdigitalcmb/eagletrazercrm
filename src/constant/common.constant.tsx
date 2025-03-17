@@ -8,9 +8,9 @@ export const sideBarNavMenus = [
   { name: 'Dashboard', icon: <HomeOutlinedIcon /> },
   { name: 'User', icon: <GroupOutlinedIcon /> },
   { name: 'Roles', icon: <ManageAccountsOutlinedIcon /> },
-  { name: 'Leads', icon: <Diversity3Icon /> },
-  { name: 'Lead-source', icon: <SourceIcon /> }
-];
+  { name: 'Leads', icon: <Diversity3Icon />, children: [
+    { name: 'Lead-source', icon: <SourceIcon /> },
+  ],}]
 
 export const userPermissionOptions = {
   otpPage: {
