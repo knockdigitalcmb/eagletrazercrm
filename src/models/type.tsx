@@ -67,6 +67,17 @@ export interface MenuProps{
     anchorEl: null | HTMLElement;
     rowId: number | null;
 }
+export interface LeadsProps {
+  id: number;
+  date: string;
+  customerName: string;
+  phoneNumber: string;
+  email: string;
+  location: string;
+  follower: string;
+  leadSource: string;
+  nextDate: string;
+}
 export interface ActionMenuProps {
   row: any;
   menuState: MenuProps;
@@ -75,4 +86,8 @@ export interface ActionMenuProps {
   onHandleViewModalOpen: (role: any) => void;
   onHandleEditModal: (role: any) => void;
   onHandleDeleteModal: (role: any) => void;
+}
+export interface LeadsSearchProps {
+  searchLeads: string;
+  onHandleLeadsSearch: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }

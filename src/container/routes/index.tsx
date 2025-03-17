@@ -7,6 +7,7 @@ import Dashboard from '../pages/Dashboard';
 import CreateUser from '../pages/CreateUser';
 import User from '../pages/User';
 import Roles from '../pages/Roles/index';
+import Leads from '../pages/Leads/index';
 import ProtectedRoute from './ProtectedRoute';
 
 const _Routes = () => {
@@ -58,6 +59,15 @@ const _Routes = () => {
             <Roles />
           </ProtectedRoute>
         }
+      />
+      <Route
+      path='/leads'
+      key='leads'
+      element={
+        <ProtectedRoute>
+          <Leads/>
+        </ProtectedRoute>
+      }
       />
     </Routes>
   );

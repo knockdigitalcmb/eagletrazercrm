@@ -216,10 +216,66 @@ export class CRMServiceAPI {
       //   method: 'DELETE',
       //   data:payload
       // });
-
+   
       return true;
     } catch (error) {
       console.error('error in delete user api:', error);
     }
   };
+
+  //leads
+
+static leadsList=async()=>{
+  const rows = [
+    {
+      id: 1,
+      date: '1-2-2002',
+      customerName: 'Gopal',
+      phoneNumber: '123456789',
+      email: 'gopal@gmail.com',
+      location: 'cbe',
+      follower: 'Vaishali',
+      leadSource: 'Reference',
+      nextDate: '12-2-2002',
+    },
+    {
+      id: 2,
+      date: '5-6-2023',
+      customerName: 'Ravi',
+      phoneNumber: '987654321',
+      email: 'ravi@example.com',
+      location: 'chennai',
+      follower: 'Arun',
+      leadSource: 'Direct Call',
+      nextDate: '10-6-2023',
+    },
+  ];
+  try{
+    // const response = await commonServiceAPI.CRMAPICall({
+    //   url: `${API_DOMAIN}wqBPlJJqwnPmxINapM/api/v1/leadlist`,
+    //   method: 'GET',
+    // });
+  return rows;
+  }
+  catch(error){
+    console.log("Leads Errors:",error)
+  }
+}
+
+  //Leads Search 
+
+  static searchLeads=async(payload:any)=>{
+    try{
+      // const response = await commonServiceAPI.CRMAPICall({
+      //   url: `${API_DOMAIN}wqBPlJJqwnPmxINapM/api/v1/searchLeads`,
+      //   method: 'POST',
+      //   data: payload,
+      // });
+      // return respond?.data
+      return true;
+    }
+    catch(error){
+     console.log("search Leads:",error)
+    }
+  }
 }

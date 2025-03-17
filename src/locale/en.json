@@ -58,6 +58,7 @@
   "save": "Save",
   "createUser": "Create User",
   "submit": "Submit",
+  "roles": "Roles",
   "role": "Role",
   "createRole": "Create Roles",
   "rolePlaceholder": "Role Name *",
@@ -87,5 +88,13 @@
   "roleTitle": "Role:",
   "status": "Status:",
   "editRole": "Edit Role",
-  "permissions": "Permissions"
+  "permissions": "Permissions",
+  "leads": "Leads",
+  "createLeads": "Create Leads",
+  "leadsSearchPlaceholder": "Search by Name or Phone Number",
+  "fromDate": "From Date",
+  "toDate": "To Date",
+  "leadSource": "Lead Source",
+  "leadStatus": "Lead Status",
+  "leadFollower": "Lead Follower"
 }
