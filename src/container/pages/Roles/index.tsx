@@ -68,7 +68,6 @@ const Roles = () => {
   }, []);
 
   const renderPermissions = (params: any) => {
-    const { t } = useTranslation();
     const permissions = params.value;
     const permissionLabels: { [key: string]: string } = {
       create: t('create'),
@@ -102,6 +101,9 @@ const Roles = () => {
       onHandleViewModalOpen={onHandleViewModalOpen}
       onHandleEditModal={onHandleEditModal}
       onHandleDeleteModal={onHandleDeleteModal}
+      view={true}
+      edit={true}
+      delete={true}
     />
   );
 

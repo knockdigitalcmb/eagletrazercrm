@@ -23,6 +23,9 @@ const renderCRMActionComponent = () => {
       onHandleViewModalOpen={mockOnHandleViewModalOpen}
       onHandleEditModal={mockOnHandleEditModal}
       onHandleDeleteModal={mockOnHandleDeleteModal}
+      view={true}
+      edit={true}
+      delete={true}
     />
   );
 };

@@ -98,7 +98,7 @@ export class CRMServiceAPI {
       console.log('delete user role api', error);
     }
   };
-  
+
   // user search filter action
   static searchUserList = async (payload: any) => {
     try {
@@ -278,4 +278,37 @@ static leadsList=async()=>{
      console.log("search Leads:",error)
     }
   }
+  //lead source
+  static leadSourceList = async () => {
+    const rows = [
+      { id: 1, name: 'Google Ads', status: { active: true, inactive: false } },
+      { id: 2, name: 'Facebook', status: { active: false, inactive: true } },
+      { id: 3, name: 'Referral', status: { active: true, inactive: false } },
+      { id: 4, name: 'DirectCall', status: { active: false, inactive: true } },
+    ];
+    try {
+      // const response=await commonServiceAPI.CRMAPICall({
+      //   url: `${API_DOMAIN}/wqBPlJJqwnPmxINapM/api/v1/searchLeadSourceList`,
+      //   method:"GET"
+      // })
+      return rows;
+    } catch (error) {
+      console.log('Lead Source error', error);
+    }
+  };
+  //lead source search
+  static searchLeadSourceList = async (payload: any) => {
+    try {
+      // const response = await commonServiceAPI.CRMAPICall({
+      //   url: `${API_DOMAIN}/wqBPlJJqwnPmxINapM/api/v1/searchLeadSourceList`,
+      //   method: 'POST',
+      //   data: payload,
+      // });
+      // return response?.data;
+
+      return true;
+    } catch (error) {
+      console.log('search lead source list api:', error);
+    }
+  };
 }
