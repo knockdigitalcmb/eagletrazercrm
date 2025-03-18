@@ -13,6 +13,12 @@ let menuState: { anchorEl: HTMLElement | null; rowId: number | null } = {
   rowId: null,
 };
 
+const actionsProps = {
+  view: false,
+  edit: true,
+  delete: true,
+};
+
 const renderCRMActionComponent = () => {
   render(
     <CRMTableActions
@@ -23,9 +29,7 @@ const renderCRMActionComponent = () => {
       onHandleViewModalOpen={mockOnHandleViewModalOpen}
       onHandleEditModal={mockOnHandleEditModal}
       onHandleDeleteModal={mockOnHandleDeleteModal}
-      view={true}
-      edit={true}
-      delete={true}
+      actions={actionsProps}
     />
   );
 };

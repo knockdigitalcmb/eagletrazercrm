@@ -9,6 +9,12 @@ import styles from './LeadSource.module.scss';
 import CRMTableActions from '../../../components/CRMTableAction';
 import { CRMServiceAPI } from 'services/CRMService';
 
+const actionsProps = {
+  view: false,
+  edit: true,
+  delete: true,
+};
+
 const LeadSource = () => {
   const { t } = useTranslation();
   const [searchTerm, setSearchTerm] = useState('');
@@ -73,21 +79,20 @@ const LeadSource = () => {
       console.log(error);
     }
   };
-
-  const renderCRMTableActions = (params: any) => (
-    <CRMTableActions
-      row={params}
-      menuState={menuState}
-      handleClick={handleClick}
-      handleClose={handleClose}
-      onHandleViewModalOpen={onHandleViewModalOpen}
-      onHandleEditModal={onHandleEditModal}
-      onHandleDeleteModal={onHandleDeleteModal}
-      view={false}
-      edit={true}
-      delete={true}
-    />
-  );
+  const RenderCRMTableActions = (params: any) => {
+    return (
+      <CRMTableActions
+        row={params}
+        menuState={menuState}
+        handleClick={handleClick}
+        handleClose={handleClose}
+        onHandleViewModalOpen={onHandleViewModalOpen}
+        onHandleEditModal={onHandleEditModal}
+        onHandleDeleteModal={onHandleDeleteModal}
+        actions={actionsProps}
+      />
+    );
+  };
 
   const renderCRMStatus = (params: any) => {
     const status = params.value;
@@ -106,7 +111,7 @@ const LeadSource = () => {
   };
 
   const columns = [
-    { field: 'id', headerName: 'S.No' },
+    { field: 'id', headerName: 'S.No', flex: 1 },
     { field: 'name', headerName: 'Name', flex: 1 },
     {
       field: 'status',
@@ -118,7 +123,7 @@ const LeadSource = () => {
       field: 'actions',
       headerName: 'Action',
       width: 150,
-      renderCell: (rows: any) => renderCRMTableActions(rows),
+      renderCell: (rows: any) => RenderCRMTableActions(rows),
     },
   ];
 

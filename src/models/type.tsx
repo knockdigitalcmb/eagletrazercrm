@@ -35,7 +35,6 @@ export interface RoleProps {
   };
 }
 
-
 export interface UserProps {
   id: number;
   employeeId: string;
@@ -47,7 +46,7 @@ export interface UserProps {
   address: string;
   status: string;
   dateOfJoining: string;
-};
+}
 
 export interface DraggableDialogProps {
   open: boolean;
@@ -63,9 +62,9 @@ export interface PermissionProps {
   view: boolean;
 }
 
-export interface MenuProps{
-    anchorEl: null | HTMLElement;
-    rowId: number | null;
+export interface MenuProps {
+  anchorEl: null | HTMLElement;
+  rowId: number | null;
 }
 export interface LeadsProps {
   id: number;
@@ -83,12 +82,14 @@ export interface ActionMenuProps {
   menuState: MenuProps;
   handleClick: (event: React.MouseEvent<HTMLElement>, rowId: number) => void;
   handleClose: () => void;
-  onHandleViewModalOpen: (role: any) => void;
+  onHandleViewModalOpen?: (role: any) => void;
   onHandleEditModal: (role: any) => void;
   onHandleDeleteModal: (role: any) => void;
-  edit:Boolean;
-  view:Boolean;
-  delete:Boolean;
+  actions: {
+    view: Boolean;
+    edit: Boolean;
+    delete: Boolean;
+  };
 }
 export interface LeadsSearchProps {
   searchLeads: string;
@@ -99,6 +100,7 @@ export interface LeadSourceType {
   id: number;
   name: string;
   status: {
-    active:boolean,
-    inactive:boolean
-  } }
+    active: boolean;
+    inactive: boolean;
+  };
+}
