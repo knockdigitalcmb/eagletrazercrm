@@ -54,7 +54,7 @@ const AddLeadSourceModal: React.FC<AddLeadSourceModalProps> = ({
           />
 
           <Typography variant='body1' sx={{ mb: 1 }}>
-            {t('leadSourcestatus')}
+            {t('leadSourceStatus')}
           </Typography>
           <FormGroup row>
             {['Active', 'Inactive'].map((item) => (
@@ -66,7 +66,7 @@ const AddLeadSourceModal: React.FC<AddLeadSourceModalProps> = ({
                     onChange={() => handleStatusChange(item)}
                   />
                 }
-                label={t(item.toLowerCase())}
+                label={item}
               />
             ))}
           </FormGroup>

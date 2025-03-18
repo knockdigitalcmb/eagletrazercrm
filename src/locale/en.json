@@ -97,8 +97,8 @@
   "leadSource": "Lead Source",
   "leadStatus": "Lead Status",
   "leadFollower": "Lead Follower",
-  "addLeadSource": "Add Lead Source",
-  "leadSourcestatus": "Status",
+  "addLeadSource": "Add Leads Source",
+  "leadSourceStatus": "Status",
   "sourceName": "Source Name",
   "leadSearchPlaceholder": "Search by Name"
 }

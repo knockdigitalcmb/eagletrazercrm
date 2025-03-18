@@ -13,9 +13,7 @@ const CRMTableActions: React.FC<ActionMenuProps> = ({
   onHandleViewModalOpen,
   onHandleEditModal,
   onHandleDeleteModal,
-  view = true,
-  edit = true,
-  delete: canDelete = true,
+  actions,
 }) => {
   const { t } = useTranslation();
 
@@ -49,15 +47,15 @@ const CRMTableActions: React.FC<ActionMenuProps> = ({
           },
         }}
       >
-        {view && (
+        {actions?.view && (
           <MenuItem
-            onClick={() => onHandleViewModalOpen(row)}
+            onClick={() => onHandleViewModalOpen && onHandleViewModalOpen(row)}
             data-testid='view-modal'
           >
             {t('view')}
           </MenuItem>
         )}
-        {edit && (
+        {actions?.edit && (
           <MenuItem
             onClick={() => onHandleEditModal(row)}
             data-testid='edit-modal'
@@ -65,7 +63,7 @@ const CRMTableActions: React.FC<ActionMenuProps> = ({
             {t('edit')}
           </MenuItem>
         )}
-        {canDelete && (
+        {actions?.delete && (
           <MenuItem
             onClick={() => onHandleDeleteModal(row)}
             data-testid='delete-modal'

@@ -11,6 +11,11 @@ import { CRMServiceAPI } from 'services/CRMService';
 
 import styles from './Leads.module.scss';
 
+const actionsProps = {
+  view: false,
+  edit: true,
+  delete: true,
+};
 const Leads = () => {
   const { t } = useTranslation();
   const [menuState, setMenuState] = useState<MenuProps>({
@@ -89,7 +94,7 @@ const Leads = () => {
     }
   };
 
-  const renderCRMTableAction = (params: any) => {
+  const RenderCRMTableAction = (params: any) => {
     return (
       <CRMTableActions
         row={params}
@@ -99,9 +104,7 @@ const Leads = () => {
         onHandleViewModalOpen={onHandleViewModal}
         onHandleEditModal={onHandleEditModal}
         onHandleDeleteModal={onHandleDeleteModal}
-        view={false}
-        edit={true}
-        delete={true}
+        actions={actionsProps}
       />
     );
   };
@@ -136,7 +139,7 @@ const Leads = () => {
       headerName: 'Action',
       sortable: false,
       width: 80,
-      renderCell: (rows: any) => renderCRMTableAction(rows),
+      renderCell: (rows: any) => RenderCRMTableAction(rows),
     },
   ];
   return (

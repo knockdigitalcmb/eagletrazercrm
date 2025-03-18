@@ -13,6 +13,12 @@ import { useForm } from 'react-hook-form';
 import CRMTableActions from '../../../components/CRMTableAction/index';
 
 import styles from './Roles.module.scss';
+
+const actionsProps = {
+  view: true,
+  edit: true,
+  delete: true,
+};
 const Roles = () => {
   const { t } = useTranslation();
   const [roles, setRoles] = useState<RoleProps[]>([]);
@@ -59,7 +65,7 @@ const Roles = () => {
       flex: 1,
       minWidth: 200,
       sortable: false,
-      renderCell: (rows: any) => renderCRMTableActions(rows),
+      renderCell: (rows: any) => RenderCRMTableActions(rows),
     },
   ];
 
@@ -92,20 +98,20 @@ const Roles = () => {
     );
   };
 
-  const renderCRMTableActions = (params: any) => (
-    <CRMTableActions
-      row={params.row}
-      menuState={menuState}
-      handleClick={handleClick}
-      handleClose={handleClose}
-      onHandleViewModalOpen={onHandleViewModalOpen}
-      onHandleEditModal={onHandleEditModal}
-      onHandleDeleteModal={onHandleDeleteModal}
-      view={true}
-      edit={true}
-      delete={true}
-    />
-  );
+  const RenderCRMTableActions = (params: any) => {
+    return (
+      <CRMTableActions
+        row={params.row}
+        menuState={menuState}
+        handleClick={handleClick}
+        handleClose={handleClose}
+        onHandleViewModalOpen={onHandleViewModalOpen}
+        onHandleEditModal={onHandleEditModal}
+        onHandleDeleteModal={onHandleDeleteModal}
+        actions={actionsProps}
+      />
+    );
+  };
 
   const handleClick = (event: React.MouseEvent<HTMLElement>, rowId: number) => {
     setMenuState({ anchorEl: event.currentTarget, rowId });
