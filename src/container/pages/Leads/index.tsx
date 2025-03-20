@@ -8,6 +8,8 @@ import CRMTable from '../../../components/CRMTable/index';
 import CRMTableActions from '../../../components/CRMTableAction/index';
 import { LeadsProps, MenuProps } from '../../../models/type';
 import { CRMServiceAPI } from 'services/CRMService';
+import { Dayjs } from 'dayjs';
+import { useForm } from 'react-hook-form';
 
 import styles from './Leads.module.scss';
 
@@ -26,12 +28,22 @@ const Leads = () => {
   const [searchLeads, setSearchLeads] = useState('');
   const [leadsLoader, setLeadsLoader] = useState(false);
 
+  const { control, setValue, reset, handleSubmit } = useForm({
+    defaultValues: {
+      fromDate: null as Dayjs | null,
+      endDate: null as Dayjs | null,
+      leadSource: '',
+      leadStatus: '',
+      leadFollower: '',
+    },
+  });
+
   useEffect(() => {
     getLeadsList();
   }, []);
 
   useEffect(() => {
-    if (searchLeads) {
+    if (searchLeads && searchLeads.length > 3) {
       let payload = {
         search: searchLeads,
       };
@@ -43,6 +55,11 @@ const Leads = () => {
   const onHandleLeadsSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchLeads(e.target.value);
     console.log(searchLeads);
+  };
+
+  //on handle filter close
+  const onHandleFilterClose = () => {
+    reset();
   };
 
   // on handle click
@@ -93,7 +110,19 @@ const Leads = () => {
       console.log('search leads:', error);
     }
   };
-
+  // on handle filter submit
+  const onHandleFilterSubmit = async (payload: any) => {
+    setLeadsLoader(true);
+    try {
+      let response = await CRMServiceAPI.leadsFilterList(payload);
+      if (response) {
+        // setLeads([response])
+      }
+    } catch (error) {
+      console.log('Filter Leads API', error);
+    }
+    reset();
+  };
   const RenderCRMTableAction = (params: any) => {
     return (
       <CRMTableActions
@@ -163,7 +192,14 @@ const Leads = () => {
             searchLeads={searchLeads}
             onHandleLeadsSearch={onHandleLeadsSearch}
           />
-          <LeadsFilter />
+          <LeadsFilter
+            control={control}
+            setValue={setValue}
+            reset={reset}
+            handleSubmit={handleSubmit}
+            onHandleFilterSubmit={onHandleFilterSubmit}
+            onHandleFilterClose={onHandleFilterClose}
+          />
         </Box>
         <CRMTable
           rows={leads}
