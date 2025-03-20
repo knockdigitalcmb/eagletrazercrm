@@ -1,21 +1,34 @@
 import React, { useState } from 'react';
-import { Box, Button, Checkbox, Drawer, FormControlLabel, FormGroup, Typography } from '@mui/material';
+import { Box, Button, Drawer, Typography } from '@mui/material';
 import FilterAltIcon from '@mui/icons-material/FilterAlt';
 import { useTranslation } from 'react-i18next';
-import { useForm } from 'react-hook-form';
+import { Controller } from 'react-hook-form';
+import DatePicker from '../../../../components/DatePicker/index';
+import CustomSelect from '../../../../components/CustomSelect/index';
+import { SelectChangeEvent } from '@mui/material/Select';
+import {
+  leadSource,
+  leadFollower,
+  leadStatus,
+} from '../../../../constant/common.constant';
+import dayjs, { Dayjs } from 'dayjs';
+import { FilterProps } from '../../../../models/type';
 
-
-const LeadsFilter = () => {
+const LeadsFilter = ({
+  control,
+  setValue,
+  reset,
+  handleSubmit,
+  onHandleFilterSubmit,
+  onHandleFilterClose,
+}: FilterProps) => {
   const { t } = useTranslation();
-  const {register,handleSubmit}=useForm()
-    const [open, setOpen] = useState(false);
-    const toggleDrawer = (isOpen: boolean) => () => {
-      setOpen(isOpen);
-    };
-    
-    const onHandleFilterSubmit=(data:any)=>{
-     console.log(data)
-    }
+
+  const [open, setOpen] = useState(false);
+
+  const toggleDrawer = (isOpen: boolean) => () => {
+    setOpen(isOpen);
+  };
 
   return (
     <>
@@ -41,33 +54,88 @@ const LeadsFilter = () => {
             >
               {t('filter')}
             </Typography>
-            <FormGroup sx={{ paddingLeft: '25px' }}>
-              <FormControlLabel
-                control={<Checkbox />}
-                label={t('fromDate')}
-                {...register('fromDate')}
-              />
-              <FormControlLabel
-                control={<Checkbox />}
-                label={t('toDate')}
-                {...register('toDate')}
-              />
-              <FormControlLabel
-                control={<Checkbox />}
-                label={t('leadSource')}
-                {...register('leadSource')}
-              />
-              <FormControlLabel
-                control={<Checkbox />}
-                label={t('leadStatus')}
-                {...register('leadStatus')}
-              />
-              <FormControlLabel
-                control={<Checkbox />}
-                label={t('leadFollower')}
-                {...register('leadFollower')}
-              />
-            </FormGroup>
+            <Box sx={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
+              <Box>
+                {t('fromDate')}
+
+                <Controller
+                  name='fromDate'
+                  control={control}
+                  render={({ field }) => (
+                    <DatePicker
+                      selectedDate={field.value ? dayjs(field.value) : null}
+                      setSelectedDate={(date: Dayjs | null) =>
+                        setValue('fromDate', date ? date.toDate() : null)
+                      }
+                    />
+                  )}
+                />
+              </Box>
+              <Box>
+                {t('endDate')}
+
+                <Controller
+                  name='endDate'
+                  control={control}
+                  render={({ field }) => (
+                    <DatePicker
+                      selectedDate={field.value ? dayjs(field.value) : null}
+                      setSelectedDate={(date: Dayjs | null) =>
+                        setValue('endDate', date ? date.toDate() : null)
+                      }
+                    />
+                  )}
+                />
+              </Box>
+              <Box>
+                {t('leadSource')}
+                <Controller
+                  name='leadSource'
+                  control={control}
+                  render={({ field }) => (
+                    <CustomSelect
+                      options={leadSource}
+                      value={field.value}
+                      onChange={(e: SelectChangeEvent) =>
+                        setValue('leadSource', e.target.value)
+                      }
+                    />
+                  )}
+                />
+              </Box>
+              <Box>
+                {t('leadStatus')}
+                <Controller
+                  name='leadStatus'
+                  control={control}
+                  render={({ field }) => (
+                    <CustomSelect
+                      options={leadStatus}
+                      value={field.value}
+                      onChange={(e: SelectChangeEvent) =>
+                        setValue('leadStatus', e.target.value)
+                      }
+                    />
+                  )}
+                />
+              </Box>
+              <Box>
+                {t('leadFollower')}
+                <Controller
+                  name='leadFollower'
+                  control={control}
+                  render={({ field }) => (
+                    <CustomSelect
+                      options={leadFollower}
+                      value={field.value}
+                      onChange={(e: SelectChangeEvent) =>
+                        setValue('leadFollower', e.target.value)
+                      }
+                    />
+                  )}
+                />
+              </Box>
+            </Box>
           </Box>
           <Box
             sx={{
@@ -78,8 +146,12 @@ const LeadsFilter = () => {
               padding: '10px',
             }}
           >
-            <Button> {t('reset')}</Button>
-            <Button variant='contained' color='primary' onClick={handleSubmit(onHandleFilterSubmit)}>
+            <Button onClick={onHandleFilterClose}> {t('reset')}</Button>
+            <Button
+              variant='contained'
+              color='primary'
+              onClick={handleSubmit(onHandleFilterSubmit)}
+            >
               {t('submit')}
             </Button>
           </Box>

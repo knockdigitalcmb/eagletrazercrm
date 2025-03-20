@@ -104,3 +104,12 @@ export interface LeadSourceType {
     inactive: boolean;
   };
 }
+
+export interface FilterProps {
+  control: any;
+  setValue: any;
+  reset: any;
+  handleSubmit: any;
+  onHandleFilterSubmit: (data: any) => void;
+  onHandleFilterClose: () => void;
+}

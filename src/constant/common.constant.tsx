@@ -57,3 +57,21 @@ export const userRoleOptions = ['Admin', 'Lead', 'User', 'Developer'];
 export const pageSizeOptions = [10, 25, 50, 100];
 export const kebabMenuOptions = ['View', 'Edit', 'Delete'];
 export const filterStatus = ['Active', 'InActive'];
+
+export const leadSource = [
+  { label: 'call next week', value: 'call next week' },
+  { label: 'call tomorrow', value: 'call tomorrow' },
+  { label: 'call next week', value: 'call next week' },
+];
+
+export const leadStatus = [
+  { label: 'FaceBook ad', value: 'FaceBook ad' },
+  { label: 'Direct call', value: 'Direct call' },
+  { label: 'Reference', value: 'Reference' },
+];
+
+export const leadFollower = [
+  { label: 'Vaishnavi', value: 'Vaishnavi' },
+  { label: 'Jhanani', value: 'Jhanani' },
+  { label: 'Muthu', value: 'Muthu' },
+];
