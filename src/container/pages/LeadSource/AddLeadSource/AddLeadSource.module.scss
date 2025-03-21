@@ -1,0 +1,36 @@
+.dialogPaper {
+  border-radius: 12px !important;
+  width: 400px !important;
+  max-width: 90vw !important;
+}
+
+.dialogTitleContainer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px 20px 10px 20px;
+  border-bottom: 2px solid #fec601;
+  margin: 0 20px 16px 20px;
+}
+
+.dialogTitleText {
+  font-size: 1.2rem;
+  font-weight: 600;
+}
+
+.closeButton {
+  color: #555;
+  transition: color 0.3s ease;
+
+  &:hover {
+    color: #000;
+  }
+}
+
+.dialogContentCustom {
+  padding: 0 20px 16px 20px !important;
+}
+
+.dialogActionsCustom {
+  padding: 12px 20px !important;
+}

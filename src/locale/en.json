@@ -101,5 +101,9 @@
   "leadSourceStatus": "Status",
   "sourceName": "Source Name",
   "leadSearchPlaceholder": "Search by Name",
-  "selectOption":"Select Option"
+  "editLeadSource": "Edit Lead Source",
+  "editStatus": "Status",
+  "deleteLeadSource": "Delete Lead Source",
+  "selectOption": "Select Option",
+  "deleteLeadSourceConfirmation": "Are you sure you want to delete lead source '{{source}}' with status '{{status}}'?"
 }

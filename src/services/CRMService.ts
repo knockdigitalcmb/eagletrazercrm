@@ -326,4 +326,45 @@ export class CRMServiceAPI {
       console.log('search lead source list api:', error);
     }
   };
+  // Create Lead Source API
+static createLeadSource = async (payload: { name: string; status: string }) => {
+  try {
+    const response = await commonServiceAPI.CRMAPICall({
+      url: `${API_DOMAIN}/wqBPlJJqwnPmxINapM/api/v1/createLeadSource`,
+      method: 'POST',
+      data: payload,
+    });
+    return response?.data;
+  } catch (error) {
+    console.error('Create Lead Source API error:', error);
+  }
+};
+
+// Update Lead Source API
+static updateLeadSource = async (id: number, payload: { name: string; status: string }) => {
+  try {
+    const response = await commonServiceAPI.CRMAPICall({
+      url: `${API_DOMAIN}/wqBPlJJqwnPmxINapM/api/v1/updateLeadSource/${id}`,
+      method: 'PUT',
+      data: payload,
+    });
+    return response?.data;
+  } catch (error) {
+    console.error('Update Lead Source API error:', error);
+  }
+};
+// Delete Lead Source API
+static deleteLeadSource = async (id: number) => {
+  try {
+    const response = await commonServiceAPI.CRMAPICall({
+      url: `${API_DOMAIN}/wqBPlJJqwnPmxINapM/api/v1/deleteLeadSource/${id}`,
+      method: 'DELETE',
+    });
+    return response?.data;
+  } catch (error) {
+    console.error('Delete Lead Source API error:', error);
+  }
+};
+
+
 }

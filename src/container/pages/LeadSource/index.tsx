@@ -3,11 +3,12 @@ import { useTranslation } from 'react-i18next';
 import { Box, Button, TextField, Typography } from '@mui/material';
 import SidePanel from '../../../components/SidePanel';
 import CRMTable from '../../../components/CRMTable';
-import { MenuProps, LeadSourceType } from '../../../models/type'; // Import interface here
+import { MenuProps, LeadSourceType } from '../../../models/type';
 import AddLeadSourceModal from '../LeadSource/AddLeadSource';
 import styles from './LeadSource.module.scss';
 import CRMTableActions from '../../../components/CRMTableAction';
 import { CRMServiceAPI } from 'services/CRMService';
+import ConfirmationModal from 'components/ConfirmationModal';
 
 const actionsProps = {
   view: false,
@@ -24,6 +25,12 @@ const LeadSource = () => {
     anchorEl: null,
     rowId: null,
   });
+  const [editingData, setEditingData] = useState<LeadSourceType | null>(null);
+  const [deleteModal, setDeleteModal] = useState(false);
+  const [selectedLeadSource, setSelectedLeadSource] =
+    useState<LeadSourceType | null>(null);
+  const [deleteLoading, setDeleteLoading] = useState(false);
+
   useEffect(() => {
     getLeadSourceList();
   }, []);
@@ -64,8 +71,45 @@ const LeadSource = () => {
   };
 
   const onHandleViewModalOpen = () => console.log('View Modal Open');
-  const onHandleEditModal = () => console.log('Edit Modal Open');
-  const onHandleDeleteModal = () => console.log('Delete Modal Open');
+  const onHandleEditModal = () => {
+    const selectedLeadSource = leadSources.find(
+      (item) => item.id === menuState.rowId
+    );
+    if (selectedLeadSource) {
+      setEditingData(selectedLeadSource);
+      setOpenModal(true);
+    }
+    handleClose();
+  };
+
+  const onHandleDeleteModal = () => {
+    const selected = leadSources.find((item) => item.id === menuState.rowId);
+    if (selected) {
+      setSelectedLeadSource(selected);
+      setDeleteModal(true);
+    }
+    handleClose();
+  };
+  const onDeleteModalContinue = async (leadSourceId: number) => {
+    try {
+      setDeleteLoading(true);
+      const result = await CRMServiceAPI.deleteLeadSource(leadSourceId);
+      if (result) {
+        console.log('Lead source deleted successfully');
+        getLeadSourceList();
+        onDeleteModalClose();
+      }
+    } catch (error) {
+      console.error('Delete failed:', error);
+    } finally {
+      setDeleteLoading(false);
+    }
+  };
+
+  const onDeleteModalClose = () => {
+    setDeleteModal(false);
+    setSelectedLeadSource(null);
+  };
 
   const getLeadSourceList = async () => {
     try {
@@ -130,7 +174,10 @@ const LeadSource = () => {
   const [openModal, setOpenModal] = useState(false);
 
   const handleSave = (data: { sourceName: string; status: string }) => {
-    console.log('New Lead Source:', data);
+    console.log('Saved Lead Source:', data);
+    getLeadSourceList();
+    setOpenModal(false);
+    setEditingData(null);
   };
 
   return (
@@ -147,8 +194,19 @@ const LeadSource = () => {
           </Button>
           <AddLeadSourceModal
             open={openModal}
-            handleClose={() => setOpenModal(false)}
+            handleClose={() => {
+              setOpenModal(false);
+              setEditingData(null);
+            }}
             handleSave={handleSave}
+            initialData={
+              editingData
+                ? {
+                    sourceName: editingData.name,
+                    status: editingData.status.active ? 'Active' : 'Inactive',
+                  }
+                : null
+            }
           />
         </Box>
 
@@ -166,6 +224,21 @@ const LeadSource = () => {
           pageSizeOptions={[5, 10, 20]}
           loading={loading}
           checkboxSelection={false}
+        />
+
+        <ConfirmationModal
+          open={deleteModal}
+          onClose={onDeleteModalClose}
+          onHandleContinue={() => {
+            if (selectedLeadSource) {
+              onDeleteModalContinue(selectedLeadSource.id);
+            }
+          }}
+          title={t('deleteLeadSource')}
+          titleDescription={t('deleteLeadSourceConfirmation', {
+            source: selectedLeadSource?.name || '',
+            status: selectedLeadSource?.status.active ? 'Active' : 'Inactive',
+          })}
         />
       </Box>
     </Box>
