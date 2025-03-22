@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useTransition } from 'react';
+import React, { useEffect, useState } from 'react';
 import SlidePanel from '../../../components/SidePanel/index';
 import { useTranslation } from 'react-i18next';
 import { Box, Button } from '@mui/material';
@@ -8,11 +8,11 @@ import CRMTable from '../../../components/CRMTable/index';
 import CRMTableActions from '../../../components/CRMTableAction/index';
 import { LeadsProps, MenuProps } from '../../../models/type';
 import { CRMServiceAPI } from 'services/CRMService';
-import { Dayjs } from 'dayjs';
 import { useForm } from 'react-hook-form';
+import CreateAndEditLeads from './CreateAndEditLeads';
+import ConfirmationModal from '../../../components/ConfirmationModal/index';
 
 import styles from './Leads.module.scss';
-import CreateAndEditLeads from './CreateAndEditLeads';
 
 const actionsProps = {
   view: false,
@@ -27,27 +27,27 @@ const Leads = () => {
   });
   const [leads, setLeads] = useState<LeadsProps[]>([]);
   const [selectedLeads, setSelectedLeads] = useState<LeadsProps | null>(null);
-  const [searchLeads, setSearchLeads] = useState('');
+  const [searchLeads, setSearchLeads] = useState<string | null>('');
   const [leadsLoader, setLeadsLoader] = useState(false);
   const [createAndEditModalOpen, setCreateAndEditModalOpen] = useState(false);
+  const [deleteModalOpen, setDeleteModalOpen] = useState(false);
 
-  const { control, setValue, reset, handleSubmit, register } = useForm({
+  const { control, setValue, reset, handleSubmit } = useForm({
     defaultValues: {
-      fromDate: null as Dayjs | null,
-      endDate: null as Dayjs | null,
+      fromDate: null,
+      endDate: null,
       leadSource: '',
       leadStatus: '',
       leadFollower: '',
-      date: null as Dayjs | null,
+      date: null,
+      customerName:'',
       customerNumber: '',
       customerAlternateNumber: '',
       customerEmail: '',
       customerLocation: '',
-      nextDate: null as Dayjs | null,
+      nextDate: null,
     },
   });
-
-
 
   useEffect(() => {
     getLeadsList();
@@ -76,6 +76,7 @@ const Leads = () => {
   //On Handle create and edit modal close
   const onHandleCreateAndEditClose = () => {
     setCreateAndEditModalOpen(false);
+    reset()
   };
 
   //on handle filter close
@@ -101,11 +102,19 @@ const Leads = () => {
   // on handle edit modal
   const onHandleEditModal = (lead: LeadsProps) => {
     setSelectedLeads(lead);
-    console.log(selectedLeads)
+    setCreateAndEditModalOpen(true);
   };
 
   // on handle delete modal
-  const onHandleDeleteModal = () => {};
+  const onHandleDeleteModal = (lead: LeadsProps) => {
+    setSelectedLeads(lead);
+    setDeleteModalOpen(true);
+  };
+
+  // on handle delete modal close
+  const onHandleDeleteModalClose = () => {
+    setDeleteModalOpen(false);
+  };
 
   const getLeadsList = async () => {
     setLeadsLoader(true);
@@ -147,15 +156,55 @@ const Leads = () => {
     }
     reset();
   };
-  // on handle create and edit lead 
-   const onHandleCreateLeadsSubmit = (data: any) => {
-     console.log(data);
-     reset();
-   };
-  const RenderCRMTableAction = (params: any) => {
+  // on handle create and edit lead
+  const onHandleCreateLeadsSubmit = async () => {
+    try {
+      if (selectedLeads) {
+           setLeadsLoader(true);
+        const response = await CRMServiceAPI.editLeadList(searchLeads);
+        if (response) {
+          getLeadsList();
+        }
+      }
+      if (!selectedLeads) {
+           setLeadsLoader(true);
+        const response = await CRMServiceAPI.createLeadsList(selectedLeads);
+        if (response) {
+          getLeadsList();
+        }
+      }
+         setLeadsLoader(false);
+    } catch (error) {
+      console.log('lead List error', error);
+    }
+
+    reset();
+    setCreateAndEditModalOpen(false);
+    setSearchLeads(null);
+  };
+
+  // on handle delete modal continue
+  const onHandleDeleteModalContinue = async () => {
+    try {
+      if (selectedLeads) {
+        setLeadsLoader(true)
+        const response = await CRMServiceAPI.deleteLeadList(searchLeads);
+        if (response) {
+          getLeadsList();
+          setDeleteModalOpen(false);
+          setSelectedLeads(null);
+        }
+        setLeadsLoader(false)
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const RenderCRMTableAction = (row: LeadsProps) => {
     return (
       <CRMTableActions
-        row={params}
+        row={row}
         menuState={menuState}
         handleClick={onHandleClick}
         handleClose={onHandleClose}
@@ -191,13 +240,19 @@ const Leads = () => {
       sortable: false,
       width: 130,
     },
+    {
+      field: 'leadStatus',
+      headerName: 'Lead Status',
+      sortable: false,
+      width: 130,
+    },
     { field: 'nextDate', headerName: 'Next Date', sortable: false, width: 80 },
     {
       field: 'action',
       headerName: 'Action',
       sortable: false,
       width: 80,
-      renderCell: (rows: any) => RenderCRMTableAction(rows),
+      renderCell: (params: any) => RenderCRMTableAction(params.row),
     },
   ];
   return (
@@ -224,14 +279,16 @@ const Leads = () => {
           <CreateAndEditLeads
             open={createAndEditModalOpen}
             onHandleCreateAndEditClose={onHandleCreateAndEditClose}
-            register={register}
             control={control}
             onHandleCreateLeadsSubmit={onHandleCreateLeadsSubmit}
             handleSubmit={handleSubmit}
+            row={selectedLeads}
+            setValue={setValue}
+            reset={reset}
           />
 
           <LeadsSearch
-            searchLeads={searchLeads}
+            searchLeads={searchLeads || ''}
             onHandleLeadsSearch={onHandleLeadsSearch}
           />
           <LeadsFilter
@@ -249,6 +306,13 @@ const Leads = () => {
           pageSizeOptions={[5, 10]}
           loading={leadsLoader}
           checkboxSelection={false}
+        />
+        <ConfirmationModal
+          open={deleteModalOpen}
+          onClose={onHandleDeleteModalClose}
+          onHandleContinue={onHandleDeleteModalContinue}
+          title={t('deleteLeads')}
+          titleDescription={t('deleteLeadConfirmation',{customerName:selectedLeads?.customerName||""})}
         />
       </Box>
     </Box>
