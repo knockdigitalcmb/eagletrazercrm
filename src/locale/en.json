@@ -105,5 +105,16 @@
   "editStatus": "Status",
   "deleteLeadSource": "Delete Lead Source",
   "selectOption": "Select Option",
-  "deleteLeadSourceConfirmation": "Are you sure you want to delete lead source '{{source}}' with status '{{status}}'?"
+  "deleteLeadSourceConfirmation": "Are you sure you want to delete lead source '{{source}}' with status '{{status}}'?",
+  "customerName":"Customer Name",
+  "customerNumber":"Customer Number",
+  "customerAlternateNumber":"Customer Alternate Number",
+  "customerEmail":"Customer Email",
+  "customerLocation":"Customer Location",
+  "follower":"Follower",
+  "nextDate":"Next Date",
+  "date":"Date",
+  "editLeads":"Edit Leads",
+  "deleteLeads":"Delete Leads",
+  "deleteLeadConfirmation":"Are you sure you want to delete {{customerName}}? "
 }

@@ -4,7 +4,7 @@ import FilterAltIcon from '@mui/icons-material/FilterAlt';
 import { useTranslation } from 'react-i18next';
 import { Controller } from 'react-hook-form';
 import DatePicker from '../../../../components/DatePicker/index';
-import CustomSelect from '../../../../components/CustomSelect/index';
+import CustomSelect from '../../../../components/CRMSelect/index';
 import { SelectChangeEvent } from '@mui/material/Select';
 import {
   leadSource,

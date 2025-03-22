@@ -7,10 +7,16 @@ import { Dayjs } from 'dayjs';
 interface DatePickerProps {
   selectedDate: Dayjs | null;
   setSelectedDate: (date: Dayjs | null) => void;
+  placeholder?: string;
+  sx?: object;
 }
 
-const DatePicker = ({selectedDate,setSelectedDate}:DatePickerProps) => { 
-
+const DatePicker = ({
+  selectedDate,
+  setSelectedDate,
+  placeholder,
+  sx
+}: DatePickerProps) => {
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs}>
       <DesktopDatePicker
@@ -20,7 +26,8 @@ const DatePicker = ({selectedDate,setSelectedDate}:DatePickerProps) => {
         slotProps={{
           textField: {
             fullWidth: true,
-            placeholder: 'dd-mm-yyyy',
+            placeholder:  placeholder,
+            sx,
           },
           actionBar: {
             actions: ['today', 'cancel'],

@@ -1,3 +1,4 @@
+import { leadStatus } from 'constant/common.constant';
 import { commonServiceAPI } from './API';
 
 const API_DOMAIN = process.env.REACT_APP_API_DOMAIN;
@@ -234,8 +235,9 @@ export class CRMServiceAPI {
         phoneNumber: '123456789',
         email: 'gopal@gmail.com',
         location: 'cbe',
-        follower: 'Vaishali',
-        leadSource: 'Reference',
+        follower: 'Vaishnavi',
+        leadSource: 'call tomorrow',
+        leadStatus: 'Reference',
         nextDate: '12-2-2002',
       },
       {
@@ -245,8 +247,9 @@ export class CRMServiceAPI {
         phoneNumber: '987654321',
         email: 'ravi@example.com',
         location: 'chennai',
-        follower: 'Arun',
-        leadSource: 'Direct Call',
+        follower: 'Jhanani',
+        leadSource: 'call next week',
+        leadStatus: 'FaceBook ad',
         nextDate: '10-6-2023',
       },
     ];
@@ -279,7 +282,7 @@ export class CRMServiceAPI {
 
   //Leads filter
 
-  static leadsFilterList  = async (payload: any) => {
+  static leadsFilterList = async (payload: any) => {
     try {
       // const response = await commonServiceAPI.CRMAPICall({
       //   url: `${API_DOMAIN}/wqBPlJJqwnPmxINapM/api/v1/leadsFilter`,
@@ -293,6 +296,52 @@ export class CRMServiceAPI {
     }
   };
 
+  // Create Leads
+
+  static createLeadsList = async (payload: any) => {
+    try {
+      //  const response = await commonServiceAPI.CRMAPICall({
+      //    url: `${API_DOMAIN}/wqBPlJJqwnPmxINapM/api/v1/createLeads`,
+      //    method:"POST",
+      //    data:payload
+      //  });
+      //  return(response?.data)
+      return true;
+    } catch (error) {
+      console.log('Create Leads List api', error);
+    }
+  };
+  // Edit Leads
+
+  static editLeadList = async (payload: any) => {
+    try {
+      //  const response = await commonServiceAPI.CRMAPICall({
+      //    url: `${API_DOMAIN}/wqBPlJJqwnPmxINapM/api/v1/createLeads`,
+      //    method:"POST",
+      //    data:payload
+      //  });
+      //  return(response?.data)
+      return true;
+    } catch (error) {
+      console.log('Edit Lead List', error);
+    }
+  };
+  // Delete leads
+
+  static deleteLeadList=async(payload:any)=>{
+   try{
+    // const response = await commonServiceAPI.CRMAPICall({
+    //   url: `${API_DOMAIN}/wqBPlJJqwnPmxINapM/api/v1/deleteLeads`,
+      //    method:"POST",
+      //    data:payload
+      //  });
+      //  return(response?.data)
+      return true
+   }
+   catch(error){
+    console.log("Delete Leads api",error)
+   }
+  }
   //lead source
   static leadSourceList = async () => {
     const rows = [
@@ -327,44 +376,48 @@ export class CRMServiceAPI {
     }
   };
   // Create Lead Source API
-static createLeadSource = async (payload: { name: string; status: string }) => {
-  try {
-    const response = await commonServiceAPI.CRMAPICall({
-      url: `${API_DOMAIN}/wqBPlJJqwnPmxINapM/api/v1/createLeadSource`,
-      method: 'POST',
-      data: payload,
-    });
-    return response?.data;
-  } catch (error) {
-    console.error('Create Lead Source API error:', error);
-  }
-};
+  static createLeadSource = async (payload: {
+    name: string;
+    status: string;
+  }) => {
+    try {
+      const response = await commonServiceAPI.CRMAPICall({
+        url: `${API_DOMAIN}/wqBPlJJqwnPmxINapM/api/v1/createLeadSource`,
+        method: 'POST',
+        data: payload,
+      });
+      return response?.data;
+    } catch (error) {
+      console.error('Create Lead Source API error:', error);
+    }
+  };
 
-// Update Lead Source API
-static updateLeadSource = async (id: number, payload: { name: string; status: string }) => {
-  try {
-    const response = await commonServiceAPI.CRMAPICall({
-      url: `${API_DOMAIN}/wqBPlJJqwnPmxINapM/api/v1/updateLeadSource/${id}`,
-      method: 'PUT',
-      data: payload,
-    });
-    return response?.data;
-  } catch (error) {
-    console.error('Update Lead Source API error:', error);
-  }
-};
-// Delete Lead Source API
-static deleteLeadSource = async (id: number) => {
-  try {
-    const response = await commonServiceAPI.CRMAPICall({
-      url: `${API_DOMAIN}/wqBPlJJqwnPmxINapM/api/v1/deleteLeadSource/${id}`,
-      method: 'DELETE',
-    });
-    return response?.data;
-  } catch (error) {
-    console.error('Delete Lead Source API error:', error);
-  }
-};
-
-
+  // Update Lead Source API
+  static updateLeadSource = async (
+    id: number,
+    payload: { name: string; status: string }
+  ) => {
+    try {
+      const response = await commonServiceAPI.CRMAPICall({
+        url: `${API_DOMAIN}/wqBPlJJqwnPmxINapM/api/v1/updateLeadSource/${id}`,
+        method: 'PUT',
+        data: payload,
+      });
+      return response?.data;
+    } catch (error) {
+      console.error('Update Lead Source API error:', error);
+    }
+  };
+  // Delete Lead Source API
+  static deleteLeadSource = async (id: number) => {
+    try {
+      const response = await commonServiceAPI.CRMAPICall({
+        url: `${API_DOMAIN}/wqBPlJJqwnPmxINapM/api/v1/deleteLeadSource/${id}`,
+        method: 'DELETE',
+      });
+      return response?.data;
+    } catch (error) {
+      console.error('Delete Lead Source API error:', error);
+    }
+  };
 }

@@ -11,8 +11,10 @@ interface CustomSelectProps {
   options: { label: string; value: string }[];
   value: string;
   onChange: (event: SelectChangeEvent) => void;
+  placeholder?:string
+  sx?:object
 }
-const CustomSelect = ({ options, value, onChange }: CustomSelectProps) => {
+const CRMSelect = ({ options, value, onChange,sx ,placeholder}: CustomSelectProps) => {
  const {t}=useTranslation()
   return (
     <FormControl fullWidth variant='filled' data-testid='custom-select'>
@@ -21,11 +23,12 @@ const CustomSelect = ({ options, value, onChange }: CustomSelectProps) => {
         value={value}
         onChange={onChange}
         displayEmpty
+        sx={sx}
       >
         <MenuItem value='' disabled>
-          {t('selectOption')}
+          {placeholder || t('selectOption')}
         </MenuItem>
-        {options.map((option,index) => (
+        {options.map((option, index) => (
           <MenuItem key={`${option.value}-${index}`} value={option.value}>
             {option.label}
           </MenuItem>
@@ -34,4 +37,4 @@ const CustomSelect = ({ options, value, onChange }: CustomSelectProps) => {
     </FormControl>
   );
 };
-export default CustomSelect;
+export default CRMSelect;
