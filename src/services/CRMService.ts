@@ -234,8 +234,8 @@ export class CRMServiceAPI {
         phoneNumber: '123456789',
         email: 'gopal@gmail.com',
         location: 'cbe',
-        follower: 'Vaishali',
-        leadSource: 'Reference',
+        follower: 'Vaishnavi',
+        leadSource: 'call tomorrow',
         nextDate: '12-2-2002',
       },
       {
@@ -245,8 +245,8 @@ export class CRMServiceAPI {
         phoneNumber: '987654321',
         email: 'ravi@example.com',
         location: 'chennai',
-        follower: 'Arun',
-        leadSource: 'Direct Call',
+        follower: 'Jhanani',
+        leadSource: 'call next week',
         nextDate: '10-6-2023',
       },
     ];

@@ -12,6 +12,7 @@ import { Dayjs } from 'dayjs';
 import { useForm } from 'react-hook-form';
 
 import styles from './Leads.module.scss';
+import CreateAndEditLeads from './CreateAndEditLeads';
 
 const actionsProps = {
   view: false,
@@ -25,18 +26,28 @@ const Leads = () => {
     rowId: null,
   });
   const [leads, setLeads] = useState<LeadsProps[]>([]);
+  const [selectedLeads, setSelectedLeads] = useState<LeadsProps | null>(null);
   const [searchLeads, setSearchLeads] = useState('');
   const [leadsLoader, setLeadsLoader] = useState(false);
+  const [createAndEditModalOpen, setCreateAndEditModalOpen] = useState(false);
 
-  const { control, setValue, reset, handleSubmit } = useForm({
+  const { control, setValue, reset, handleSubmit, register } = useForm({
     defaultValues: {
       fromDate: null as Dayjs | null,
       endDate: null as Dayjs | null,
       leadSource: '',
       leadStatus: '',
       leadFollower: '',
+      date: null as Dayjs | null,
+      customerNumber: '',
+      customerAlternateNumber: '',
+      customerEmail: '',
+      customerLocation: '',
+      nextDate: null as Dayjs | null,
     },
   });
+
+
 
   useEffect(() => {
     getLeadsList();
@@ -55,6 +66,16 @@ const Leads = () => {
   const onHandleLeadsSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchLeads(e.target.value);
     console.log(searchLeads);
+  };
+
+  // On Handle create and edit modal open
+  const onHandleCreateAndEditOpen = () => {
+    setCreateAndEditModalOpen(true);
+  };
+
+  //On Handle create and edit modal close
+  const onHandleCreateAndEditClose = () => {
+    setCreateAndEditModalOpen(false);
   };
 
   //on handle filter close
@@ -78,7 +99,10 @@ const Leads = () => {
   const onHandleViewModal = () => {};
 
   // on handle edit modal
-  const onHandleEditModal = () => {};
+  const onHandleEditModal = (lead: LeadsProps) => {
+    setSelectedLeads(lead);
+    console.log(selectedLeads)
+  };
 
   // on handle delete modal
   const onHandleDeleteModal = () => {};
@@ -123,6 +147,11 @@ const Leads = () => {
     }
     reset();
   };
+  // on handle create and edit lead 
+   const onHandleCreateLeadsSubmit = (data: any) => {
+     console.log(data);
+     reset();
+   };
   const RenderCRMTableAction = (params: any) => {
     return (
       <CRMTableActions
@@ -176,7 +205,11 @@ const Leads = () => {
       <SlidePanel menu={t('leads')} />
       <Box component='main' sx={{ flexGrow: 1, p: 3, marginTop: '70px' }}>
         <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
-          <Button variant='contained' sx={{ marginBottom: '20px' }}>
+          <Button
+            variant='contained'
+            sx={{ marginBottom: '20px' }}
+            onClick={onHandleCreateAndEditOpen}
+          >
             {t('createLeads')}
           </Button>
         </Box>
@@ -188,6 +221,15 @@ const Leads = () => {
             marginBottom: '20px',
           }}
         >
+          <CreateAndEditLeads
+            open={createAndEditModalOpen}
+            onHandleCreateAndEditClose={onHandleCreateAndEditClose}
+            register={register}
+            control={control}
+            onHandleCreateLeadsSubmit={onHandleCreateLeadsSubmit}
+            handleSubmit={handleSubmit}
+          />
+
           <LeadsSearch
             searchLeads={searchLeads}
             onHandleLeadsSearch={onHandleLeadsSearch}
