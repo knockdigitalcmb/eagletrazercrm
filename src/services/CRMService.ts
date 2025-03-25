@@ -280,6 +280,22 @@ export class CRMServiceAPI {
     }
   };
 
+  // Leads upload files
+
+  static leadsUploadFile = async (payload: any) => {
+    try {
+      //  const response = await commonServiceAPI.CRMAPICall({
+      //    url: '${API_DOMAIN}/wqBPlJJqwnPmxINapM/api/v1/leadsUploadFile',
+      //    method: 'POST',
+      //   data:payload
+      //  });
+      // return response?.data
+      return true;
+    } catch (error) {
+      console.log("upload file api",error)
+    }
+  };
+
   //Leads filter
 
   static leadsFilterList = async (payload: any) => {
@@ -328,20 +344,19 @@ export class CRMServiceAPI {
   };
   // Delete leads
 
-  static deleteLeadList=async(payload:any)=>{
-   try{
-    // const response = await commonServiceAPI.CRMAPICall({
-    //   url: `${API_DOMAIN}/wqBPlJJqwnPmxINapM/api/v1/deleteLeads`,
+  static deleteLeadList = async (payload: any) => {
+    try {
+      // const response = await commonServiceAPI.CRMAPICall({
+      //   url: `${API_DOMAIN}/wqBPlJJqwnPmxINapM/api/v1/deleteLeads`,
       //    method:"POST",
       //    data:payload
       //  });
       //  return(response?.data)
-      return true
-   }
-   catch(error){
-    console.log("Delete Leads api",error)
-   }
-  }
+      return true;
+    } catch (error) {
+      console.log('Delete Leads api', error);
+    }
+  };
   //lead source
   static leadSourceList = async () => {
     const rows = [

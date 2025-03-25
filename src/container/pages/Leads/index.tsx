@@ -9,13 +9,17 @@ import CRMTableActions from '../../../components/CRMTableAction/index';
 import { LeadsProps, MenuProps } from '../../../models/type';
 import { CRMServiceAPI } from 'services/CRMService';
 import { useForm } from 'react-hook-form';
-import CreateAndEditLeads from './CreateAndEditLeads';
 import ConfirmationModal from '../../../components/ConfirmationModal/index';
+import UploadLeads from './UploadLeads';
+import ViewLeads from './ViewLeads';
+import EditLeads from './EditLeads/index';
+import CreateLeads from './CreateLeads/index';
 
 import styles from './Leads.module.scss';
 
+
 const actionsProps = {
-  view: false,
+  view: true,
   edit: true,
   delete: true,
 };
@@ -29,7 +33,10 @@ const Leads = () => {
   const [selectedLeads, setSelectedLeads] = useState<LeadsProps | null>(null);
   const [searchLeads, setSearchLeads] = useState<string | null>('');
   const [leadsLoader, setLeadsLoader] = useState(false);
-  const [createAndEditModalOpen, setCreateAndEditModalOpen] = useState(false);
+  const [uploadLead, setUploadLead] = useState(false);
+  const [createModalOpen, setCreateModalOpen] = useState(false);
+  const [viewModalOpen, setViewModalOpen] = useState(false);
+  const [editModalOpen, setEditModalOpen] = useState(false);
   const [deleteModalOpen, setDeleteModalOpen] = useState(false);
 
   const { control, setValue, reset, handleSubmit } = useForm({
@@ -40,7 +47,7 @@ const Leads = () => {
       leadStatus: '',
       leadFollower: '',
       date: null,
-      customerName:'',
+      customerName: '',
       customerNumber: '',
       customerAlternateNumber: '',
       customerEmail: '',
@@ -62,28 +69,6 @@ const Leads = () => {
     }
   }, [searchLeads]);
 
-  // On Handle Leads Search
-  const onHandleLeadsSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setSearchLeads(e.target.value);
-    console.log(searchLeads);
-  };
-
-  // On Handle create and edit modal open
-  const onHandleCreateAndEditOpen = () => {
-    setCreateAndEditModalOpen(true);
-  };
-
-  //On Handle create and edit modal close
-  const onHandleCreateAndEditClose = () => {
-    setCreateAndEditModalOpen(false);
-    reset()
-  };
-
-  //on handle filter close
-  const onHandleFilterClose = () => {
-    reset();
-  };
-
   // on handle click
   const onHandleClick = (
     event: React.MouseEvent<HTMLElement>,
@@ -96,13 +81,62 @@ const Leads = () => {
     setMenuState({ anchorEl: null, rowId: null });
   };
 
+  //on handle upload leads open
+  const onHandleUploadLeadsOpen = () => {
+    setUploadLead(true);
+  };
+  // on Handle create modal open
+  const onHandleCreateOpen = () => {
+    setCreateModalOpen(true);
+  };
+
+  // on Handle create modal close
+  const onHandleCreateClose = () => {
+    setCreateModalOpen(false);
+    reset();
+  };
+  // On Handle Leads Search
+  const onHandleLeadsSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchLeads(e.target.value);
+    console.log(searchLeads);
+  };
+
+  //on handle filter close
+  const onHandleFilterClose = () => {
+    reset();
+  };
+
+  //on handle view leads open
+  const onHandleViewLeadsOpen = () => {
+    setViewModalOpen(true);
+  };
+  //on handle view leads close
+  const onHandleViewLeadsClose = () => {
+    setViewModalOpen(false);
+    setSearchLeads(null);
+  };
+
+  // on Handle edit modal open
+  const onHandleEditOpen = () => {
+    setEditModalOpen(true);
+  };
+
+  // on Handle edit modal close
+  const onHandleEditClose = () => {
+    setEditModalOpen(false);
+    setSelectedLeads(null);
+  };
+
   //on handle view modal
-  const onHandleViewModal = () => {};
+  const onHandleViewModal = (lead: LeadsProps) => {
+    setSelectedLeads(lead);
+    onHandleViewLeadsOpen();
+  };
 
   // on handle edit modal
   const onHandleEditModal = (lead: LeadsProps) => {
     setSelectedLeads(lead);
-    setCreateAndEditModalOpen(true);
+    onHandleEditOpen();
   };
 
   // on handle delete modal
@@ -114,6 +148,7 @@ const Leads = () => {
   // on handle delete modal close
   const onHandleDeleteModalClose = () => {
     setDeleteModalOpen(false);
+    setSearchLeads(null);
   };
 
   const getLeadsList = async () => {
@@ -131,6 +166,35 @@ const Leads = () => {
     }
   };
 
+  // on handle create lead
+  const onHandleCreateSubmit = async () => {
+    try {
+      setLeadsLoader(true);
+      const response = await CRMServiceAPI.createLeadsList(selectedLeads);
+      if (response) {
+        getLeadsList();
+      }
+      setLeadsLoader(false);
+    } catch (error) {
+      console.log('lead List error', error);
+    }
+    reset();
+    onHandleCreateClose();
+  };
+
+  // on handle leads upload file
+  const onHandleLeadsUploadFile = async (fileData: File) => {
+    setLeadsLoader(true);
+    try {
+      const response = await CRMServiceAPI.leadsUploadFile(fileData);
+      if (response) {
+      }
+      setUploadLead(false);
+    } catch (error) {
+      console.log('leads Upload file', error);
+    }
+  };
+  // search list
   const getSearchLeadsList = async (payload: any) => {
     setLeadsLoader(true);
     try {
@@ -156,49 +220,43 @@ const Leads = () => {
     }
     reset();
   };
-  // on handle create and edit lead
-  const onHandleCreateLeadsSubmit = async () => {
+
+  // on handle edit lead
+  const onHandleEditLeadsSubmit = async () => {
     try {
       if (selectedLeads) {
-           setLeadsLoader(true);
-        const response = await CRMServiceAPI.editLeadList(searchLeads);
+        setLeadsLoader(true);
+        const response = await CRMServiceAPI.editLeadList(selectedLeads);
         if (response) {
           getLeadsList();
         }
       }
-      if (!selectedLeads) {
-           setLeadsLoader(true);
-        const response = await CRMServiceAPI.createLeadsList(selectedLeads);
-        if (response) {
-          getLeadsList();
-        }
-      }
-         setLeadsLoader(false);
+      setLeadsLoader(false);
     } catch (error) {
       console.log('lead List error', error);
     }
 
     reset();
-    setCreateAndEditModalOpen(false);
+    setEditModalOpen(false);
     setSearchLeads(null);
   };
-
   // on handle delete modal continue
   const onHandleDeleteModalContinue = async () => {
     try {
       if (selectedLeads) {
-        setLeadsLoader(true)
+        setLeadsLoader(true);
         const response = await CRMServiceAPI.deleteLeadList(searchLeads);
         if (response) {
           getLeadsList();
           setDeleteModalOpen(false);
           setSelectedLeads(null);
         }
-        setLeadsLoader(false)
+        setLeadsLoader(false);
       }
     } catch (error) {
       console.log(error);
     }
+    setSearchLeads(null);
   };
 
   const RenderCRMTableAction = (row: LeadsProps) => {
@@ -259,11 +317,18 @@ const Leads = () => {
     <Box data-testid='leads-page' className={styles.dashboardContainer}>
       <SlidePanel menu={t('leads')} />
       <Box component='main' sx={{ flexGrow: 1, p: 3, marginTop: '70px' }}>
-        <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
+        <Box sx={{ display: 'flex', justifyContent: 'flex-end', gap: '20px' }}>
           <Button
             variant='contained'
             sx={{ marginBottom: '20px' }}
-            onClick={onHandleCreateAndEditOpen}
+            onClick={onHandleUploadLeadsOpen}
+          >
+            {t('uploadLeads')}
+          </Button>
+          <Button
+            variant='contained'
+            sx={{ marginBottom: '20px' }}
+            onClick={onHandleCreateOpen}
           >
             {t('createLeads')}
           </Button>
@@ -276,15 +341,17 @@ const Leads = () => {
             marginBottom: '20px',
           }}
         >
-          <CreateAndEditLeads
-            open={createAndEditModalOpen}
-            onHandleCreateAndEditClose={onHandleCreateAndEditClose}
+          <UploadLeads
+            open={uploadLead}
+            setUploadLead={setUploadLead}
+            onHandleLeadsUploadFile={onHandleLeadsUploadFile}
+          />
+          <CreateLeads
+            open={createModalOpen}
+            onHandleCreateClose={onHandleCreateClose}
             control={control}
-            onHandleCreateLeadsSubmit={onHandleCreateLeadsSubmit}
             handleSubmit={handleSubmit}
-            row={selectedLeads}
-            setValue={setValue}
-            reset={reset}
+            onHandleCreateSubmit={onHandleCreateSubmit}
           />
 
           <LeadsSearch
@@ -307,12 +374,30 @@ const Leads = () => {
           loading={leadsLoader}
           checkboxSelection={false}
         />
+        <ViewLeads
+          open={viewModalOpen}
+          onHandleViewLeadsClose={onHandleViewLeadsClose}
+          row={selectedLeads}
+        />
+        <EditLeads
+          open={editModalOpen}
+          onHandleEditClose={onHandleEditClose}
+          control={control}
+          handleSubmit={handleSubmit}
+          onHandleEditLeadsSubmit={onHandleEditLeadsSubmit}
+          row={selectedLeads}
+          setValue={setValue}
+          reset={reset}
+        />
+
         <ConfirmationModal
           open={deleteModalOpen}
           onClose={onHandleDeleteModalClose}
           onHandleContinue={onHandleDeleteModalContinue}
           title={t('deleteLeads')}
-          titleDescription={t('deleteLeadConfirmation',{customerName:selectedLeads?.customerName||""})}
+          titleDescription={t('deleteLeadConfirmation', {
+            customerName: selectedLeads?.customerName || '',
+          })}
         />
       </Box>
     </Box>

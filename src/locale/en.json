@@ -114,7 +114,16 @@
   "follower":"Follower",
   "nextDate":"Next Date",
   "date":"Date",
+  "viewLeads":"View Leads",
   "editLeads":"Edit Leads",
   "deleteLeads":"Delete Leads",
-  "deleteLeadConfirmation":"Are you sure you want to delete {{customerName}}? "
+  "deleteLeadConfirmation":"Are you sure you want to delete {{customerName}}? ",
+  "uploadLeads":"Upload Leads",
+  "uploadFile":"Upload File",
+  "uploadFileRequirement":"Upload only XLS or XLSX files.",
+  "uploadFileRequired":"File is required.",
+  "invalidUploadFile":"Invalid file type. Please upload an XLS or XLSX file.",
+  "invalidUploadFileFormat":"'File size exceeds 5MB.'",
+  "leadsComments":"Leads Comments",
+  "comments":"comments"
 }
