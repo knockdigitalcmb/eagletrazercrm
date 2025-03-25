@@ -125,5 +125,5 @@
   "invalidUploadFile":"Invalid file type. Please upload an XLS or XLSX file.",
   "invalidUploadFileFormat":"'File size exceeds 5MB.'",
   "leadsComments":"Leads Comments",
-  "comments":"comments"
+  "comments":"Add Comments"
 }

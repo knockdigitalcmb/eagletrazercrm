@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   Box,
   Button,
@@ -9,6 +9,11 @@ import {
   Typography,
 } from '@mui/material';
 import { GridCloseIcon } from '@mui/x-data-grid';
+import EditIcon from '@mui/icons-material/Edit';
+import DeleteIcon from '@mui/icons-material/Delete';
+import BookmarkBorderIcon from '@mui/icons-material/BookmarkBorder';
+import KeyboardReturnIcon from '@mui/icons-material/KeyboardReturn';
+import TurnedInIcon from '@mui/icons-material/TurnedIn';
 import { useTranslation } from 'react-i18next';
 import DatePicker from 'components/DatePicker';
 import {
@@ -20,7 +25,7 @@ import CRMSelect from 'components/CRMSelect';
 import { Controller } from 'react-hook-form';
 import dayjs from 'dayjs';
 
-import styles from './EditLeads.module.scss'
+import styles from './EditLeads.module.scss';
 
 interface LeadCreateProps {
   open: boolean;
@@ -44,6 +49,11 @@ const EditLeads = ({
   reset,
 }: LeadCreateProps) => {
   const { t } = useTranslation();
+  const currentDate = dayjs().format('DD-MM-YYYY');
+  const [comments, setComments] = useState<string>('');
+  const [commentsList, setCommentsList] = useState<string[]>([]);
+  const [editingIndex, setEditingIndex] = useState<number | null>(null);
+  const [editedComment, setEditedComment] = useState<string>('');
 
   useEffect(() => {
     if (row) {
@@ -61,6 +71,40 @@ const EditLeads = ({
       reset();
     }
   }, [row, setValue]);
+
+  const onHandleCommentSubmit = () => {
+    if (comments) {
+      setCommentsList((prev) => [...prev, comments]);
+      setComments('');
+    }
+  };
+  const onHandleCommentsEdit = (index: number) => {
+    setEditingIndex(index);
+    setEditedComment(commentsList[index]);
+  };
+
+ const onHandleCommentsDelete = (index: number) => {
+   setCommentsList((prev) => prev.filter((_, i) => i !== index));
+   if (editingIndex === index) {
+     setEditingIndex(null);
+     setEditedComment('');
+   }
+ };
+
+  const onHandleCommentsSave = (index: number) => {
+    setCommentsList((prev: any) =>
+      prev.map((comment: string, i: number) =>
+        i === index ? editedComment : comment
+      )
+    );
+    setEditingIndex(null);
+    setEditedComment('');
+  };
+
+  const onHandleCommentsDiscard = () => {
+    setEditingIndex(null);
+    setEditedComment('');
+  };
 
   return (
     <Modal
@@ -90,8 +134,8 @@ const EditLeads = ({
           </IconButton>
         </Grid2>
         <div className={styles.borderLine} />
-        <Grid2 container spacing={2}>
-          <Grid2 size={8} sx={{ mt: '20px' }}>
+        <Grid2 container spacing={4}>
+          <Grid2 size={7} sx={{ mt: '20px' }}>
             <Grid2 container spacing={3} direction={'row'}>
               <Grid2 size={6}>
                 <Controller
@@ -232,22 +276,100 @@ const EditLeads = ({
             </Box>
           </Grid2>
           <Grid2
-            size={4}
+            size={5}
             sx={{
               mt: '20px',
               display: 'flex',
               flexDirection: 'column',
               justifyContent: 'space-between',
-              height: '100%',
             }}
           >
             <Box>
-              <Typography>{t('leadsComments')}</Typography>
+              <Typography sx={{ mb: '10px' }}>{t('leadsComments')}</Typography>
+              <Box sx={{ maxHeight: '280px', overflowY: 'auto', pr: 1 }}>
+                {commentsList.map((comment, index) => (
+                  <Box key={index}>
+                    <Typography sx={{ color: '#888' }}>
+                      {currentDate}
+                    </Typography>
+                    <Box
+                      sx={{
+                        display: 'flex',
+                        justifyContent: 'space-between',
+                        alignItems: 'center',
+                      }}
+                    >
+                      {editingIndex === index ? (
+                        <TextField
+                          value={editedComment}
+                          onChange={(e) => setEditedComment(e.target.value)}
+                          size='small'
+                          sx={{ mr: 1 }}
+                        />
+                      ) : (
+                        <Typography sx={{ color: '#444' }}>
+                          {comment}
+                        </Typography>
+                      )}
+                      <Box>
+                        {editingIndex === index ? (
+                          <>
+                            <IconButton
+                              onClick={() => onHandleCommentsSave(index)}
+                            >
+                              <TurnedInIcon color='primary' />
+                            </IconButton>
+                            <IconButton
+                              onClick={() => onHandleCommentsDiscard()}
+                            >
+                              <KeyboardReturnIcon color='primary' />
+                            </IconButton>
+                            <IconButton
+                              onClick={() => onHandleCommentsDelete(index)}
+                            >
+                              <DeleteIcon color='primary' />
+                            </IconButton>
+                          </>
+                        ) : (
+                          <>
+                            <IconButton
+                              onClick={() => onHandleCommentsEdit(index)}
+                            >
+                              <EditIcon color='primary' />
+                            </IconButton>
+                            <IconButton
+                              onClick={() => onHandleCommentsDelete(index)}
+                            >
+                              <DeleteIcon color='primary' />
+                            </IconButton>
+                          </>
+                        )}
+                      </Box>
+                    </Box>
+                    <div className={styles.divider} />
+                  </Box>
+                ))}
+              </Box>
             </Box>
-            <Box sx={{ flexGrow: 1 }} />
-            <Box>
-              <TextField placeholder={t('comments')}></TextField>
-            </Box>
+
+           { editingIndex?"": <Box sx={{ mt: '10px' }}>
+              <TextField
+                placeholder={t('comments')}
+                value={comments}
+                onChange={(e: any) => setComments(e.target.value)}
+              ></TextField>
+              <Box
+                sx={{
+                  display: 'flex',
+                  justifyContent: 'end',
+                  marginTop: '15px',
+                }}
+              >
+              <Button variant='contained' onClick={onHandleCommentSubmit}>
+                  {t('submit')}
+                </Button>
+              </Box>
+            </Box>}
           </Grid2>
         </Grid2>
       </Box>
