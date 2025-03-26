@@ -292,7 +292,7 @@ export class CRMServiceAPI {
       // return response?.data
       return true;
     } catch (error) {
-      console.log("upload file api",error)
+      console.log('upload file api', error);
     }
   };
 
@@ -415,7 +415,7 @@ export class CRMServiceAPI {
     try {
       const response = await commonServiceAPI.CRMAPICall({
         url: `${API_DOMAIN}/wqBPlJJqwnPmxINapM/api/v1/updateLeadSource/${id}`,
-        method: 'PUT',
+        method: 'POST',
         data: payload,
       });
       return response?.data;
@@ -433,6 +433,73 @@ export class CRMServiceAPI {
       return response?.data;
     } catch (error) {
       console.error('Delete Lead Source API error:', error);
+    }
+  };
+
+  static searchLeadStatusList = async (payload: any) => {
+    try {
+      const response = await commonServiceAPI.CRMAPICall({
+        url: `${API_DOMAIN}/wqBPlJJqwnPmxINapM/api/v1/searchLeadStatus`,
+        method: 'POST',
+        data: payload, // Sending payload in the request body
+      });
+      return response?.data;
+    } catch (error) {
+      console.error('Search Lead Status API error:', error);
+      return [];
+    }
+  };
+
+  static leadStatusList = async () => {
+    try {
+      const response = await commonServiceAPI.CRMAPICall({
+        url: `${API_DOMAIN}/wqBPlJJqwnPmxINapM/api/v1/leadStatusList`,
+        method: 'GET',
+      });
+      return response?.data;
+    } catch (error) {
+      console.error('Lead Status List API error:', error);
+      return [];
+    }
+  };
+
+  static updateLeadStatus = async (id: number, data: any) => {
+    try {
+      const response = await commonServiceAPI.CRMAPICall({
+        url: `${API_DOMAIN}/wqBPlJJqwnPmxINapM/api/v1/updateLeadStatus/${id}`,
+        method: 'POST',
+        data: data,
+      });
+      return response?.data;
+    } catch (error) {
+      console.error('Update Lead Status API error:', error);
+      return null;
+    }
+  };
+  static createLeadStatus = async (payload: any) => {
+    try {
+      const response = await commonServiceAPI.CRMAPICall({
+        url: `${API_DOMAIN}/wqBPlJJqwnPmxINapM/api/v1/createLeadStatus`,
+        method: 'POST',
+        data: payload,
+      });
+      return response?.data;
+    } catch (error) {
+      console.error('Create Lead Status API error:', error);
+      return null;
+    }
+  };
+
+  static deleteLeadStatus = async (id: number) => {
+    try {
+      const response = await commonServiceAPI.CRMAPICall({
+        url: `${API_DOMAIN}/wqBPlJJqwnPmxINapM/api/v1/deleteLeadStatus/${id}`,
+        method: 'DELETE',
+      });
+      return response?.data;
+    } catch (error) {
+      console.error('Delete Lead Status API error:', error);
+      return null;
     }
   };
 }
