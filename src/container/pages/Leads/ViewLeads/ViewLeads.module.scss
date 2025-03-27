@@ -1,6 +1,6 @@
 @import '../../../../assets/scss/variable';
 .modalWrapper {
-  width: 650px;
+  width:  950px;
   padding: 40px;
   position: absolute;
   top: 50%;
@@ -13,4 +13,13 @@
 .borderLine {
   border: 1px solid $primary-color;
   margin-bottom: 10px;
+}
+.divider{
+  border:1px solid $primary-lightColor;
+  margin-bottom: 20px;
+}
+.divisionLine {
+   
+  height: 100%;
+  border-left: 1px solid #ccc;
 }

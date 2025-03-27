@@ -239,6 +239,10 @@ export class CRMServiceAPI {
         leadSource: 'call tomorrow',
         leadStatus: 'Reference',
         nextDate: '12-2-2002',
+        comments: [
+          { text: 'Initial follow-up done.', date: '25-03-2025' },
+          { text: 'Meeting scheduled for next week.', date: '26-03-2025' },
+        ],
       },
       {
         id: 2,
@@ -251,6 +255,7 @@ export class CRMServiceAPI {
         leadSource: 'call next week',
         leadStatus: 'FaceBook ad',
         nextDate: '10-6-2023',
+        comments: [],
       },
     ];
     try {
@@ -292,7 +297,7 @@ export class CRMServiceAPI {
       // return response?.data
       return true;
     } catch (error) {
-      console.log("upload file api",error)
+      console.log('upload file api', error);
     }
   };
 
@@ -357,6 +362,45 @@ export class CRMServiceAPI {
       console.log('Delete Leads api', error);
     }
   };
+
+  // lead comments submit
+  static leadComment = async () => {
+    try {
+      // const response=await commonServiceAPI.CRMAPICall({
+      //   url: `${API_DOMAIN}/wqBPlJJqwnPmxINapM/api/v1/LeadComments`,
+      //   method:"GET"
+      // })return (respond?.data);
+      return true;
+    } catch (error) {
+      console.log('Lead comment error', error);
+    }
+  };
+  // lead comments edit
+  static leadCommentEdit = async () => {
+    try {
+      // const response=await commonServiceAPI.CRMAPICall({
+      //   url: `${API_DOMAIN}/wqBPlJJqwnPmxINapM/api/v1/LeadCommentsEdit`,
+      //   method:"GET"
+      // })return (respond?.data);
+      return true;
+    } catch (error) {
+      console.log('Lead comment error', error);
+    }
+  };
+  
+  // lead comments delete
+  static leadCommentDelete = async () => {
+    try {
+      // const response=await commonServiceAPI.CRMAPICall({
+      //   url: `${API_DOMAIN}/wqBPlJJqwnPmxINapM/api/v1/LeadCommentsDelete`,
+      //   method:"GET"
+      // })return (respond?.data);
+      return true;
+    } catch (error) {
+      console.log('Lead comment error', error);
+    }
+  };
+
   //lead source
   static leadSourceList = async () => {
     const rows = [
