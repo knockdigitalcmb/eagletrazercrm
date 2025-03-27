@@ -113,3 +113,10 @@ export interface FilterProps {
   onHandleFilterSubmit: (data: any) => void;
   onHandleFilterClose: () => void;
 }
+export interface LeadStatusType {
+  id: number;
+  name: string;
+  color: string;
+  date_visibility: boolean;
+  status: string;
+}

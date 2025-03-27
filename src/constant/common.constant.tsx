@@ -13,6 +13,7 @@ export const sideBarNavMenus = [
     icon: <Diversity3Icon />,
     children: [
       { name: 'Lead Source', icon: <SourceIcon />, url: 'lead-source' },
+      { name: 'Lead Status', icon: <SourceIcon />, url: 'lead-status' },
     ],
   },
 ];
@@ -70,6 +71,15 @@ export const leadStatus = [
   { label: 'Reference', value: 'Reference' },
 ];
 
+export const leadStatuses = [
+  { label: 'New', value: 'new' },
+  { label: 'Contacted', value: 'contacted' },
+  { label: 'Qualified', value: 'qualified' },
+  { label: 'Proposal Sent', value: 'proposal_sent' },
+  { label: 'Negotiation', value: 'negotiation' },
+  { label: 'Won', value: 'won' },
+  { label: 'Lost', value: 'lost' },
+];
 export const leadFollower = [
   { label: 'Vaishnavi', value: 'Vaishnavi' },
   { label: 'Jhanani', value: 'Jhanani' },
