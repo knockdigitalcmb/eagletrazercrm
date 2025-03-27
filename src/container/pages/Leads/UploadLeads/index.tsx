@@ -43,7 +43,6 @@ const UploadLeads = ({
   //on handle upload leads close
   const onHandleUploadLeadsClose = () => {
     setUploadLead(false);
-    onHandleUploadFileReset();
   };
 
   // on handle file submit
@@ -74,12 +73,6 @@ const UploadLeads = ({
     setSelectedFile(file);
     setFileValidationError('');
   };
-  // on handle upload file reset
-  const onHandleUploadFileReset = () => {
-    setSelectedFile(null);
-    setFileValidationError('');
-  };
-
   return (
     <Modal
       open={open}
@@ -107,14 +100,17 @@ const UploadLeads = ({
           </IconButton>
         </Grid2>
         <div className={styles.borderLine} />
-        <Box id='modal-modal-description'>
+        <Box
+          id='modal-modal-description'
+          sx={{ display: 'flex', gap: '15px', alignItems: 'center' }}
+        >
           <Button
             component='label'
             role={undefined}
             variant='contained'
             tabIndex={-1}
             startIcon={<CloudUploadIcon />}
-            sx={{ mt: '10px', mb: '20px' }}
+            sx={{ mt: '10px', mb: '5px' }}
           >
             {t('uploadLeads')}
             <VisuallyHiddenInput
@@ -123,30 +119,25 @@ const UploadLeads = ({
               multiple
             />
           </Button>
-          <Typography
-            variant='caption'
-            color='grey.600'
-            display='block'
-            marginBottom={'20px'}
-          >
-            {t('uploadFileRequirement')}
-          </Typography>
           {selectedFile && (
-            <Typography variant='body2' sx={{ mb: '20px' }}>
-              {selectedFile.name}
-            </Typography>
-          )}
-          {fileValidationError && (
-            <Typography color='error' variant='body2' sx={{ mb: '20px' }}>
-              {' '}
-              {fileValidationError}
-            </Typography>
+            <Typography variant='body2'>{selectedFile.name}</Typography>
           )}
         </Box>
+        <Typography
+          variant='caption'
+          color='grey.600'
+          display='block'
+          marginBottom={'5px'}
+        >
+          {t('uploadFileRequirement')}
+        </Typography>
+        {fileValidationError && (
+          <Typography color='error' variant='body2' sx={{ mb: '5px' }}>
+            {' '}
+            {fileValidationError}
+          </Typography>
+        )}
         <Box sx={{ display: 'flex', justifyContent: 'end', gap: '10px' }}>
-          <Button variant='outlined' onClick={onHandleUploadFileReset}>
-            {t('reset')}
-          </Button>
           <Button
             variant='contained'
             disabled={!selectedFile}

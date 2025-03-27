@@ -129,5 +129,9 @@
   "editLeadStatus": "Edit Lead Status",
   "addLeadStatus": "Add Lead Status",
   "deleteLeadStatus": "Delete Lead Status",
-  "deleteLeadStatusConfirmation": "Are you sure you want to delete the lead status: {{source}}?"
+  "deleteLeadStatusConfirmation": "Are you sure you want to delete the lead status: {{source}}?",
+  "leadInformation": "Leads Information",
+  "noComments": "No Comments",
+  "deleteComment": "Delete Comment",
+  "deleteCommentConfirmation": "Are you sure you want to delete this Comment?"
 }
