@@ -63,49 +63,48 @@ const AddLeadStatusModal: React.FC<AddLeadStatusModalProps> = ({
     >
       <Box
         sx={{
-          width: { xs: '90%', sm: '450px', md: '500px' },
+          width: { xs: '90%', sm: '420px', md: '460px' },
           backgroundColor: 'white',
-          padding: 4,
-          borderRadius: 8,
-          boxShadow: 5,
+          padding: 2,
+          borderRadius: '12px',
+          border: '1px solid #ddd',
+          boxShadow: 4,
           position: 'relative',
           display: 'flex',
           flexDirection: 'column',
+          gap: 1,
         }}
       >
         <IconButton
           sx={{
             position: 'absolute',
-            top: 15,
-            right: 15,
+            top: 8,
+            right: 8,
             color: 'gray',
             transition: '0.3s',
             '&:hover': { color: 'black' },
           }}
           onClick={onClose}
         >
-          <CloseIcon fontSize='medium' />
+          <CloseIcon fontSize='small' />
         </IconButton>
 
-        <Typography variant='h6' sx={{ mb: 2, borderRadius: '8px' }}>
+        <Typography variant='h6' sx={{ mb: 0.5 }}>
           {t('addLeadStatus')}
         </Typography>
-        <Divider sx={{ mb: 3, borderBottom: '2px solid #FFC107' }} />
-
+        <Divider sx={{ borderBottom: '2px solid #FFC107', mb: 1 }} />
+        <Typography variant='subtitle1'>{t('leadStatusName')}</Typography>
         <TextField
           fullWidth
-          placeholder='Lead Status Name'
+          placeholder={t('leadStatusName')}
           name='name'
           value={formData.name}
           onChange={handleChange}
-          margin='normal'
           required
         />
 
-        <Typography variant='body2' mt={2} mb={1} fontWeight='bold'>
-          Status
-        </Typography>
-        <Box display='flex' gap={2}>
+        <Typography variant='subtitle1'>{t('statusHeading')}</Typography>
+        <Box display='flex'>
           <FormControlLabel
             control={
               <Checkbox
@@ -117,7 +116,7 @@ const AddLeadStatusModal: React.FC<AddLeadStatusModalProps> = ({
                 }}
               />
             }
-            label='Active'
+            label={t('active')}
           />
           <FormControlLabel
             control={
@@ -126,38 +125,40 @@ const AddLeadStatusModal: React.FC<AddLeadStatusModalProps> = ({
                 onChange={() => handleStatusChange('Inactive')}
               />
             }
-            label='Inactive'
+            label={t('inactive')}
           />
         </Box>
 
-        <Box mt={3}>
-          <Typography variant='body2' mb={1} fontWeight='bold'>
-            Status Color:
-          </Typography>
-          <Box
-            sx={{
-              display: 'flex',
-              alignItems: 'center',
-              gap: 2,
+        <Typography variant='subtitle1'>{t('statusColor')}</Typography>
+        <Box
+          sx={{
+            display: 'flex',
+            alignItems: 'center',
+            gap: 0.8,
+            padding: 0.8,
+            borderRadius: 4,
+            width: '100%',
+          }}
+        >
+          <input
+            type='color'
+            value={formData.color}
+            onChange={(e) =>
+              setFormData({ ...formData, color: e.target.value })
+            }
+            style={{
+              width: '100%',
+              height: '35px',
               border: '1px solid #ddd',
-              padding: 2,
-              borderRadius: 2,
-              width: '80',
+              borderRadius: '4px',
+              cursor: 'pointer',
             }}
-          >
-            <input
-              type='color'
-              value={formData.color}
-              onChange={(e) =>
-                setFormData({ ...formData, color: e.target.value })
-              }
-            />
-          </Box>
+          />
         </Box>
 
-        <Box sx={{ display: 'flex', justifyContent: 'end', mt: 4 }}>
+        <Box sx={{ display: 'flex', justifyContent: 'flex-end', mt: 2 }}>
           <Button onClick={handleSubmit} variant='contained'>
-            Submit
+            {t('submit')}
           </Button>
         </Box>
       </Box>
