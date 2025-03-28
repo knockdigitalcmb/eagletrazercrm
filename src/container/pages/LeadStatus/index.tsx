@@ -35,7 +35,7 @@ const LeadStatus = () => {
   const [leadStatuses, setLeadStatuses] = useState<LeadStatusType[]>([]);
 
   useEffect(() => {
-    getLeadStatusList(); // Dummy data for now
+    getLeadStatusList();
   }, []);
 
   const getLeadStatusList = async () => {
@@ -148,12 +148,20 @@ const LeadStatus = () => {
       renderCell: (params: any) => (
         <Box
           sx={{
-            width: 20,
-            height: 20,
-            backgroundColor: params.value, // Use the color directly
-            borderRadius: '50%', // Optional, if you want to make it a circle
+            display: 'flex',
+            marginTop: '15px',
+            height: '100%',
+            width: '100%',
           }}
-        />
+        >
+          <Box
+            sx={{
+              width: 90,
+              height: 20,
+              backgroundColor: params.value,
+            }}
+          />
+        </Box>
       ),
     },
     {
@@ -166,7 +174,7 @@ const LeadStatus = () => {
     {
       field: 'actions',
       headerName: 'Action',
-      width: 150,
+      flex: 1,
       renderCell: (rows: any) => (
         <CRMTableActions
           row={rows}

@@ -128,10 +128,16 @@
   "comments": "Add Comments",
   "editLeadStatus": "Edit Lead Status",
   "addLeadStatus": "Add Lead Status",
+  "leadStatusName": "Lead Status Name",
   "deleteLeadStatus": "Delete Lead Status",
   "deleteLeadStatusConfirmation": "Are you sure you want to delete the lead status: {{source}}?",
   "leadInformation": "Leads Information",
   "noComments": "No Comments",
+  "statusColor": "Status Color",
+  "statusHeading":"Status",
+  "active": "Active",
+  "inactive": "Inactive",
+  "dateVisibility": "Date Visibility",
   "deleteComment": "Delete Comment",
   "deleteCommentConfirmation": "Are you sure you want to delete this Comment?"
 }

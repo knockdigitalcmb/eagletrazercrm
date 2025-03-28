@@ -2,6 +2,7 @@ import HomeOutlinedIcon from '@mui/icons-material/HomeOutlined';
 import GroupOutlinedIcon from '@mui/icons-material/GroupOutlined';
 import ManageAccountsOutlinedIcon from '@mui/icons-material/ManageAccountsOutlined';
 import Diversity3Icon from '@mui/icons-material/Diversity3';
+import AssignmentTurnedInIcon from '@mui/icons-material/AssignmentTurnedIn';
 import SourceIcon from '@mui/icons-material/Source';
 
 export const sideBarNavMenus = [
@@ -13,7 +14,12 @@ export const sideBarNavMenus = [
     icon: <Diversity3Icon />,
     children: [
       { name: 'Lead Source', icon: <SourceIcon />, url: 'lead-source' },
-      { name: 'Lead Status', icon: <SourceIcon />, url: 'lead-status' },
+
+      {
+        name: 'Lead Status',
+        icon: <AssignmentTurnedInIcon />,
+        url: 'lead-status',
+      },
     ],
   },
 ];

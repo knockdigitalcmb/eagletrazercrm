@@ -387,7 +387,7 @@ export class CRMServiceAPI {
       console.log('Lead comment error', error);
     }
   };
-  
+
   // lead comments delete
   static leadCommentDelete = async () => {
     try {
