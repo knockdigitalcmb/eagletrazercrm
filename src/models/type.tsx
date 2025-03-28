@@ -110,6 +110,8 @@ export interface FilterProps {
   setValue: any;
   reset: any;
   handleSubmit: any;
+  errors:any;
+  getValues:any;
   onHandleFilterSubmit: (data: any) => void;
   onHandleFilterClose: () => void;
 }
