@@ -17,7 +17,6 @@ import CreateLeads from './CreateLeads/index';
 
 import styles from './Leads.module.scss';
 
-
 const actionsProps = {
   view: true,
   edit: true,
@@ -39,7 +38,14 @@ const Leads = () => {
   const [editModalOpen, setEditModalOpen] = useState(false);
   const [deleteModalOpen, setDeleteModalOpen] = useState(false);
 
-  const { control, setValue, reset, handleSubmit } = useForm({
+  const {
+    control,
+    setValue,
+    reset,
+    handleSubmit,
+    getValues,
+    formState: { errors },
+  } = useForm({
     defaultValues: {
       fromDate: null,
       endDate: null,
@@ -303,6 +309,25 @@ const Leads = () => {
       headerName: 'Lead Status',
       sortable: false,
       width: 130,
+      renderCell: (params: any) => {
+        const statusColor: Record<string, string> = {
+          Reference: '#29B6F6',
+          'FaceBook ad': '#C2185B',
+        };
+        return (
+          <Box
+            sx={{
+              backgroundColor: statusColor[params.value],
+              color: `#fff`,
+              padding: '4px 8px',
+              textAlign: 'center',
+              width: '100%',
+            }}
+          >
+            {params.value}
+          </Box>
+        );
+      },
     },
     { field: 'nextDate', headerName: 'Next Date', sortable: false, width: 80 },
     {
@@ -350,8 +375,10 @@ const Leads = () => {
             open={createModalOpen}
             onHandleCreateClose={onHandleCreateClose}
             control={control}
+            errors={errors}
             handleSubmit={handleSubmit}
             onHandleCreateSubmit={onHandleCreateSubmit}
+            getValues={getValues}
           />
 
           <LeadsSearch
@@ -365,6 +392,8 @@ const Leads = () => {
             handleSubmit={handleSubmit}
             onHandleFilterSubmit={onHandleFilterSubmit}
             onHandleFilterClose={onHandleFilterClose}
+            errors={errors}
+            getValues={getValues}
           />
         </Box>
         <CRMTable

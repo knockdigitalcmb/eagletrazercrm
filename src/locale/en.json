@@ -129,5 +129,12 @@
   "leadInformation":"Leads Information",
   "noComments":"No Comments",
   "deleteComment":"Delete Comment",
-  "deleteCommentConfirmation":"Are you sure you want to delete this Comment?"
+  "deleteCommentConfirmation":"Are you sure you want to delete this Comment?",
+  "nextDateValidation":"Next Date should after the selected date",
+  "requiredDate":"Date is required",
+  "requiredCustomerName":"CustomerName is required",
+  "requiredCustomerNumber":"Customer Number is required",
+  "requiredLeadSource":"Lead Source is required",
+  "requiredLeadStatus":"Lead Status is required",
+  "validationEndDate":"End Date should be after From Date"
 }
