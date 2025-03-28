@@ -2,6 +2,7 @@ import HomeOutlinedIcon from '@mui/icons-material/HomeOutlined';
 import GroupOutlinedIcon from '@mui/icons-material/GroupOutlined';
 import ManageAccountsOutlinedIcon from '@mui/icons-material/ManageAccountsOutlined';
 import Diversity3Icon from '@mui/icons-material/Diversity3';
+import AssignmentTurnedInIcon from '@mui/icons-material/AssignmentTurnedIn';
 import SourceIcon from '@mui/icons-material/Source';
 
 export const sideBarNavMenus = [
@@ -13,6 +14,12 @@ export const sideBarNavMenus = [
     icon: <Diversity3Icon />,
     children: [
       { name: 'Lead Source', icon: <SourceIcon />, url: 'lead-source' },
+
+      {
+        name: 'Lead Status',
+        icon: <AssignmentTurnedInIcon />,
+        url: 'lead-status',
+      },
     ],
   },
 ];
@@ -70,6 +77,15 @@ export const leadStatus = [
   { label: 'Reference', value: 'Reference' },
 ];
 
+export const leadStatuses = [
+  { label: 'New', value: 'new' },
+  { label: 'Contacted', value: 'contacted' },
+  { label: 'Qualified', value: 'qualified' },
+  { label: 'Proposal Sent', value: 'proposal_sent' },
+  { label: 'Negotiation', value: 'negotiation' },
+  { label: 'Won', value: 'won' },
+  { label: 'Lost', value: 'lost' },
+];
 export const leadFollower = [
   { label: 'Vaishnavi', value: 'Vaishnavi' },
   { label: 'Jhanani', value: 'Jhanani' },

@@ -2,18 +2,16 @@ import React, { useEffect, useState } from 'react';
 import {
   Box,
   Button,
-  Dialog,
-  DialogContent,
-  DialogActions,
+  Modal,
   TextField,
   FormControlLabel,
   Checkbox,
   Typography,
   IconButton,
+  Divider,
 } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
 import { useTranslation } from 'react-i18next';
-import styles from './AddLeadSource.module.scss';
 
 interface AddLeadSourceModalProps {
   open: boolean;
@@ -48,88 +46,96 @@ const AddLeadSourceModal: React.FC<AddLeadSourceModalProps> = ({
   };
 
   return (
-    <Dialog
+    <Modal
       open={open}
       onClose={handleClose}
-      fullWidth
-      maxWidth='xs'
-      classes={{ paper: styles.dialogPaper }}
-      aria-labelledby='lead-source-modal-title'
-      aria-describedby='lead-source-modal-description'
+      aria-labelledby='add-lead-source-modal'
     >
-      <Box className={styles.dialogTitleContainer}>
-        <Typography
-          id='lead-source-modal-title'
-          className={styles.dialogTitleText}
-          variant='h6'
-          component='h2'
-        >
-          {initialData ? t('editLeadSource') : t('addLeadSource')}
-        </Typography>
-        <IconButton
-          onClick={handleClose}
-          className={styles.closeButton}
-          aria-label='close'
-        >
-          <CloseIcon />
-        </IconButton>
-      </Box>
-
-      <DialogContent
-        id='lead-source-modal-description'
-        className={styles.dialogContentCustom}
+      <Box
+        sx={{
+          width: 400,
+          backgroundColor: 'white',
+          padding: 3,
+          position: 'absolute',
+          top: '50%',
+          left: '50%',
+          transform: 'translate(-50%, -50%)',
+          borderRadius: '12px',
+          border: '1px solid #ddd',
+          boxShadow: 10,
+        }}
       >
-        <Box display='flex' flexDirection='column' gap={2}>
-          <Box>
-            <Typography variant='subtitle1' mb={1}>
-              {t('sourceName')}
-            </Typography>
-            <TextField
-              value={sourceName}
-              onChange={(e) => setSourceName(e.target.value)}
-              fullWidth
-            />
-          </Box>
-
-          <Box>
-            <Typography variant='subtitle1' mb={1}>
-              {t('editStatus')}
-            </Typography>
-            <Box display='flex' gap={2}>
-              <FormControlLabel
-                control={
-                  <Checkbox
-                    checked={status === 'Active'}
-                    onChange={() => setStatus('Active')}
-                  />
-                }
-                label={t('Active')}
-              />
-              <FormControlLabel
-                control={
-                  <Checkbox
-                    checked={status === 'Inactive'}
-                    onChange={() => setStatus('Inactive')}
-                  />
-                }
-                label={t('Inactive')}
-              />
-            </Box>
-          </Box>
+        <Box
+          sx={{
+            display: 'flex',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+          }}
+        >
+          <Typography
+            id='add-lead-source-modal'
+            variant='h6'
+            component='h2'
+            sx={{ fontWeight: 'normal' }}
+          >
+            {initialData ? t('editLeadSource') : t('addLeadSource')}
+          </Typography>
+          <IconButton onClick={handleClose} aria-label='close'>
+            <CloseIcon />
+          </IconButton>
         </Box>
-      </DialogContent>
 
-      <DialogActions className={styles.dialogActionsCustom}>
-        {!initialData && (
-          <Button onClick={handleClose} variant='text'>
-            {t('cancel')}
+        <Divider sx={{ mb: 2, borderBottom: '2px solid #FFC107' }} />
+
+        <Typography variant='subtitle1' mt={1}>
+          {t('sourceName')}
+        </Typography>
+        <TextField
+          placeholder={t('sourceName')}
+          value={sourceName}
+          onChange={(e) => setSourceName(e.target.value)}
+          fullWidth
+          margin='dense'
+          required
+        />
+
+        <Typography variant='subtitle1' mt={1}>
+          {t('editStatus')}
+        </Typography>
+        <Box display='flex' gap={2}>
+          <FormControlLabel
+            control={
+              <Checkbox
+                checked={status === 'Active'}
+                onChange={() => setStatus('Active')}
+                sx={{ color: '#FFC107', '&.Mui-checked': { color: '#FFC107' } }}
+              />
+            }
+            label={t('Active')}
+          />
+          <FormControlLabel
+            control={
+              <Checkbox
+                checked={status === 'Inactive'}
+                onChange={() => setStatus('Inactive')}
+              />
+            }
+            label={t('Inactive')}
+          />
+        </Box>
+
+        <Box sx={{ display: 'flex', justifyContent: 'flex-end', mt: 2 }}>
+          {!initialData && (
+            <Button onClick={handleClose} variant='text'>
+              {t('cancel')}
+            </Button>
+          )}
+          <Button variant='contained' onClick={onSave}>
+            {initialData ? t('submit') : t('save')}
           </Button>
-        )}
-        <Button variant='contained' onClick={onSave}>
-          {initialData ? t('submit') : t('save')}
-        </Button>
-      </DialogActions>
-    </Dialog>
+        </Box>
+      </Box>
+    </Modal>
   );
 };
 
