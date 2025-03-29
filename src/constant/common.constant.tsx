@@ -4,6 +4,7 @@ import ManageAccountsOutlinedIcon from '@mui/icons-material/ManageAccountsOutlin
 import Diversity3Icon from '@mui/icons-material/Diversity3';
 import AssignmentTurnedInIcon from '@mui/icons-material/AssignmentTurnedIn';
 import SourceIcon from '@mui/icons-material/Source';
+import WysiwygIcon from '@mui/icons-material/Wysiwyg';
 
 export const sideBarNavMenus = [
   { name: 'Dashboard', icon: <HomeOutlinedIcon /> },
@@ -13,6 +14,7 @@ export const sideBarNavMenus = [
     name: 'Leads',
     icon: <Diversity3Icon />,
     children: [
+      { name: 'Leads', icon: <WysiwygIcon />, url: 'leads' },
       { name: 'Lead Source', icon: <SourceIcon />, url: 'lead-source' },
 
       {

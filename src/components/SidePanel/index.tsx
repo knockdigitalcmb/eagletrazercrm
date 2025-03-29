@@ -182,8 +182,26 @@ const SidePanel = ({ menu }: Props) => {
   };
 
   const toggleSubMenu = (name: string) => {
-    setOpenSubMenus((prev) => ({ ...prev, [name]: !prev[name] }));
+    setOpenSubMenus((prev) => {
+      return { ...prev, [name]: !prev[name] };
+    });
   };
+
+  React.useEffect(() => {
+    sideBarNavMenus.forEach((item) => {
+      if (item.children?.some((child) => child.name === activeItem)) {
+        setOpenSubMenus((prev) => ({ ...prev, [item.name]: true }));
+      }
+    });
+  }, [activeItem]);
+
+  React.useEffect(() => {
+    sideBarNavMenus.forEach((item) => {
+      if (item.children?.some((child) => child.name === activeItem)) {
+        setOpenSubMenus((prev) => ({ ...prev, [item.name]: true }));
+      }
+    });
+  }, [activeItem]);
 
   const isMediumScreen = useMediaQuery('(max-width:768px)');
   React.useEffect(() => {
@@ -264,7 +282,13 @@ const SidePanel = ({ menu }: Props) => {
             <React.Fragment key={item.name}>
               <ListItem
                 disablePadding
-                className={`${styles.listItem} ${activeItem === item.name ? styles.active : ''}`}
+                className={`${styles.listItem} ${
+                  activeItem === item.name ||
+                  (item.children &&
+                    item.children.some((child) => child.name === activeItem))
+                    ? styles.active
+                    : ''
+                }`}
               >
                 <ListItemButton
                   sx={[
@@ -274,8 +298,11 @@ const SidePanel = ({ menu }: Props) => {
                       : { justifyContent: 'center' },
                   ]}
                   onClick={() => {
-                    handleItemClick(item.name);
-                    if (item.children) toggleSubMenu(item.name);
+                    if (item.children) {
+                      toggleSubMenu(item.name);
+                    } else {
+                      handleItemClick(item.name);
+                    }
                   }}
                 >
                   <ListItemIcon
@@ -317,7 +344,7 @@ const SidePanel = ({ menu }: Props) => {
                         className={`${styles.listItem} ${activeItem === child.name ? styles.active : ''}`}
                       >
                         <ListItemButton
-                          sx={{ pl: 4 }}
+                          sx={{ pl: 4}}
                           onClick={() => handleItemClick(child?.url)}
                         >
                           <ListItemIcon>{child.icon}</ListItemIcon>

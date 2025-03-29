@@ -205,7 +205,7 @@ const Roles = () => {
   };
   return (
     <Box data-testid='dashboard-page' className={styles.dashboardContainer}>
-      <SidePanel menu={t('role')} />
+      <SidePanel menu={t('roles')} />
       <Box
         component='main'
         sx={{ flexGrow: 1, p: 3, marginTop: '70px' }}
@@ -227,6 +227,8 @@ const Roles = () => {
           pageSizeOptions={pageSizeOptions}
           loading={roleLoader}
           checkboxSelection={false}
+          noDataMessage={t('role')}
+        
         />
         <ViewRoles
           data-testid='view-modal'

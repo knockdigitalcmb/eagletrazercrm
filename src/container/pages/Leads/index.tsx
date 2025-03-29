@@ -402,6 +402,7 @@ const Leads = () => {
           pageSizeOptions={[5, 10]}
           loading={leadsLoader}
           checkboxSelection={false}
+          noDataMessage={t('leads')}
         />
         <ViewLeads
           open={viewModalOpen}
