@@ -19,6 +19,8 @@ const LeadsFilter = ({
   setValue,
   reset,
   handleSubmit,
+  errors,
+  getValues,
   onHandleFilterSubmit,
   onHandleFilterClose,
 }: FilterProps) => {
@@ -42,7 +44,7 @@ const LeadsFilter = ({
             sx={{
               display: 'flex',
               flexDirection: 'column',
-              width: 300,
+              width: 400,
               height: '100vh',
               p: 2,
             }}
@@ -77,13 +79,29 @@ const LeadsFilter = ({
                 <Controller
                   name='endDate'
                   control={control}
+                  rules={{
+                    validate: (endDate) => {
+                      const fromDate = getValues('fromDate');
+                   if (
+                     !endDate ||
+                     !fromDate ||
+                     dayjs(endDate).isAfter(dayjs(fromDate))
+                   ) {
+                     return true;
+                   }
+                   return `${t('validationEndDate')}`
+                    },
+                  }}
                   render={({ field }) => (
-                    <DatePicker
-                      selectedDate={field.value ? dayjs(field.value) : null}
-                      setSelectedDate={(date: Dayjs | null) =>
-                        setValue('endDate', date ? date.toDate() : null)
-                      }
-                    />
+                    <>
+                      <DatePicker
+                        selectedDate={field.value ? dayjs(field.value) : null}
+                        setSelectedDate={(date: Dayjs | null) =>
+                          setValue('endDate', date ? date.toDate() : null)
+                        }
+                      />
+                      {errors?.endDate && <Typography variant='caption' color="error">{errors.endDate.message}</Typography>}
+                    </>
                   )}
                 />
               </Box>

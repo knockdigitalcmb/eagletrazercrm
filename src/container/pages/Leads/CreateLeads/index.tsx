@@ -28,6 +28,8 @@ interface LeadCreateProps {
   control: any;
   onHandleCreateSubmit: (data: any) => void;
   handleSubmit: any;
+  errors?: any;
+  getValues: any;
 }
 
 const CreateLeads = ({
@@ -36,6 +38,8 @@ const CreateLeads = ({
   control,
   onHandleCreateSubmit,
   handleSubmit,
+  errors,
+  getValues,
 }: LeadCreateProps) => {
   const { t } = useTranslation();
   return (
@@ -71,35 +75,59 @@ const CreateLeads = ({
             <Controller
               name='date'
               control={control}
+              rules={{ required: `${t('requiredDate')}` }}
               render={({ field }) => (
-                <DatePicker
-                  selectedDate={field.value ? dayjs(field.value) : null}
-                  setSelectedDate={field.onChange}
-                  placeholder={t('date')}
-                  sx={{ marginTop: '20px' }}
-                />
+                <>
+                  <DatePicker
+                    selectedDate={field.value ? dayjs(field.value) : null}
+                    setSelectedDate={field.onChange}
+                    placeholder={t('date')}
+                    sx={{ marginTop: '20px' }}
+                  />
+                  {errors?.date && (
+                    <Typography color='error' variant='caption'>
+                      {errors.date.message}
+                    </Typography>
+                  )}
+                </>
               )}
             />
             <Controller
               name='customerName'
               control={control}
+              rules={{ required: `${t('requiredCustomerName')}` }}
               render={({ field }) => (
-                <TextField
-                  {...field}
-                  placeholder={t('customerName')}
-                  sx={{ mt: '20px' }}
-                />
+                <>
+                  <TextField
+                    {...field}
+                    placeholder={t('customerName')}
+                    sx={{ mt: '20px' }}
+                  />
+                  {errors?.customerName && (
+                    <Typography color='error' variant='caption'>
+                      {errors.customerName.message}
+                    </Typography>
+                  )}
+                </>
               )}
             />
             <Controller
               name='customerNumber'
               control={control}
+              rules={{ required: `${t('requiredCustomerNumber')}` }}
               render={({ field }) => (
-                <TextField
-                  {...field}
-                  placeholder={t('customerNumber')}
-                  sx={{ mt: '20px' }}
-                />
+                <>
+                  <TextField
+                    {...field}
+                    placeholder={t('customerNumber')}
+                    sx={{ mt: '20px' }}
+                  />
+                  {errors?.customerNumber && (
+                    <Typography variant='caption' color='error'>
+                      {errors.customerNumber.message}
+                    </Typography>
+                  )}
+                </>
               )}
             />
             <Controller
@@ -156,41 +184,78 @@ const CreateLeads = ({
               name='nextDate'
               control={control}
               defaultValue={null}
+              rules={{
+                validate: (nextDate: any) => {
+                  const date = getValues('date');
+                  if (
+                    !nextDate ||
+                    !date ||
+                    dayjs(nextDate).isAfter(dayjs(date))
+                  ) {
+                    return true;
+                  } else {
+                    return `${t('nextDateValidation')}`;
+                  }
+                },
+              }}
               render={({ field }) => (
-                <DatePicker
-                  selectedDate={field.value ? dayjs(field.value) : null}
-                  setSelectedDate={field.onChange}
-                  placeholder={t('nextDate')}
-                  sx={{ mt: '20px' }}
-                />
+                <>
+                  <DatePicker
+                    selectedDate={field.value ? dayjs(field.value) : null}
+                    setSelectedDate={field.onChange}
+                    placeholder={t('nextDate')}
+                    sx={{ mt: '20px' }}
+                  />
+                  {errors?.nextDate && (
+                    <Typography variant='caption' color='error'>
+                      {errors.nextDate.message}
+                    </Typography>
+                  )}
+                </>
               )}
             />
 
             <Controller
               name='leadSource'
               control={control}
+              rules={{ required: `${t('requiredLeadSource')}` }}
               render={({ field }) => (
-                <CRMSelect
-                  options={leadSource}
-                  value={field.value || ''}
-                  onChange={field.onChange}
-                  sx={{ mt: '20px' }}
-                  placeholder={t('leadSource')}
-                />
+                <>
+                  <CRMSelect
+                    options={leadSource}
+                    value={field.value || ''}
+                    onChange={field.onChange}
+                    sx={{ mt: '20px' }}
+                    placeholder={t('leadSource')}
+                  />
+                  {errors?.leadSource && (
+                    <Typography color='error' variant='caption'>
+                      {errors.leadSource.message}
+                    </Typography>
+                  )}
+                </>
               )}
             />
 
             <Controller
               name='leadStatus'
               control={control}
+              rules={{ required: `${t('requiredLeadStatus')}` }}
               render={({ field }) => (
-                <CRMSelect
-                  options={leadStatus}
-                  value={field.value || ''}
-                  onChange={field.onChange}
-                  sx={{ mt: '20px' }}
-                  placeholder={t('leadStatus')}
-                />
+                <>
+                  <CRMSelect
+                    options={leadStatus}
+                    value={field.value || ''}
+                    onChange={field.onChange}
+                    sx={{ mt: '20px' }}
+                    placeholder={t('leadStatus')}
+                  />
+                  {errors?.leadStatus && (
+                    <Typography color='error' variant='caption'>
+                      {errors.leadStatus.message}
+                    </Typography>
+                  )}
+                </>
               )}
             />
           </Grid2>
