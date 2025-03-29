@@ -146,5 +146,15 @@
   "requiredCustomerNumber": "Customer Number is required",
   "requiredLeadSource": "Lead Source is required",
   "requiredLeadStatus": "Lead Status is required",
-  "validationEndDate": "End Date should be after From Date"
+  "validationEndDate": "End Date should be after From Date",
+  "noDataMessage":"No {{noDataMessage}} is available at this time. Kindly try again later.",
+  "leadNoData":"lead",
+  "roleNoData":"role",
+  "leadsSourceNoData":"lead source",
+  "leadsStatusNoData":"lead status",
+  "userNoData":"user",
+  "editChip":"edit",
+  "createChip":"create",
+  "viewChip":"view",
+  "deleteChip":"delete"
 }

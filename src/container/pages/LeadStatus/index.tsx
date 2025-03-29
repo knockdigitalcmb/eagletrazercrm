@@ -216,7 +216,7 @@ const LeadStatus = () => {
           pageSizeOptions={[5, 10, 20]}
           loading={loading}
           checkboxSelection={false}
-          noDataMessage={t('leadStatus')}
+          noDataMessage={t('leadsStatusNoData')}
         />
 
         <ConfirmationModal

@@ -2,6 +2,7 @@
   "name": "digital-crm",
   "version": "0.1.0",
   "private": true,
+  "homepage": "https://knockdigitalcmb.github.io/crm-frontend-internal",
   "dependencies": {
     "@emotion/react": "^11.14.0",
     "@emotion/styled": "^11.14.0",
@@ -33,6 +34,8 @@
     "typescript": "^5.7.2"
   },
   "scripts": {
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build",
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test --coverage --watchAll=false",
@@ -83,6 +86,7 @@
     "eslint-plugin-react": "^7.37.3",
     "eslint-plugin-security": "^3.0.1",
     "eslint-plugin-testing-library": "^7.1.1",
+    "gh-pages": "^6.3.0",
     "husky": "^9.1.7",
     "jest-mock-axios": "^4.8.0",
     "lint-staged": "^15.5.0",

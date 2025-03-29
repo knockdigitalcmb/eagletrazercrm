@@ -1,8 +1,9 @@
 import React from 'react';
 import { DataGrid, GridColDef } from '@mui/x-data-grid';
 import { Box, Paper } from '@mui/material';
-import CRMTableNoData from '../CRMTableNoData/index';
+import CRMTableNoData from './CMREmptyTable/index';
 import { GridSlotsComponent } from '@mui/x-data-grid';
+import { useTranslation } from 'react-i18next';
 interface CrmTableProps {
   rows: any[];
   columns: GridColDef[];
@@ -22,6 +23,7 @@ const CRMTable = ({
   slots,
   noDataMessage,
 }: CrmTableProps) => {
+  const {t}=useTranslation()
   return (
     <Box data-testid='crm-table-component' id='crm-table'>
       <Paper sx={{ height: 400, width: '100%' }}>
@@ -35,9 +37,9 @@ const CRMTable = ({
           }}
           pageSizeOptions={pageSizeOptions}
           sx={{
-            flex: 1, 
-            height: '100%', 
-            minHeight:rows.length===0 ? 300:0,
+            flex: 1,
+            height: '100%',
+            minHeight: rows.length === 0 ? 300 : 0,
             boxShadow: '0px 4px 10px rgba(0, 0, 0, 0.3)',
           }}
           disableRowSelectionOnClick
@@ -53,7 +55,9 @@ const CRMTable = ({
                   width: '100%',
                 }}
               >
-                <CRMTableNoData message={`No ${noDataMessage} available`} />
+                <CRMTableNoData
+                  message={t('noDataMessage', { noDataMessage })}
+                />
               </Box>
             ),
           }}

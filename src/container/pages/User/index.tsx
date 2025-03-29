@@ -270,7 +270,7 @@ const User = () => {
           pageSizeOptions={pageSizeOptions}
           loading={userLoader}
           checkboxSelection={false}
-          noDataMessage={t('user')}
+          noDataMessage={t('userNoData')}
         />
         <UserFilter
           drawerOpen={drawerOpen}

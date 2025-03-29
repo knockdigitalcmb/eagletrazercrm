@@ -1,12 +1,12 @@
 import React from 'react';
 import { Stack, Typography } from '@mui/material';
-import  noDataImg  from '../../assets/images/no-data.png';
+import  noDataImg  from '../../../assets/images/no-data.png';
 
 interface CRMNoDataProps {
   message: string;
 }
 
-const CRMTableNoData = ({ message }: CRMNoDataProps) => {
+const CMREmptyTable = ({ message }: CRMNoDataProps) => {
   return (
     <Stack
       sx={{
@@ -24,9 +24,9 @@ const CRMTableNoData = ({ message }: CRMNoDataProps) => {
         src={noDataImg}
         alt='No Data'
         style={{
-          maxWidth: '100px',
-          maxHeight: '100px',
-          marginBottom:'5px'
+          maxWidth: '75px',
+          maxHeight: '75px',
+          marginBottom: '5px',
         }}
       ></img>
       <Typography variant='body2'>{message}</Typography>
@@ -34,4 +34,4 @@ const CRMTableNoData = ({ message }: CRMNoDataProps) => {
   );
 };
 
-export default CRMTableNoData;
+export default CMREmptyTable;

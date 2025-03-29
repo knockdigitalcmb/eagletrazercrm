@@ -76,10 +76,10 @@ const Roles = () => {
   const renderPermissions = (params: any) => {
     const permissions = params.value;
     const permissionLabels: { [key: string]: string } = {
-      create: t('create'),
-      edit: t('edit'),
-      view: t('view'),
-      delete: t('delete'),
+      create: t('createChip'),
+      edit: t('editChip'),
+      view: t('viewChip'),
+      delete: t('deleteChip'),
     };
     return (
       <>
@@ -227,8 +227,7 @@ const Roles = () => {
           pageSizeOptions={pageSizeOptions}
           loading={roleLoader}
           checkboxSelection={false}
-          noDataMessage={t('role')}
-        
+          noDataMessage={t('roleNoData')}
         />
         <ViewRoles
           data-testid='view-modal'
