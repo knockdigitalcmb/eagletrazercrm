@@ -174,6 +174,23 @@ const EditLeads = ({
 
     setEditingIndex(null);
     setEditedComment('');
+
+    // if (editedComment.trim() && editingIndex !== null) {
+    //   try {
+    //     const response = await CRMServiceAPI.leadCommentEdit(
+    //       commentsList[index].id,
+    //       editedComment
+    //     );
+    //     if (response) {
+    //       setCommentsList([comments.text])
+    //       );
+    //       setEditingIndex(null);
+    //       setEditedComment('');
+    //     }
+    //   } catch (error) {
+    //     console.error('Error editing comment:', error);
+    //   }
+    // }
   };
 
   const onHandleCommentsDiscard = () => {
