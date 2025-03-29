@@ -87,9 +87,6 @@ const AddLeadSourceModal: React.FC<AddLeadSourceModalProps> = ({
 
         <Divider sx={{ mb: 2, borderBottom: '2px solid #FFC107' }} />
 
-        <Typography variant='subtitle1' mt={1}>
-          {t('sourceName')}
-        </Typography>
         <TextField
           placeholder={t('sourceName')}
           value={sourceName}
@@ -125,11 +122,6 @@ const AddLeadSourceModal: React.FC<AddLeadSourceModalProps> = ({
         </Box>
 
         <Box sx={{ display: 'flex', justifyContent: 'flex-end', mt: 2 }}>
-          {!initialData && (
-            <Button onClick={handleClose} variant='text'>
-              {t('cancel')}
-            </Button>
-          )}
           <Button variant='contained' onClick={onSave}>
             {initialData ? t('submit') : t('save')}
           </Button>

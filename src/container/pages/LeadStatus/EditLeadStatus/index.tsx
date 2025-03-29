@@ -50,8 +50,8 @@ const EditLeadStatusModal: React.FC<EditLeadStatusModalProps> = ({
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const handleStatusChange = (event: any) => {
-    setFormData({ ...formData, status: event.target.value });
+  const handleStatusChange = (status: string) => {
+    setFormData({ ...formData, status });
   };
 
   const handleDateVisibilityChange = (isChecked: boolean) => {
@@ -78,7 +78,7 @@ const EditLeadStatusModal: React.FC<EditLeadStatusModalProps> = ({
         sx={{
           width: 450,
           backgroundColor: 'white',
-          padding: 2,
+          padding: 3,
           position: 'absolute',
           top: '50%',
           left: '50%',
@@ -86,30 +86,31 @@ const EditLeadStatusModal: React.FC<EditLeadStatusModalProps> = ({
           borderRadius: '12px',
           border: '1px solid #ddd',
           boxShadow: 10,
-          overflow: 'hidden',
         }}
       >
-        <Typography variant='h6' sx={{ marginBottom: 1 }}>
-          {t('editLeadStatus')}
-        </Typography>
-        <Divider sx={{ mb: 1, borderBottom: '2px solid #FFC107' }} />
-
-        <IconButton
+        {/* Header with Close Button */}
+        <Box
           sx={{
-            position: 'absolute',
-            top: 10,
-            right: 10,
-            color: 'gray',
-            transition: '0.3s',
-            '&:hover': { color: 'black' },
+            display: 'flex',
+            justifyContent: 'space-between',
+            alignItems: 'center',
           }}
-          onClick={onClose}
         >
-          <CloseIcon fontSize='small' />
-        </IconButton>
-        <Typography variant='subtitle1' mt={1}>
-          {t('leadStatusName')}
-        </Typography>
+          <Typography variant='h6'>{t('editLeadStatus')}</Typography>
+          <IconButton
+            sx={{
+              position: 'absolute',
+              top: 15,
+              right: 10,
+              color: 'gray',
+            }}
+            onClick={onClose}
+          >
+            <CloseIcon fontSize='medium' />
+          </IconButton>
+        </Box>
+
+        <Divider sx={{ mb: 2, borderBottom: '2px solid #FFC107' }} />
 
         <TextField
           fullWidth
@@ -117,20 +118,18 @@ const EditLeadStatusModal: React.FC<EditLeadStatusModalProps> = ({
           name='name'
           value={formData.name}
           onChange={handleChange}
-          margin='dense'
-          required
+          size='small'
         />
 
         <Typography variant='subtitle1' mt={1}>
           {t('Status')}
         </Typography>
-        <Box display='flex' gap={1.2}>
+        <Box display='flex' gap={2}>
           <FormControlLabel
             control={
               <Checkbox
                 checked={formData.status === 'Active'}
                 onChange={() => handleStatusChange('Active')}
-                sx={{ color: '#FFC107', '&.Mui-checked': { color: '#FFC107' } }}
               />
             }
             label={t('active')}
@@ -146,41 +145,29 @@ const EditLeadStatusModal: React.FC<EditLeadStatusModalProps> = ({
           />
         </Box>
 
-        <Box mt={1}>
-          <Typography variant='subtitle1' mt={1}>
-            {t('statusColor')}
-          </Typography>
-          <Box
-            sx={{
-              display: 'flex',
-              alignItems: 'center',
-              gap: 1,
-              padding: 1,
-              borderRadius: '6px',
+        <Typography variant='subtitle1' mt={1}>
+          {t('statusColor')}
+        </Typography>
+        <Box sx={{ display: 'flex', alignItems: 'center' }}>
+          <input
+            type='color'
+            value={formData.color}
+            onChange={(e) =>
+              setFormData({ ...formData, color: e.target.value })
+            }
+            style={{
               width: '100%',
-              overflow: 'hidden',
+              height: '35px',
+              border: 'none',
+              cursor: 'pointer',
             }}
-          >
-            <input
-              type='color'
-              value={formData.color}
-              onChange={(e) =>
-                setFormData({ ...formData, color: e.target.value })
-              }
-              style={{
-                width: '100%',
-                height: '35px',
-                border: 'none',
-                cursor: 'pointer',
-              }}
-            />
-          </Box>
+          />
         </Box>
 
         <Typography variant='subtitle1' mt={1}>
           {t('dateVisibility')}
         </Typography>
-        <Box display='flex' gap={1.2}>
+        <Box display='flex' gap={2}>
           <FormControlLabel
             control={
               <Checkbox
@@ -201,7 +188,8 @@ const EditLeadStatusModal: React.FC<EditLeadStatusModalProps> = ({
           />
         </Box>
 
-        <Box sx={{ display: 'flex', justifyContent: 'flex-end', mt: 1.5 }}>
+        {/* Submit Button */}
+        <Box sx={{ display: 'flex', justifyContent: 'flex-end', mt: 3 }}>
           <Button onClick={handleSubmit} variant='contained' color='primary'>
             {t('submit')}
           </Button>
