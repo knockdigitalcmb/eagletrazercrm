@@ -1,0 +1,20 @@
+{
+  "files": {
+    "main.js": "/crm-frontend-internal/static/js/main.d9f5b3be.js",
+    "static/css/729.e579df17.chunk.css": "/crm-frontend-internal/static/css/729.e579df17.chunk.css",
+    "static/js/729.a266cc7f.chunk.js": "/crm-frontend-internal/static/js/729.a266cc7f.chunk.js",
+    "static/js/487.143d2445.chunk.js": "/crm-frontend-internal/static/js/487.143d2445.chunk.js",
+    "static/js/685.c9dd5ea6.chunk.js": "/crm-frontend-internal/static/js/685.c9dd5ea6.chunk.js",
+    "static/js/224.df6ffb5d.chunk.js": "/crm-frontend-internal/static/js/224.df6ffb5d.chunk.js",
+    "static/media/eagle-trazer.png": "/crm-frontend-internal/static/media/eagle-trazer.8c85ab5ef18cb270f590.png",
+    "static/media/otp-bg.svg": "/crm-frontend-internal/static/media/otp-bg.f4841bf6a4d12ee34f4f33e88e1b94f4.svg",
+    "static/media/login-bg.svg": "/crm-frontend-internal/static/media/login-bg.addc9097e65456316174851ffab610a9.svg",
+    "static/media/chat-message.png": "/crm-frontend-internal/static/media/chat-message.ce03bc4004afa2a4afee.png",
+    "static/media/404-bg.svg": "/crm-frontend-internal/static/media/404-bg.253f00b3bbb3b2b8902a068a56f96bb2.svg",
+    "static/media/no-data.png": "/crm-frontend-internal/static/media/no-data.fb5b9e3fbe9cca237fc1.png",
+    "index.html": "/crm-frontend-internal/index.html"
+  },
+  "entrypoints": [
+    "static/js/main.d9f5b3be.js"
+  ]
+}
