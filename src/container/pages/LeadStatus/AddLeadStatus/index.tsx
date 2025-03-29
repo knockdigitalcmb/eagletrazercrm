@@ -63,37 +63,33 @@ const AddLeadStatusModal: React.FC<AddLeadStatusModalProps> = ({
     >
       <Box
         sx={{
-          width: { xs: '90%', sm: '420px', md: '460px' },
+          width: { xs: '90%', sm: '380px', md: '420px' },
           backgroundColor: 'white',
-          padding: 2,
+          p: 2,
           borderRadius: '12px',
           border: '1px solid #ddd',
           boxShadow: 4,
           position: 'relative',
           display: 'flex',
           flexDirection: 'column',
-          gap: 1,
+          gap: 0.5, 
         }}
       >
         <IconButton
           sx={{
             position: 'absolute',
-            top: 8,
-            right: 8,
+            top: 15,
+            right: 6,
             color: 'gray',
-            transition: '0.3s',
-            '&:hover': { color: 'black' },
           }}
           onClick={onClose}
         >
-          <CloseIcon fontSize='small' />
+          <CloseIcon fontSize='medium' />
         </IconButton>
 
-        <Typography variant='h6' sx={{ mb: 0.5 }}>
-          {t('addLeadStatus')}
-        </Typography>
+        <Typography variant='h6'>{t('addLeadStatus')}</Typography>
         <Divider sx={{ borderBottom: '2px solid #FFC107', mb: 1 }} />
-        <Typography variant='subtitle1'>{t('leadStatusName')}</Typography>
+
         <TextField
           fullWidth
           placeholder={t('leadStatusName')}
@@ -101,19 +97,16 @@ const AddLeadStatusModal: React.FC<AddLeadStatusModalProps> = ({
           value={formData.name}
           onChange={handleChange}
           required
+          sx={{ mb: 0.5 }}
         />
 
-        <Typography variant='subtitle1'>{t('statusHeading')}</Typography>
-        <Box display='flex'>
+        <Typography variant='subtitle1'>{t('Status')}</Typography>
+        <Box display='flex' gap={1}>
           <FormControlLabel
             control={
               <Checkbox
                 checked={formData.status === 'Active'}
                 onChange={() => handleStatusChange('Active')}
-                sx={{
-                  color: '#FFC107',
-                  '&.Mui-checked': { color: '#FFC107' },
-                }}
               />
             }
             label={t('active')}
@@ -130,16 +123,7 @@ const AddLeadStatusModal: React.FC<AddLeadStatusModalProps> = ({
         </Box>
 
         <Typography variant='subtitle1'>{t('statusColor')}</Typography>
-        <Box
-          sx={{
-            display: 'flex',
-            alignItems: 'center',
-            gap: 0.8,
-            padding: 0.8,
-            borderRadius: 4,
-            width: '100%',
-          }}
-        >
+        <Box sx={{ display: 'flex', alignItems: 'center' }}>
           <input
             type='color'
             value={formData.color}
@@ -148,7 +132,7 @@ const AddLeadStatusModal: React.FC<AddLeadStatusModalProps> = ({
             }
             style={{
               width: '100%',
-              height: '35px',
+              height: '28px',
               border: '1px solid #ddd',
               borderRadius: '4px',
               cursor: 'pointer',
@@ -156,8 +140,8 @@ const AddLeadStatusModal: React.FC<AddLeadStatusModalProps> = ({
           />
         </Box>
 
-        <Box sx={{ display: 'flex', justifyContent: 'flex-end', mt: 2 }}>
-          <Button onClick={handleSubmit} variant='contained'>
+        <Box sx={{ display: 'flex', justifyContent: 'flex-end', mt: 1 }}>
+          <Button onClick={handleSubmit} variant='contained' size='small'>
             {t('submit')}
           </Button>
         </Box>

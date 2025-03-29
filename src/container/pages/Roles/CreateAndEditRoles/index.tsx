@@ -80,7 +80,8 @@ const CreateAndEditRoles = ({
             helperText={errors.role ? errors.role.message : ''}
           ></TextField>
           <FormGroup sx={{ mt: 2 }}>
-            <Typography sx={{ mr: 2 }}>Permissions:</Typography>
+          <Typography sx={{ mr: 2, fontWeight: 'bold' }}>Permissions:</Typography>
+
             <Box sx={{ display: 'flex', gap: 2, flexWrap: 'wrap' }}>
               {permission.map((permission) => (
                 <FormControlLabel
