@@ -1,11 +1,11 @@
 {
   "files": {
-    "main.js": "/eagletrazercrm/static/js/main.5342c1f1.js",
-    "static/css/729.98f77ee3.chunk.css": "/eagletrazercrm/static/css/729.98f77ee3.chunk.css",
-    "static/js/729.27617a49.chunk.js": "/eagletrazercrm/static/js/729.27617a49.chunk.js",
+    "main.js": "/eagletrazercrm/static/js/main.d8091dca.js",
+    "static/css/729.e7c2cce7.chunk.css": "/eagletrazercrm/static/css/729.e7c2cce7.chunk.css",
+    "static/js/729.e7fcc141.chunk.js": "/eagletrazercrm/static/js/729.e7fcc141.chunk.js",
     "static/js/487.143d2445.chunk.js": "/eagletrazercrm/static/js/487.143d2445.chunk.js",
     "static/js/685.c9dd5ea6.chunk.js": "/eagletrazercrm/static/js/685.c9dd5ea6.chunk.js",
-    "static/js/434.608b616f.chunk.js": "/eagletrazercrm/static/js/434.608b616f.chunk.js",
+    "static/js/224.1c8ad1b3.chunk.js": "/eagletrazercrm/static/js/224.1c8ad1b3.chunk.js",
     "static/media/eagle-trazer.png": "/eagletrazercrm/static/media/eagle-trazer.8c85ab5ef18cb270f590.png",
     "static/media/otp-bg.svg": "/eagletrazercrm/static/media/otp-bg.f4841bf6a4d12ee34f4f33e88e1b94f4.svg",
     "static/media/login-bg.svg": "/eagletrazercrm/static/media/login-bg.addc9097e65456316174851ffab610a9.svg",
@@ -15,6 +15,6 @@
     "index.html": "/eagletrazercrm/index.html"
   },
   "entrypoints": [
-    "static/js/main.5342c1f1.js"
+    "static/js/main.d8091dca.js"
   ]
 }
