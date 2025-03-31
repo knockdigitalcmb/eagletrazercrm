@@ -1,6 +1,7 @@
 import React, { Suspense } from 'react';
 import ReactDOM from 'react-dom/client';
-import { BrowserRouter } from 'react-router';
+// import { BrowserRouter } from 'react-router';
+import { HashRouter } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import ThemeHandler from './assets/scss/Theme/ThemeHandler';
 import { SnackbarProvider } from 'notistack';
@@ -22,13 +23,13 @@ root.render(
           horizontal: 'right',
         }}
       >
-        <BrowserRouter>
+        <HashRouter>
           <ThemeHandler>
             <Provider store={store}>
               <App />
             </Provider>
           </ThemeHandler>
-        </BrowserRouter>
+        </HashRouter>
       </SnackbarProvider>
     </Suspense>
   </React.StrictMode>
