@@ -1,20 +1,20 @@
 {
   "files": {
-    "main.js": "/crm/static/js/main.b4fe1923.js",
-    "static/css/729.98f77ee3.chunk.css": "/crm/static/css/729.98f77ee3.chunk.css",
-    "static/js/729.8b259600.chunk.js": "/crm/static/js/729.8b259600.chunk.js",
-    "static/js/487.143d2445.chunk.js": "/crm/static/js/487.143d2445.chunk.js",
-    "static/js/685.c9dd5ea6.chunk.js": "/crm/static/js/685.c9dd5ea6.chunk.js",
-    "static/js/434.d9bcd974.chunk.js": "/crm/static/js/434.d9bcd974.chunk.js",
-    "static/media/eagle-trazer.png": "/crm/static/media/eagle-trazer.8c85ab5ef18cb270f590.png",
-    "static/media/otp-bg.svg": "/crm/static/media/otp-bg.f4841bf6a4d12ee34f4f33e88e1b94f4.svg",
-    "static/media/login-bg.svg": "/crm/static/media/login-bg.addc9097e65456316174851ffab610a9.svg",
-    "static/media/chat-message.png": "/crm/static/media/chat-message.ce03bc4004afa2a4afee.png",
-    "static/media/404-bg.svg": "/crm/static/media/404-bg.253f00b3bbb3b2b8902a068a56f96bb2.svg",
-    "static/media/no-data.png": "/crm/static/media/no-data.fb5b9e3fbe9cca237fc1.png",
-    "index.html": "/crm/index.html"
+    "main.js": "/eagletrazercrm/static/js/main.f59d98d9.js",
+    "static/css/729.98f77ee3.chunk.css": "/eagletrazercrm/static/css/729.98f77ee3.chunk.css",
+    "static/js/729.8b259600.chunk.js": "/eagletrazercrm/static/js/729.8b259600.chunk.js",
+    "static/js/487.143d2445.chunk.js": "/eagletrazercrm/static/js/487.143d2445.chunk.js",
+    "static/js/685.c9dd5ea6.chunk.js": "/eagletrazercrm/static/js/685.c9dd5ea6.chunk.js",
+    "static/js/434.d9bcd974.chunk.js": "/eagletrazercrm/static/js/434.d9bcd974.chunk.js",
+    "static/media/eagle-trazer.png": "/eagletrazercrm/static/media/eagle-trazer.8c85ab5ef18cb270f590.png",
+    "static/media/otp-bg.svg": "/eagletrazercrm/static/media/otp-bg.f4841bf6a4d12ee34f4f33e88e1b94f4.svg",
+    "static/media/login-bg.svg": "/eagletrazercrm/static/media/login-bg.addc9097e65456316174851ffab610a9.svg",
+    "static/media/chat-message.png": "/eagletrazercrm/static/media/chat-message.ce03bc4004afa2a4afee.png",
+    "static/media/404-bg.svg": "/eagletrazercrm/static/media/404-bg.253f00b3bbb3b2b8902a068a56f96bb2.svg",
+    "static/media/no-data.png": "/eagletrazercrm/static/media/no-data.fb5b9e3fbe9cca237fc1.png",
+    "index.html": "/eagletrazercrm/index.html"
   },
   "entrypoints": [
-    "static/js/main.b4fe1923.js"
+    "static/js/main.f59d98d9.js"
   ]
 }
