@@ -1,15 +1,66 @@
 @import '../../../../assets/scss/variable';
+@import '../../../../assets/scss/mixin';
+
 .modalWrapper {
   width: 450px;
   padding: 16px;
-  position: absolute;
+  position: fixed;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
   background-color: $white-color;
   box-shadow: 0px 4px 24px rgba(0, 0, 0, 0.2);
   border-radius: 8px;
+  z-index: 9999;
+  max-height: 90vh; 
+
+  
+  @include respond-to($lg) {
+    top: 50%;
+    left: 50%;
+    width: 80%;
+    max-width: 500px;
+  }
+
+ 
+  @include respond-to($tablet-1024) {
+    width: 60%;
+    max-width: 600px;
+    padding: 18px;
+  }
+
+  
+  @include respond-to($md) {
+    top: 50%;
+    left: 50%;
+    width: 65%;
+    max-width: 500px;
+  }
+
+ 
+  @include respond-to($sm) {
+    top: 50%;
+    left: 50%;
+    width: 90%; 
+    max-width: 450px; 
+    padding: 18px;
+    height: 90vh; 
+    overflow-y: auto;
+  }
+
+ 
+  @include respond-to($xs) {
+    top: 50%;
+    left: 50%;
+    width: 95%; 
+    max-width: 380px; 
+    padding: 14px;
+    height: 90vh; 
+    overflow-y: auto; 
 }
+}
+
 .borderLine {
   border: 1px solid $primary-color;
+  margin: 16px 0;
 }

@@ -12,7 +12,8 @@ import {
 } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
 import { useTranslation } from 'react-i18next';
-
+import styles from './AddLeadSourceModal.module.scss';
+import { leadSource } from 'constant/common.constant';
 interface AddLeadSourceModalProps {
   open: boolean;
   handleClose: () => void;
@@ -51,20 +52,7 @@ const AddLeadSourceModal: React.FC<AddLeadSourceModalProps> = ({
       onClose={handleClose}
       aria-labelledby='add-lead-source-modal'
     >
-      <Box
-        sx={{
-          width: 400,
-          backgroundColor: 'white',
-          padding: 3,
-          position: 'absolute',
-          top: '50%',
-          left: '50%',
-          transform: 'translate(-50%, -50%)',
-          borderRadius: '12px',
-          border: '1px solid #ddd',
-          boxShadow: 10,
-        }}
-      >
+      <Box className={styles.leadSourceModal}>
         <Box
           sx={{
             display: 'flex',

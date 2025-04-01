@@ -15,6 +15,7 @@ import CloseIcon from '@mui/icons-material/Close';
 import { LeadStatusType } from '../../../../models/type';
 import { CRMServiceAPI } from 'services/CRMService';
 import { useTranslation } from 'react-i18next';
+import styles from './EditLeadStatus.module.scss';
 
 interface EditLeadStatusModalProps {
   open: boolean;
@@ -74,20 +75,7 @@ const EditLeadStatusModal: React.FC<EditLeadStatusModalProps> = ({
       onClose={onClose}
       aria-labelledby='edit-lead-status-modal'
     >
-      <Box
-        sx={{
-          width: 450,
-          backgroundColor: 'white',
-          padding: 3,
-          position: 'absolute',
-          top: '50%',
-          left: '50%',
-          transform: 'translate(-50%, -50%)',
-          borderRadius: '12px',
-          border: '1px solid #ddd',
-          boxShadow: 10,
-        }}
-      >
+      <Box className={styles.editLeadStatusModal}>
         {/* Header with Close Button */}
         <Box
           sx={{
@@ -156,7 +144,7 @@ const EditLeadStatusModal: React.FC<EditLeadStatusModalProps> = ({
               setFormData({ ...formData, color: e.target.value })
             }
             style={{
-              width: '100%',
+              width: '50%',
               height: '35px',
               border: 'none',
               cursor: 'pointer',
@@ -187,8 +175,6 @@ const EditLeadStatusModal: React.FC<EditLeadStatusModalProps> = ({
             label={t('inactive')}
           />
         </Box>
-
-        {/* Submit Button */}
         <Box sx={{ display: 'flex', justifyContent: 'flex-end', mt: 3 }}>
           <Button onClick={handleSubmit} variant='contained' color='primary'>
             {t('submit')}
