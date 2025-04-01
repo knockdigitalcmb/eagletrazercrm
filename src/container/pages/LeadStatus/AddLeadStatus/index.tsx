@@ -13,6 +13,7 @@ import {
 import CloseIcon from '@mui/icons-material/Close';
 import { CRMServiceAPI } from 'services/CRMService';
 import { useTranslation } from 'react-i18next';
+import styles from './AddLeadStatus.module.scss';
 
 interface AddLeadStatusModalProps {
   open: boolean;
@@ -62,18 +63,8 @@ const AddLeadStatusModal: React.FC<AddLeadStatusModalProps> = ({
       sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}
     >
       <Box
-        sx={{
-          width: { xs: '90%', sm: '380px', md: '420px' },
-          backgroundColor: 'white',
-          p: 2,
-          borderRadius: '12px',
-          border: '1px solid #ddd',
-          boxShadow: 4,
-          position: 'relative',
-          display: 'flex',
-          flexDirection: 'column',
-          gap: 0.5, 
-        }}
+        className={styles.leadStatusModal}
+      
       >
         <IconButton
           sx={{
@@ -131,7 +122,7 @@ const AddLeadStatusModal: React.FC<AddLeadStatusModalProps> = ({
               setFormData({ ...formData, color: e.target.value })
             }
             style={{
-              width: '100%',
+              width: '50%',
               height: '28px',
               border: '1px solid #ddd',
               borderRadius: '4px',

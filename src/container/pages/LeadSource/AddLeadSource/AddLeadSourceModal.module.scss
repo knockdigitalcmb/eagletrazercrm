@@ -1,0 +1,23 @@
+@import '../../../../assets/scss/mixin';
+
+.leadSourceModal {
+  width: 100%;
+  max-width: 400px;
+  top: 50%;
+  left: 50%;
+  position: absolute;
+  transform: translate(-50%, -50%);
+  background-color: white;
+  padding: 16px;
+  border-radius: 12px;
+  border: 1px solid #ddd;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+
+  @include respond-to($sm) {
+    width: 350px;
+  }
+
+  @include respond-to($xs) {
+    width: 250%;
+  }
+}

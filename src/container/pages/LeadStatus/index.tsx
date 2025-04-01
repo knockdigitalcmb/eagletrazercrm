@@ -209,16 +209,17 @@ const LeadStatus = () => {
             {t('addLeadStatus')}
           </Button>
         </Box>
-
-        <CRMTable
-          rows={leadStatuses}
-          columns={columns}
-          pageSizeOptions={[5, 10, 20]}
-          loading={loading}
-          checkboxSelection={false}
-          noDataMessage={t('leadsStatusNoData')}
-        />
-
+        <Box className={styles.tableWrapper}>
+          <CRMTable
+            rows={leadStatuses}
+            columns={columns}
+            pageSizeOptions={[5, 10, 20]}
+            loading={loading}
+            checkboxSelection={false}
+            noDataMessage={t('leadsStatusNoData')}
+            sx={{ minWidth: 600, maxWidth: '100%' }}
+          />
+        </Box>
         <ConfirmationModal
           open={deleteModal}
           onClose={onDeleteModalClose}

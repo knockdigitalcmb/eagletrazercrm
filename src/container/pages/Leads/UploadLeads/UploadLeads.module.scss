@@ -1,7 +1,9 @@
 @import '../../../../assets/scss/variable';
+@import '../../../../assets/scss/mixin';
+
 .modalWrapper {
-  width: 450px; // Reduced from 650px to 450px
-  padding: 20px; // Reduced padding for a more compact look
+  width: 650px;
+  padding: 40px;
   position: absolute;
   top: 50%;
   left: 50%;
@@ -9,8 +11,38 @@
   background-color: $white-color;
   box-shadow: 0px 4px 24px rgba(0, 0, 0, 0.2);
   border-radius: 8px;
+  z-index: 9999;
+
+  @include respond-to($md) {
+    width: 90%;
+    top: 30%;
+    left: 50%;
+    max-width: 500px;
+    padding: 32px;
+  }
+
+  @include respond-to($sm) {
+    width: 95%;
+    max-width: 450px;
+    padding: 24px;
+    top: 30%;
+    left: 50%;
+  }
+
+  @include respond-to($xs) {
+    width: 100%;
+    max-width: 320px;
+    top: 30%;
+    left: 50%;
+    padding: 16px;
+  }
 }
+
 .borderLine {
   border: 1px solid $primary-color;
   margin-bottom: 10px;
+}
+
+.modalWrapper > * {
+  margin-bottom: 16px;
 }
