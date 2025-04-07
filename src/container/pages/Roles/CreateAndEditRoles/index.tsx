@@ -104,6 +104,8 @@ const CreateAndEditRoles = ({
               variant='contained'
               onClick={onHandleRoleSubmit}
               data-testid='submit-button'
+             
+              sx={{ maxWidth: '400px' }} // Add a max-width to avoid it becoming too wide
             >
               {t('submit')}
             </Button>

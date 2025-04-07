@@ -1,3 +1,24 @@
-.dashboardContainer{
-    display: flex;
+@import '../../../assets/scss/mixin';
+
+.dashboardContainer {
+  display: flex;
+}
+
+.tableWrapper {
+  width: 100%;
+  overflow-x: auto;
+
+  .MuiTable-root,
+  .MuiTableContainer-root {
+    min-width: 600px;
+    max-width: 100%;
+
+    @include respond-to($sm) {
+      min-width: 100%;
+    }
+
+    @include respond-to($xs) {
+      min-width: 320px;
+    }
+  }
 }

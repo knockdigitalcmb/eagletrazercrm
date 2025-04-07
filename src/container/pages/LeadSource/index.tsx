@@ -218,14 +218,16 @@ const LeadSource = () => {
           sx={{ width: '30%', mb: 2 }}
         />
 
-        <CRMTable
-          rows={leadSources}
-          columns={columns}
-          pageSizeOptions={[5, 10, 20]}
-          loading={loading}
-          checkboxSelection={false}
-          noDataMessage={t('leadsSourceNoData')}
-        />
+         <Box className={styles.tableWrapper}>
+          <CRMTable
+            rows={leadSources}
+            columns={columns}
+            pageSizeOptions={[5, 10, 20]}
+            loading={loading}
+            checkboxSelection={false}
+            sx={{ minWidth: 600, maxWidth: '100%' }}
+          />
+        </Box>
 
         <ConfirmationModal
           open={deleteModal}

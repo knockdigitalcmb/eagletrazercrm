@@ -1,0 +1,23 @@
+@import '../../../../assets/scss/mixin';
+
+.leadStatusModal {
+  width: 450px;
+  max-width: 90vw; 
+  top: 50%;
+  left: 50%;
+  position: fixed;
+  transform: translate(-50%, -50%);
+  background-color: white;
+  padding: 16px;
+  border-radius: 12px;
+  border: 1px solid #ddd;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+
+  @include respond-to($sm) {
+    width: 350px;
+  }
+
+  @include respond-to($xs) {
+    width: 250%;
+  }
+}

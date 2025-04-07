@@ -12,6 +12,7 @@ interface CrmTableProps {
   checkboxSelection: boolean;
   slots?: GridSlotsComponent;
   noDataMessage?: string;
+  sx?: any;
 }
 
 const CRMTable = ({
