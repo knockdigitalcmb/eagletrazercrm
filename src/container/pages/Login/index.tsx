@@ -27,6 +27,15 @@ import styles from './Login.module.scss';
 import { ReactComponent as LogInImage } from '../../../assets/images/login-bg.svg';
 import EagleTrazer from '../../../assets/images/eagle-trazer.png';
 import { CRMServiceAPI } from 'services/CRMService';
+import {
+  CredentialResponse,
+  GoogleLogin,
+  useGoogleOneTapLogin,
+  useGoogleLogin,
+} from '@react-oauth/google';
+import { jwtDecode } from 'jwt-decode';
+import { setGoogleAccess } from 'features/common/commonSlice';
+
 
 const Login = () => {
   const { t } = useTranslation();
@@ -102,6 +111,52 @@ const Login = () => {
       });
     }
   };
+  // useGoogleOneTapLogin({
+  //   onSuccess: (credentialResponse) => {
+  //     if (credentialResponse.credential) {
+  //       console.log('OneTapLogin', credentialResponse);
+  //       console.log(jwtDecode(credentialResponse.credential));
+  //       navigate('/otp');
+  //     }
+  //   },
+  //   onError: () => console.log('One-Tap Login Failed'),
+  //   auto_select: true,
+  // });
+
+  const onGoogleSubmit = useGoogleLogin({
+    flow: 'auth-code',
+    scope:
+      'openid profile email https://www.googleapis.com/auth/userinfo.email',
+    onSuccess: async (codeResponse) => {
+      console.log('Authorization Code', codeResponse.code);
+      try {
+        const response = await CRMServiceAPI.googleAuthCodeLogin(
+          codeResponse.code
+        );
+        // if (response?.token) {
+        if (response) {
+          enqueueSnackbar(`${t('loginSuccess')}`, {
+            variant: 'success',
+            autoHideDuration: 3000,
+          });
+          dispatch(setGoogleAccess(true));
+          navigate('/otp');
+        } else {
+          enqueueSnackbar(t('loginFailed'), {
+            variant: 'error',
+            autoHideDuration: 3000,
+          });
+        }
+      } catch (error) {
+        enqueueSnackbar(t('loginFailed'), { variant: 'error' });
+      }
+    },
+    onError: (error) => {
+      console.error('Google login error:', error);
+      enqueueSnackbar(t('loginFailed'), { variant: 'error' });
+    },
+  });
+
   return (
     <Box data-testid='login-page' className={styles.loginpageContainer}>
       <Grid2
@@ -246,9 +301,22 @@ const Login = () => {
                   fullWidth
                   className={styles.submitButton}
                   disabled={isButtonDisabled}
+                  sx={{ marginBottom: '10px' }}
                 >
                   {t('login')}
                 </Button>
+                <Button onClick={onGoogleSubmit}>Login with google </Button>
+                {/* <GoogleLogin
+                  onSuccess={(credentialResponse: CredentialResponse) => {
+                    if (credentialResponse.credential) {
+                      console.log('LoginSuccess', credentialResponse);
+                      console.log(jwtDecode(credentialResponse.credential));
+                      navigate('/otp');
+                    }
+                  }}
+                  onError={() => console.log('login Failed')}
+                  auto_select={true}
+                /> */}
               </form>
             )}
           </div>

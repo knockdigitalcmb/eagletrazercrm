@@ -5,6 +5,7 @@ import { useTranslation } from 'react-i18next';
 import { setAuthToken } from '../../features/common/commonSlice';
 import { useCRMAppDispatch } from '../../store/config';
 import ConfirmationModal from '../ConfirmationModal/index';
+import { googleLogout } from '@react-oauth/google';
 
 import userProfilePic from '../../../src/assets/images/userprofileimage.png';
 import styles from './UserProfile.module.scss';
@@ -32,6 +33,7 @@ const UserProfile = () => {
 
   const onHandleContinue = () => {
     dispatch(setAuthToken(''));
+    googleLogout();
     navigate('/');
   };
 

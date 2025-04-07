@@ -16,6 +16,22 @@ export class CRMServiceAPI {
       console.log('user login api', error);
     }
   };
+  // google api
+
+ static googleAuthCodeLogin=async (code:string)=>{
+  try{
+  //  const response = await commonServiceAPI.CRMAPICall({
+  //    url: `${API_DOMAIN}/wqBPlJJqwnPmxINapM/api/v1/google-login`,
+  //    method:"POST",
+  //    data:{code}
+  //  });
+  //  return response?.data;
+  return true;
+  }
+  catch(error){
+  console.log("Google login Api error",error)
+  }
+ }
 
   //Otp Verification API
   static OTPVerification = async (payload: any) => {

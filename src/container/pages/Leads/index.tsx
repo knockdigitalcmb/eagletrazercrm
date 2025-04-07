@@ -16,6 +16,8 @@ import EditLeads from './EditLeads/index';
 import CreateLeads from './CreateLeads/index';
 
 import styles from './Leads.module.scss';
+import { useSelector } from 'react-redux';
+import { RootState } from 'store';
 
 const actionsProps = {
   view: true,
@@ -37,7 +39,8 @@ const Leads = () => {
   const [viewModalOpen, setViewModalOpen] = useState(false);
   const [editModalOpen, setEditModalOpen] = useState(false);
   const [deleteModalOpen, setDeleteModalOpen] = useState(false);
-
+ const hasGoogleAccess=useSelector((state:RootState)=>state.commonData.hasGoogleAccess)
+ console.log('Google Access:', hasGoogleAccess);
   const {
     control,
     setValue,
@@ -294,7 +297,15 @@ const Leads = () => {
       headerName: 'Phone Number',
       sortable: false,
       width: 150,
+      renderCell: (params: any) => {
+        const number = params.value;
+        if (!number) return '';
+
+        const isVisible = hasGoogleAccess;
+        return <span>{isVisible ? number : '*******' + number.slice(-3)}</span>;
+      },
     },
+
     { field: 'email', headerName: 'Email', sortable: false, width: 130 },
     { field: 'location', headerName: 'Location', sortable: false, width: 130 },
     { field: 'follower', headerName: 'Follower', sortable: false, width: 130 },
